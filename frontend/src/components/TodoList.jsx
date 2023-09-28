@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import TodoEntry from "./TodoEntry";
-import TodoEditor from "./TodoEditor";
+import Post from "./Post";
+import Editor from "./Editor";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -14,7 +14,7 @@ function TodoList() {
 
   return (
     <>
-      {showEditor && <TodoEditor />}
+      {showEditor && <Editor />}
       <div className={`${showEditor && "blur-sm"} w-full h-screen`}>
         <div>
           <input
@@ -24,7 +24,7 @@ function TodoList() {
           <button onClick={() => setShowEditor(!showEditor)}>Show form</button>
           <div className="grid w-auto grid-cols-3 gap-4 p-4 mt-4 h-76 bg-stone-100">
             {todos.map((todo) => (
-              <TodoEntry
+              <Post
                 key={todo.id}
                 todo={todo}
                 setTodos={setTodos}
