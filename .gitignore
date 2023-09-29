@@ -4,6 +4,10 @@
 #
 .DS_Store
 
+# next
+.next
+next-env.d.ts
+
 # Xcode
 #
 build/
