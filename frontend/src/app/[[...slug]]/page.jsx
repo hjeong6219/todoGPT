@@ -9,24 +9,19 @@
 //   return <App />;
 // }
 
-import React, { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import App from "../../App";
+
+const queryClient = new QueryClient();
 
 function page() {
-  const [message, setMessage] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5050/api/home")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setMessage(data.people);
-      });
-  }, []);
   return (
-    <div>
-      {message.map((j, k) => (
-        <div key={k}>{j}</div>
-      ))}
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
