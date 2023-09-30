@@ -13,15 +13,34 @@ const todosSchema = new mongoose.Schema({
   },
   content: {
     type: String,
-    default: true,
+    default: "",
+    required: true,
+  },
+  createdAt: {
+    type: String,
+    default: "",
+    required: false,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  category: {
+    type: Array,
+    default: "",
+    required: false,
   },
 });
 
 const Todos = mongoose.model("Todos", todosSchema);
 
 const newTodo = new Todos({
-  title: "Todo 3",
-  content: "Content!",
+  title: "Date",
+  content: "Testing",
+  createdAt: new Date().toLocaleDateString("en-US"),
+  completed: false,
+  category: ["diet", "food"],
 });
 
 newTodo.save();
