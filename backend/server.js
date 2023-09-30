@@ -1,28 +1,27 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const PORT = 5050;
+require("dotenv").config();
+const connectDB = require("./db");
+const port = 5050;
 
-app.use(cors());
-app.use(express.json());
+connectDB();
 
-let todos = [];
+const mongoose = require("mongoose");
 
-app.get("/api/home", (req, res) => {
-  res.json({ message: "Hello World!", people: ["Harry", "Jack", "Barry"] });
+const todosSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    default: true,
+  },
 });
 
-app.get("/api/todos", (req, res) => {
-  res.json({ todos });
+const Todos = mongoose.model("Todos", todosSchema);
+
+const newTodo = new Todos({
+  title: "Todo 3",
+  content: "Content!",
 });
 
-app.post("/api/todos", (req, res) => {
-  const { title, description } = req.body;
-  const newTodo = { title, description };
-  todos.push(req.body);
-  res.json({ message: "Todo added successfully!", todo: newTodo });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+newTodo.save();
