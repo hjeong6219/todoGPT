@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HiCheck, HiX } from "react-icons/hi";
+import {
+  useUpdateTodoMutation,
+  useDeleteTodoMutation,
+} from "../features/todo/todosApi";
 
-function TodoEntry({ todo, todos }) {
+function TodoEntry({ todo }) {
   const [content, setContent] = useState(todo.content);
   const [title, setTitle] = useState(todo.title);
-  const queryClient = useQueryClient();
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
@@ -14,32 +16,25 @@ function TodoEntry({ todo, todos }) {
     setTitle(event.target.value);
   };
 
-  const updateTodoMutation = useMutation((updatedTodo) =>
-    fetch(`http://localhost:5000/todos/${todo._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedTodo),
-    })
-  );
-  const deleteTodoMutation = useMutation(() =>
-    fetch(`http://localhost:5000/todos/${todo._id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  );
+  const [updateTodoMutation] = useUpdateTodoMutation();
+
+  const [deleteTodoMutation] = useDeleteTodoMutation();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateTodoMutation.mutate({ title, content });
-    queryClient.invalidateQueries("todos");
+    updateTodoMutation(
+      { ...todo, title: title, content: content },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("todos");
+        },
+      }
+    );
   };
 
   const handleDelete = (event) => {
     event.preventDefault();
-    deleteTodoMutation.mutate(null, {
+    deleteTodoMutation(todo._id, {
       onSuccess: () => {
         queryClient.invalidateQueries("todos");
       },

@@ -1,27 +1,28 @@
-import { useQuery } from "react-query";
 import Post from "./Post";
 import Editor from "./Editor";
 import { useState, useEffect } from "react";
+import {
+  useGetTodoByIdQuery,
+  useGetTodosQuery,
+} from "../features/todo/todosApi";
 
-async function fetchTodos() {
-  const res = await fetch("http://localhost:5000/todos");
-  return res.json();
-}
+// async function fetchTodos() {
+//   const res = await fetch("http://localhost:5000/todos");
+//   return res.json();
+// }
 
 function TodoList() {
-  const { data: todoList, isLoading, error } = useQuery("todos", fetchTodos);
-  const [todos, setTodos] = useState([todoList]);
+  const { data: todoList, isLoading } = useGetTodosQuery();
+  // const todoList = fetchTodos();
+  const [todos, setTodos] = useState(todoList);
   const [showEditor, setShowEditor] = useState(false);
   // const todoList = useSelector((state) => state.todo);
 
-  // useEffect(() => {
-  //   setTodos(todoList);
-  // }, [todoList]);
-  console.log(todoList);
+  useEffect(() => {
+    setTodos(todoList);
+  }, [todoList]);
 
   if (isLoading) return <div>Loading...</div>;
-
-  if (error) return <div>Error fetching todos</div>;
 
   return (
     <>
