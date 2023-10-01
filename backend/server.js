@@ -1,46 +1,16 @@
 require("dotenv").config();
 const connectDB = require("./db");
-const port = 5050;
+const express = require("express");
+const app = express();
+const todos = require("./routes/api/todos");
 
 connectDB();
 
 const mongoose = require("mongoose");
 
-const todosSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    default: "",
-    required: true,
-  },
-  createdAt: {
-    type: String,
-    default: "",
-    required: false,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-    required: false,
-  },
-  category: {
-    type: Array,
-    default: "",
-    required: false,
-  },
-});
+app.use(express.json());
 
-const Todos = mongoose.model("Todos", todosSchema);
+app.use("/todos", todos);
 
-const newTodo = new Todos({
-  title: "Date",
-  content: "Testing",
-  createdAt: new Date().toLocaleDateString("en-US"),
-  completed: false,
-  category: ["diet", "food"],
-});
-
-newTodo.save();
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
