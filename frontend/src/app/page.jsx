@@ -3,11 +3,7 @@ import Header from "./components/Header";
 import { store } from "./store";
 
 function page() {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
+  return <div>Main</div>;
 }
 
 export default page;

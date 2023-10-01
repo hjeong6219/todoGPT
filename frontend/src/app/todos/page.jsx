@@ -9,7 +9,6 @@ import Header from "../components/Header";
 function TodosPage() {
   return (
     <Provider store={store}>
-      <Header />
       <TodoList />
     </Provider>
   );
