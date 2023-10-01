@@ -1,16 +1,27 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useQuery } from "react-query";
 import Post from "./Post";
 import Editor from "./Editor";
+import { useState, useEffect } from "react";
+
+async function fetchTodos() {
+  const res = await fetch("http://localhost:5000/todos");
+  return res.json();
+}
 
 function TodoList() {
-  const [todos, setTodos] = useState([]);
+  const { data: todoList, isLoading, error } = useQuery("todos", fetchTodos);
+  const [todos, setTodos] = useState([todoList]);
   const [showEditor, setShowEditor] = useState(false);
-  const todoList = useSelector((state) => state.todo);
+  // const todoList = useSelector((state) => state.todo);
 
-  useEffect(() => {
-    setTodos(todoList);
-  }, [todoList]);
+  // useEffect(() => {
+  //   setTodos(todoList);
+  // }, [todoList]);
+  console.log(todoList);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error fetching todos</div>;
 
   return (
     <>
@@ -23,13 +34,8 @@ function TodoList() {
           />
           <button onClick={() => setShowEditor(!showEditor)}>Show form</button>
           <div className="grid w-auto grid-cols-3 gap-4 p-4 mt-4 h-76 bg-stone-100">
-            {todos.map((todo) => (
-              <Post
-                key={todo.id}
-                todo={todo}
-                setTodos={setTodos}
-                todos={todos}
-              />
+            {todoList.map((todo) => (
+              <Post key={todo._id} todo={todo} />
             ))}
           </div>
         </div>

@@ -12,7 +12,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import App from "../../App";
+
+import dynamic from "next/dynamic";
+import "../globals.css";
+
+const App = dynamic(() => import("../../App"), { ssr: false });
 
 const queryClient = new QueryClient();
 

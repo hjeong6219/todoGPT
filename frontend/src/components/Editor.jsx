@@ -8,7 +8,6 @@ import { HiCheck, HiX } from "react-icons/hi";
 function TodoEditor() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const dispatch = useDispatch();
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
@@ -19,12 +18,6 @@ function TodoEditor() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const id = nanoid();
-    if (content.trim()) {
-      dispatch(addTodo({ content, title, id }));
-      setTitle("");
-      setContent("");
-    }
   };
 
   return (

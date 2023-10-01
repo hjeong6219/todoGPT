@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  deleteTodo,
-  updateContent,
-  updateTitle,
-} from "../features/todo/todoSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HiCheck, HiX } from "react-icons/hi";
 
 function TodoEntry({ todo, todos }) {
-  const dispatch = useDispatch();
   const [content, setContent] = useState(todo.content);
   const [title, setTitle] = useState(todo.title);
+  const queryClient = useQueryClient();
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
@@ -18,18 +13,37 @@ function TodoEntry({ todo, todos }) {
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
+
+  const updateTodoMutation = useMutation((updatedTodo) =>
+    fetch(`http://localhost:5000/todos/${todo._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTodo),
+    })
+  );
+  const deleteTodoMutation = useMutation(() =>
+    fetch(`http://localhost:5000/todos/${todo._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  );
   const handleSubmit = (event) => {
-    if (content.trim() === "" && title.trim() === "") {
-      dispatch(deleteTodo({ id: todo.id }));
-    } else if (content.trim() === "" || title.trim() === "") {
-      return;
-    }
-    dispatch(updateTitle({ id: todo.id, title: title }));
-    dispatch(updateContent({ id: todo.id, content: content }));
+    event.preventDefault();
+    updateTodoMutation.mutate({ title, content });
+    queryClient.invalidateQueries("todos");
   };
 
   const handleDelete = (event) => {
-    dispatch(deleteTodo({ id: todo.id }));
+    event.preventDefault();
+    deleteTodoMutation.mutate(null, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("todos");
+      },
+    });
   };
 
   return (
@@ -52,7 +66,8 @@ function TodoEntry({ todo, todos }) {
         </button>
         <button
           type="reset"
-          className="col-span-1 px-2 ml-8 text-stone-400 focus:outline-none hover:text-stone-700 "
+          className="col-span-1 px-2 ml-8 text-stone-400 focus:outline-none hover:text-stone-700"
+          onClick={handleDelete}
         >
           <HiX />
         </button>
