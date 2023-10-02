@@ -32,4 +32,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const userExists = await Users.findOne({ email });
+
+    if (!userExists) {
+      return res.status(401).json({ message: "User does not exist." });
+    }
+    await Users.findOneAndDelete(email);
+    res.json({ message: "User deleted." });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
