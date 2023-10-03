@@ -15,7 +15,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.use("/todos", todos);
-app.use("/signup", users);
+app.use("/users", users);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
