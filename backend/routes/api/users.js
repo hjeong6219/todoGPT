@@ -111,4 +111,33 @@ router.post("/password-reset", async (req, res) => {
   }
 });
 
+router.get("/get-user/:email", async (req, res) => {
+  try {
+    const {email} = req.body;
+    const userExists = await Users.findOne({ email });
+    if (!userExists) {
+      return res.status(401).json({ message: "User does not exist." });
+    }
+    res.json(userExists);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+
+  }
+})
+
+router.post("/login", async (req, res) => {
+  try {
+    const {email, password} = req.body;
+    const userExists = await Users.findOne({ email });
+    if (!userExists) {
+      return res.status(401).json({ message: "User does not exist." });
+    }
+    const checkPassword = await bcrypt.compare(password, userExists.password);
+    if (!checkPassword) {
+      return res.status(401).json({ message: "Incorrect password." });
+    }
+    res.json(userExists);
+  }})
+
 module.exports = router;
