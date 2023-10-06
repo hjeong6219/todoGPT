@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@kinde-oss/kinde-auth-nextjs": "^1.8.22",
     "@reduxjs/toolkit": "^1.9.6",
+    "axios": "^1.5.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",

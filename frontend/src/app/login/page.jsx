@@ -1,10 +1,9 @@
-"use client";
 // src/components/Login.js
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -48,7 +47,7 @@ const Login = () => {
       <div className="flex items-center justify-center flex-1 p-8 bg-white md:p-12">
         <div className="w-full md:w-96">
           <h2 className="mb-4 text-3xl font-semibold text-center">Login</h2>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="mb-6">
               <label
                 htmlFor="email"
@@ -61,8 +60,8 @@ const Login = () => {
                 id="email"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-400 focus:outline-none"
                 placeholder="Enter your email"
-                value={email}
-                onChange={handleEmailChange}
+                // value={email}
+                // onChange={handleEmailChange}
                 required
               />
             </div>
@@ -78,8 +77,8 @@ const Login = () => {
                 id="password"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-400 focus:outline-none"
                 placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
+                // value={password}
+                // onChange={handlePasswordChange}
                 required
               />
             </div>
@@ -92,6 +91,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+          <LoginLink>Sign In</LoginLink>
         </div>
       </div>
     </div>

@@ -1,6 +1,4 @@
-import { Provider } from "react-redux";
-import Header from "./components/Header";
-import { store } from "./store";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/server";
 
 function page() {
   return (
@@ -50,7 +48,7 @@ function page() {
       <div className="w-full px-32 py-20 text-center bg-stone-50">
         <p className="text-4xl text-sky-400">Join us now!</p>
         <button className="px-3 py-2 my-5 text-2xl text-blue-800 rounded-xl bg-sky-300">
-          Register
+          <LoginLink>Let's get started!</LoginLink>
         </button>
       </div>
     </div>

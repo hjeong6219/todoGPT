@@ -113,7 +113,7 @@ router.post("/password-reset", async (req, res) => {
 
 router.get("/get-user/:email", async (req, res) => {
   try {
-    const {email} = req.body;
+    const { email } = req.body;
     const userExists = await Users.findOne({ email });
     if (!userExists) {
       return res.status(401).json({ message: "User does not exist." });
@@ -122,13 +122,12 @@ router.get("/get-user/:email", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
-
   }
-})
+});
 
 router.post("/login", async (req, res) => {
   try {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     const userExists = await Users.findOne({ email });
     if (!userExists) {
       return res.status(401).json({ message: "User does not exist." });
@@ -138,6 +137,22 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Incorrect password." });
     }
     res.json(userExists);
-  }})
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+const isLoggedIn = (req, res, next) => {
+  if (req.session.user) {
+    // User is logged in
+    next();
+  } else {
+    // User is not logged in
+    res
+      .status(401)
+      .json({ message: "You must be logged in to access this resource." });
+  }
+};
 
 module.exports = router;
