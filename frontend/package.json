@@ -12,7 +12,7 @@
     "@kinde-oss/kinde-auth-nextjs": "^1.8.22",
     "@reduxjs/toolkit": "^1.9.6",
     "axios": "^1.5.1",
-    "next": "latest",
+    "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
