@@ -10,26 +10,10 @@ const UsersSchema = new mongoose.Schema({
       message: (props) => `${props.value} is not a valid email address!`,
     },
   },
-  password: {
-    type: String,
-    default: "",
-    required: [true, "Please enter a password"],
-    validate: {
-      validator: function (value) {
-        return value.length >= 8;
-      },
-      message: () => "Password must be at least 8 characters long",
-    },
-  },
-  username: {
+  fullName: {
     type: String,
     default: "",
     required: true,
-  },
-  createdAt: {
-    type: String,
-    default: "",
-    required: false,
   },
   todos: {
     type: Array,
