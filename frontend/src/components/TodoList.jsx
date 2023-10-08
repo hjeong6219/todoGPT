@@ -19,30 +19,23 @@ function TodoList({ user }) {
     error,
   } = useGetUserByEmailQuery(user.email);
 
-  const [addUser, { isLoading: isLoadingUserAdd, error: errorUserAdd }] =
-    useAddUserMutation();
-
-  console.log(error);
-
   useEffect(() => {
-    if (error?.data?.message == "User does not exist." && userExists == null) {
+    if (error?.data?.message == "User does not exist.") {
       const fullName = user.given_name + " " + user.family_name;
-      addUser({ email: user.email, fullName: fullName });
-      redirect("/todos");
+      redirect(
+        "/auth-callback?origin=todos&userEmail=" +
+          user.email +
+          "&userName=" +
+          fullName
+      );
     }
-  }, [user.email, user.given_name, user.family_name, addUser, error]);
+  }, [userExists, error]);
 
   const { data: todoList, isLoading } = useGetTodosQuery();
 
   const [showEditor, setShowEditor] = useState(false);
 
   const [todos, setTodos] = useState(null);
-
-  useEffect(() => {
-    if (userExists) {
-      setTodos(todoList);
-    }
-  }, [todoList, userExists]);
 
   if (isLoadingUser) {
     return <div>Loading User Data...</div>;

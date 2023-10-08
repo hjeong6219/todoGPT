@@ -4,19 +4,25 @@ const Users = require("../../models/Users");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  const session = await Users.startSession();
+  session.startTransaction();
   try {
     const { email, fullName } = req.body;
-    const userExists = await Users.findOne({ email });
+    const userExists = await Users.findOne({ email }).session(session);
     if (userExists) {
       console.log(`User with email ${email} already exists.`);
       return res.status(400).json({ message: "User already exists." });
     }
     const user = new Users({ email, fullName });
-    await user.save();
+    await user.save({ session });
+    await session.commitTransaction();
     res.json(user);
   } catch (err) {
+    await session.abortTransaction();
     console.error(err.message);
     res.status(500).send("Server Error");
+  } finally {
+    session.endSession();
   }
 });
 

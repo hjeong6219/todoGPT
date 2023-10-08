@@ -1,38 +1,53 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useGetUserByEmailQuery } from "../features/todo/usersApi";
+import {
+  useAddUserMutation,
+  useGetUserByEmailQuery,
+} from "../features/todo/usersApi";
+import { useEffect, useRef, useState } from "react";
 
 function Page() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin");
+  const userEmail = searchParams.get("userEmail");
+  const userName = searchParams.get("userName");
+  const [userAdded, setUserAdded] = useState(false);
 
-  const { data, isLoading, isError, error } = useGetUserByEmailQuery(
-    "example@example.com"
-  );
+  const [addUser, { isLoading: isLoadingUserAdd, error: errorUserAdd }] =
+    useAddUserMutation();
+
+  const { data, isLoading: isLoadingUser } = useGetUserByEmailQuery(userEmail);
 
   const checkAuthentication = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/check", {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await response.json();
-      if (data.success) {
-        router.push(origin ? `/${origin}` : "/todos");
-      } else {
-        router.push("/sign-in");
+      if (!isLoadingUser && !userAdded && data === undefined) {
+        await addUser({ email: userEmail, fullName: userName });
+        setUserAdded(true);
       }
-    } catch (error) {
-      console.error(error);
+    } catch (errorUserAdd) {
+      console.error("Failed to add user");
       router.push("/sign-in");
     }
   };
 
-  checkAuthentication();
+  const initialized = useRef(false);
 
-  return <div>Setting up your account...</div>;
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      checkAuthentication();
+      router.push(origin ? `/${origin}` : "/todos");
+      console.log("pushing to origin");
+    }
+  }, []);
+
+  if (isLoadingUserAdd) {
+    return <div>Setting up your account...</div>;
+  }
+  if (errorUserAdd) {
+    return <div>There was an error setting up your account.</div>;
+  }
 }
 
 export default Page;

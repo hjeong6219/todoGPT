@@ -6,6 +6,7 @@ export const usersApi = createApi({
   endpoints: (builder) => ({
     getUserByEmail: builder.query({
       query: (email) => `/users?email=${email}`,
+      debounce: 3000,
     }),
     addUser: builder.mutation({
       query: (data) => ({
@@ -13,6 +14,7 @@ export const usersApi = createApi({
         method: "POST",
         body: data,
       }),
+      debounce: 3000,
     }),
   }),
 });

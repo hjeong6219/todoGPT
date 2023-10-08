@@ -8,10 +8,8 @@ import store from "../store";
 export default function RootLayout({ children }) {
   return (
     <section>
-      <Provider store={store}>
-        <Header />
-        {children}
-      </Provider>
+      <Header />
+      {children}
     </section>
   );
 }
