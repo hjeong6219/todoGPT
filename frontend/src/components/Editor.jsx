@@ -1,8 +1,5 @@
+"use client";
 import { useState } from "react";
-
-import { nanoid } from "nanoid";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../features/todo/todoSlice";
 import { HiCheck, HiX } from "react-icons/hi";
 
 function TodoEditor() {

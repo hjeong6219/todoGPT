@@ -1,6 +1,7 @@
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/server";
+"use client";
+import Login from "../components/Login";
 
-function page() {
+function Page() {
   return (
     <div className="w-full h-screen bg-stone-100">
       <div className="w-full px-32 pt-40 pb-20 text-center bg-stone-50">
@@ -47,12 +48,10 @@ function page() {
       </div>
       <div className="w-full px-32 py-20 text-center bg-stone-50">
         <p className="text-4xl text-sky-400">Join us now!</p>
-        <button className="px-3 py-2 my-5 text-2xl text-blue-800 rounded-xl bg-sky-300">
-          <LoginLink>Let's get started!</LoginLink>
-        </button>
+        <Login />
       </div>
     </div>
   );
 }
 
-export default page;
+export default Page;

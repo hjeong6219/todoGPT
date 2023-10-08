@@ -1,9 +1,9 @@
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "../app/features/todo/todosApi";
 import { useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
-import {
-  useUpdateTodoMutation,
-  useDeleteTodoMutation,
-} from "../features/todo/todosApi";
 
 function TodoEntry({ todo }) {
   const [content, setContent] = useState(todo.content);
