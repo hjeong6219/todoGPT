@@ -1,10 +1,5 @@
 import TodoList from "../../components/TodoList";
-import {
-  RegisterLink,
-  LoginLink,
-  getKindeServerSession,
-  LogoutLink,
-} from "@kinde-oss/kinde-auth-nextjs/server";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 
 function Page() {

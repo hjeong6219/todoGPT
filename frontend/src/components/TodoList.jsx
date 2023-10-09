@@ -4,7 +4,6 @@ import Editor from "./Editor";
 import {
   useAddTodoMutation,
   useGetTodoByIdQuery,
-  useGetTodosByUserQuery,
 } from "../app/features/todo/todosApi";
 import { useEffect, useState } from "react";
 import { useGetUserByEmailQuery } from "../app/features/todo/usersApi";
