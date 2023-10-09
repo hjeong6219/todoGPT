@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { useGetUserByEmailQuery } from "../app/features/todo/usersApi";
 import { redirect } from "next/navigation";
+import TodoInput from "./TodoInput";
 
 function TodoList({ user }) {
   const {
@@ -69,11 +70,9 @@ function TodoList({ user }) {
       {userData && (
         <div className={`${showEditor && "blur-sm"} w-full h-screen`}>
           <div>
-            <input
-              className="block w-2/5 h-12 px-4 mx-auto mt-5 shadow-md focus:outline-none focus:ring focus:ring-stone-200 bg-gradient-to-r from-stone-100 to-stone-200 text-stone-900 rounded-3xl"
-              placeholder="What would you like to do?"
-              onChange={(event) => setTodoTitle(event.target.value)}
-              onKeyDown={handleKeyDown}
+            <TodoInput
+              setTodoTitle={setTodoTitle}
+              handleKeyDown={handleKeyDown}
             />
             {todoList && (
               <div className="grid w-auto grid-cols-3 gap-4 p-4 mt-4 h-76 bg-stone-100">
