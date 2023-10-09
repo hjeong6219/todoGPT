@@ -5,7 +5,8 @@ const Todos = require("../../models/Todos");
 
 router.get("/", async (req, res) => {
   try {
-    const todos = await Todos.find();
+    const userId = req.query.userId;
+    const todos = await Todos.find({ userId });
     res.json(todos);
   } catch (err) {
     console.error(err.message);
@@ -27,11 +28,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, category } = req.body;
+  const { title, content, createdAt, completed, Progress, category, userId } =
+    req.body;
 
   try {
-    // Check if a Todo item with the same title already exists
-    const existingTodo = await Todos.findOne({ title });
+    // Check if a Todo item with the same title already exists for the user
+    const existingTodo = await Todos.findOne({ title, userId });
     if (existingTodo) {
       return res
         .status(400)
@@ -46,6 +48,7 @@ router.post("/", async (req, res) => {
       completed,
       Progress,
       category,
+      userId,
     });
     res.json(todo);
   } catch (err) {
@@ -65,6 +68,7 @@ router.put("/:id", async (req, res) => {
       completed,
       Progress,
       category,
+      userId,
     });
     res.json(todo);
   } catch (err) {

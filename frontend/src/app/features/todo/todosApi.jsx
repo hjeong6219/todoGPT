@@ -4,11 +4,22 @@ export const todosApi = createApi({
   reducerPath: "todosApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
   endpoints: (builder) => ({
-    getTodos: builder.query({
-      query: () => "todos",
+    getTodosByUser: builder.query({
+      query: (userEmail) => `todos?userEmail=${userEmail}`,
+    }),
+    getTodosByTitle: builder.query({
+      query: ({ userEmail, title }) =>
+        `todos?userEmail=${userEmail}&title=${title}`,
     }),
     getTodoById: builder.query({
-      query: (_id) => `todos/${_id}`,
+      query: (userId) => `todos?userId=${userId}`,
+    }),
+    addTodo: builder.mutation({
+      query: (data) => ({
+        url: "todos",
+        method: "POST",
+        body: data,
+      }),
     }),
     updateTodo: builder.mutation({
       query: ({ _id, ...data }) => ({
@@ -27,8 +38,10 @@ export const todosApi = createApi({
 });
 
 export const {
-  useGetTodosQuery,
+  useGetTodosByUserQuery,
+  useGetTodosByTitleQuery,
   useGetTodoByIdQuery,
+  useAddTodoMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation,
 } = todosApi;

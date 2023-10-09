@@ -8,7 +8,7 @@ const TodosSchema = new mongoose.Schema({
   content: {
     type: String,
     default: "",
-    required: true,
+    required: false,
   },
   createdAt: {
     type: String,
@@ -29,6 +29,10 @@ const TodosSchema = new mongoose.Schema({
     type: Array,
     default: "",
     required: false,
+  },
+  userId: {
+    type: String,
+    required: true,
   },
 });
 

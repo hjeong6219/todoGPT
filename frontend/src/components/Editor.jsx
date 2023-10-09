@@ -1,10 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
 
-function TodoEditor() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+function TodoEditor({ todo, setShowEditor }) {
+  const [title, setTitle] = useState(todo.title);
+  const [content, setContent] = useState(todo.content);
+
+  useEffect(() => {
+    setTitle(todo.title);
+    setContent(todo.content);
+  }, [todo]);
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
@@ -37,7 +42,8 @@ function TodoEditor() {
         </button>
         <button
           type="reset"
-          className="col-span-1 px-2 ml-2 text-stone-400 focus:outline-none hover:text-stone-700 "
+          className="col-span-1 px-2 ml-2 text-stone-400 focus:outline-none hover:text-stone-700"
+          onClick={() => setShowEditor(false)}
         >
           <HiX />
         </button>

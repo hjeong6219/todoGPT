@@ -8,7 +8,6 @@ import { HiCheck, HiX } from "react-icons/hi";
 function TodoEntry({ todo }) {
   const [content, setContent] = useState(todo.content);
   const [title, setTitle] = useState(todo.title);
-
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
