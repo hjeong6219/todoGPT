@@ -10,7 +10,7 @@ const ChatsSchema = new mongoose.Schema({
     {
       chatId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Chat",
+        ref: "Chats",
         required: false,
       },
       content: {
@@ -21,6 +21,11 @@ const ChatsSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+        required: false,
+      },
     },
   ],
   createdAt: {
@@ -30,4 +35,4 @@ const ChatsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Chat = mongoose.model("chats", ChatsSchema);
+module.exports = Chats = mongoose.model("chat", ChatsSchema);

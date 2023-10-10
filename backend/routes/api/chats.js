@@ -28,9 +28,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
-  const { todoId } = req.body;
-
+router.post("/", async (req, res) => {
+  const { todoId, messages } = req.body;
   try {
     // Check if a chats is already created for the todo
     const existingChat = await Chats.findOne({ todoId });
@@ -42,6 +41,7 @@ router.put("/", async (req, res) => {
     // Create a new chats entry if no duplicates are found
     const chats = await Chats.create({
       todoId,
+      messages,
     });
     res.json(chats);
   } catch (err) {
@@ -50,20 +50,19 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.post("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
   try {
     const chats = await Chats.findById(req.params.id);
     if (!chats) {
       return res.status(404).json({ msg: "Chats not found" });
     }
-    const {
-      messages: [{ content, sender }],
-    } = req.body;
     // push messages instead of rewriting to the chats for optimization
     const newMessages = {
       chatsId: req.params.id,
-      content,
-      sender,
+      content: req.body.content,
+      sender: req.body.sender,
       createdAt: Date.now(),
     };
     chats.messages.push(...[newMessages]);
