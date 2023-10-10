@@ -5,7 +5,8 @@ export const chatSlice = createSlice({
   initialState: [
     {
       todoId: "",
-      chatHistory: [],
+      messages: [],
+      createdAt: "",
     },
   ],
   reducers: {
