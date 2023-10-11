@@ -1,8 +1,7 @@
-import { deleteChat } from "@/app/features/chat/chatSlice";
 import {
   useDeleteTodoMutation,
   useUpdateTodoMutation,
-} from "../app/features/todo/todosApi";
+} from "../../app/features/todo/todosApi";
 import { useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
 import {

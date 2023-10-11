@@ -4,13 +4,13 @@ import Editor from "./Editor";
 import {
   useAddTodoMutation,
   useGetTodoByIdQuery,
-} from "../app/features/todo/todosApi";
+} from "../../app/features/todo/todosApi";
 import { useEffect, useState } from "react";
-import { useGetUserByEmailQuery } from "../app/features/todo/usersApi";
+import { useGetUserByEmailQuery } from "../../app/features/todo/usersApi";
 import { redirect } from "next/navigation";
 import TodoInput from "./TodoInput";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
-import Chat from "./chat/Chat";
+import Chat from "../chat/Chat";
 
 function TodoList({ user }) {
   const {
@@ -93,13 +93,13 @@ function TodoList({ user }) {
               setTodoTitle={setTodoTitle}
               handleKeyDown={handleKeyDown}
             />
-            {todoList && (
+            {todoList.length > 0 ? (
               <div className="grid w-auto grid-cols-3 gap-4 p-4 mt-4 h-76 bg-stone-100">
                 {todoList.map((todo) => (
                   <Post key={todo._id} todo={todo} />
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       )}
