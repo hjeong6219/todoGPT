@@ -1,9 +1,14 @@
+import { deleteChat } from "@/app/features/chat/chatSlice";
 import {
   useDeleteTodoMutation,
   useUpdateTodoMutation,
 } from "../app/features/todo/todosApi";
 import { useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
+import {
+  useDeleteChatMutation,
+  useGetChatByTodoQuery,
+} from "@/app/features/chat/chatApi";
 
 function TodoEntry({ todo }) {
   const [content, setContent] = useState(todo.content);
@@ -16,28 +21,20 @@ function TodoEntry({ todo }) {
   };
 
   const [updateTodoMutation] = useUpdateTodoMutation();
-
   const [deleteTodoMutation] = useDeleteTodoMutation();
+  const [deleteChatMutation] = useDeleteChatMutation();
+
+  const { data: chat, isLoading, isError } = useGetChatByTodoQuery(todo._id);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateTodoMutation(
-      { ...todo, title: title, content: content },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries("todos");
-        },
-      }
-    );
+    updateTodoMutation({ ...todo, title: title, content: content });
   };
 
   const handleDelete = (event) => {
     event.preventDefault();
-    deleteTodoMutation(todo._id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("todos");
-      },
-    });
+    deleteTodoMutation(todo._id);
+    deleteChatMutation(chat[0]._id);
   };
 
   return (

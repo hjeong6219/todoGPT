@@ -9,6 +9,10 @@ export const chatApi = createApi({
       query: (todoId) => `chats?todoId=${todoId}`,
       providesTags: ["Chat"],
     }),
+    getChatById: builder.query({
+      query: (_id) => `chats/${_id}`,
+      providesTags: ["Chat"],
+    }),
     addChat: builder.mutation({
       query: (data) => ({
         url: "chats",
@@ -45,6 +49,7 @@ export const chatApi = createApi({
 
 export const {
   useGetChatByTodoQuery,
+  useGetChatByIdQuery,
   useAddChatMutation,
   useUpdateChatMutation,
   useUpdateChatWithAiMutation,

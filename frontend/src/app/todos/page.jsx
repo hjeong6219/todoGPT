@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import TodoList from "../../components/TodoList";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
@@ -7,6 +8,7 @@ function Page() {
   const user = getUser();
   return isAuthenticated() ? (
     <div>
+      <Header />
       <TodoList user={user} />
     </div>
   ) : (

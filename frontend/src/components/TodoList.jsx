@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { useGetUserByEmailQuery } from "../app/features/todo/usersApi";
 import { redirect } from "next/navigation";
 import TodoInput from "./TodoInput";
+import { useAddChatMutation } from "@/app/features/chat/chatApi";
+import Chat from "./chat/Chat";
 
 function TodoList({ user }) {
   const {
@@ -36,20 +38,34 @@ function TodoList({ user }) {
   const [showEditor, setShowEditor] = useState(false);
   const [todoTitle, setTodoTitle] = useState("");
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [currentChat, setCurrentChat] = useState(null);
 
   const [addTodo, { data: addTodoData, error: addTodoError }] =
     useAddTodoMutation();
 
+  const [addChat, { data: addChatData, error: addChatError }] =
+    useAddChatMutation();
+
   const handleKeyDown = async (event) => {
     if (event.key === "Enter") {
       try {
-        const response = await addTodo({
+        const addTodoResponse = await addTodo({
           userId: userData._id,
           title: todoTitle,
           userEmail: userData.email,
         });
-        setCurrentTodo(response.data);
-        setShowEditor(true);
+        setCurrentTodo(addTodoResponse.data);
+        try {
+          const addChatResponse = await addChat({
+            todoId: addTodoResponse.data._id,
+            sender: "ai",
+            content: "Hi there! How can I help you?",
+          });
+          setCurrentChat(addChatResponse.data);
+          setShowEditor(true);
+        } catch (error) {
+          console.error("Failed to add chat");
+        }
       } catch (error) {
         console.error("Failed to add todo");
       }
@@ -65,10 +81,13 @@ function TodoList({ user }) {
   return (
     <>
       {showEditor && (
-        <Editor todo={currentTodo} setShowEditor={setShowEditor} />
+        <div className="absolute inset-x-0 w-4/5 max-w-screen-xl mx-auto shadow-lg border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
+          <Editor todo={currentTodo} setShowEditor={setShowEditor} />
+          <Chat chatId={currentChat._id} />
+        </div>
       )}
       {userData && (
-        <div className={`${showEditor && "blur-sm"} w-full h-screen`}>
+        <div className={`${showEditor && "blur-sm"} w-full h-max`}>
           <div>
             <TodoInput
               setTodoTitle={setTodoTitle}

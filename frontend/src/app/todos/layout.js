@@ -8,7 +8,7 @@ export default function Layout({ children }) {
   return (
     <section>
       {/* <Provider store={store}> */}
-      <Header />
+      {/* <Header /> */}
       {children}
       {/* </Provider> */}
     </section>

@@ -34,10 +34,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { todoId, messages } = req.body;
+  const { todoId, content, sender } = req.body;
   try {
     // Check if a chat is already created for the todo
-    const existingChat = await Chat.findOne({ todoId });
+    const existingChat = await Chats.findOne({ todoId });
     if (existingChat) {
       return res
         .status(400)
@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     // Create a new chat entry if no duplicates are found
     const chat = await Chats.create({
       todoId,
-      messages,
+      messages: [{ content, sender, createdAt: Date.now() }],
     });
     res.json(chat);
   } catch (err) {

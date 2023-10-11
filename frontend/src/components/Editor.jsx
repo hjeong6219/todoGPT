@@ -23,7 +23,7 @@ function TodoEditor({ todo, setShowEditor }) {
   };
 
   return (
-    <div className="absolute inset-0 z-50 items-center justify-center w-2/5 m-auto overflow-x-hidden overflow-y-auto shadow-lg h-3/5 rounded-xl bg-stone-50 border-stone-400 focus:outline-none">
+    <div className="absolute inset-y-0 z-40 items-center w-1/2 h-full m-auto overflow-x-hidden overflow-y-auto bg-stone-50 border-stone-400 focus:outline-none">
       <div className="grid grid-cols-9 border-b-2 border-stone-200">
         <textarea
           className="w-full h-12 col-span-7 px-4 py-2 text-2xl resize-none scrollbar-hide focus:outline-none bg-stone-50 text-stone-900"
