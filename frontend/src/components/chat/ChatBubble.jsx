@@ -1,5 +1,5 @@
 function ChatBubble({ sender, content }) {
-  // Needed to display the messages with line breaks
+  // Needed to display the messages with line
   const formattedContent = content.replace(/\n/g, "<br>");
 
   return (
@@ -7,9 +7,9 @@ function ChatBubble({ sender, content }) {
       className={`chat my-8 ${sender === "user" ? "chat-end" : "chat-start"}`}
     >
       <div
-        className={`chat-bubble ${
+        className={`chat-bubble  ${
           sender === "user" ? "chat-bubble-accent" : "chat-bubble-info"
-        }`}
+        } text-sm lg:text-lg `}
         dangerouslySetInnerHTML={{ __html: formattedContent }}
       />
     </div>
