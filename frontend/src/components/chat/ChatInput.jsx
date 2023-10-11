@@ -1,14 +1,10 @@
 "use client";
-import {
-  useGetChatByTodoQuery,
-  useUpdateChatMutation,
-} from "@/app/features/chat/chatApi";
-import { useState } from "react";
+import { useUpdateChatMutation } from "@/app/features/chat/chatApi";
+import { forwardRef, useState } from "react";
 import { HiOutlinePaperAirplane } from "react-icons/hi2";
 import TextareaAutosize from "react-textarea-autosize";
 
-function ChatInput({ chatId }) {
-  // console.log(chatId);
+const ChatInput = forwardRef(({ chatId }, ref) => {
   const [message, setMessage] = useState("");
   const [updateChat, { data: updateChatData, error: updateChatError }] =
     useUpdateChatMutation();
@@ -28,8 +24,9 @@ function ChatInput({ chatId }) {
   };
   return (
     <form
-      className="absolute bottom-0 w-full rounded-xl"
+      className="sticky bottom-0 left-0 right-0 rounded-xl"
       onSubmit={handleSubmit}
+      ref={ref}
     >
       <div className="flex items-center px-1 py-2 rounded-lg bg-stone-200">
         <TextareaAutosize
@@ -50,6 +47,6 @@ function ChatInput({ chatId }) {
       </div>
     </form>
   );
-}
+});
 
 export default ChatInput;
