@@ -1,5 +1,8 @@
 "use client";
-import { useUpdateChatMutation } from "@/app/features/chat/chatApi";
+import {
+  useUpdateChatMutation,
+  useUpdateChatWithAiMutation,
+} from "@/app/features/chat/chatApi";
 import { forwardRef, useState } from "react";
 import { HiOutlinePaperAirplane } from "react-icons/hi2";
 import TextareaAutosize from "react-textarea-autosize";
@@ -8,6 +11,8 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
   const [message, setMessage] = useState("");
   const [updateChat, { data: updateChatData, error: updateChatError }] =
     useUpdateChatMutation();
+  const [updateChatWithAi, { data: updateChatWithAiData }] =
+    useUpdateChatWithAiMutation();
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -20,7 +25,15 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
     } catch (err) {
       console.error(err.message);
     }
-    console.log(chatId);
+    try {
+      await updateChatWithAi({
+        _id: chatId,
+        prompt: message,
+        sender: "ai",
+      });
+    } catch (err) {
+      console.error(err.message);
+    }
   };
   return (
     <form

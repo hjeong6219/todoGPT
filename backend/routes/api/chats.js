@@ -1,13 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const { OpenAI } = require("openai");
+
+const openAiApi = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const Chats = require("../../models/Chats");
 
 router.get("/", async (req, res) => {
   try {
     const todoId = req.query.todoId;
-    const chats = await Chats.find({ todoId });
-    res.json(chats);
+    const chat = await Chats.find({ todoId });
+    res.json(chat);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -16,11 +21,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const chats = await Chats.findById(req.params.id);
-    if (!chats) {
-      return res.status(404).json({ msg: "Chats not found" });
+    const chat = await Chats.findById(req.params.id);
+    if (!chat) {
+      return res.status(404).json({ msg: "Chat not found" });
     }
-    const messages = chats.messages;
+    const messages = chat.messages;
     res.json(messages);
   } catch (err) {
     console.error(err.message);
@@ -31,19 +36,19 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { todoId, messages } = req.body;
   try {
-    // Check if a chats is already created for the todo
-    const existingChat = await Chats.findOne({ todoId });
+    // Check if a chat is already created for the todo
+    const existingChat = await Chat.findOne({ todoId });
     if (existingChat) {
       return res
         .status(400)
-        .json({ msg: "Chats item with the same todoId already exists" });
+        .json({ msg: "Chat item with the same todoId already exists" });
     }
-    // Create a new chats entry if no duplicates are found
-    const chats = await Chats.create({
+    // Create a new chat entry if no duplicates are found
+    const chat = await Chats.create({
       todoId,
       messages,
     });
-    res.json(chats);
+    res.json(chat);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -52,20 +57,52 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const chats = await Chats.findById(req.params.id);
-    if (!chats) {
-      return res.status(404).json({ msg: "Chats not found" });
+    const chat = await Chats.findById(req.params.id);
+    if (!chat) {
+      return res.status(404).json({ msg: "Chat not found" });
     }
-    // push messages instead of rewriting to the chats for optimization
+    // push messages instead of rewriting to the chat for optimization
     const newMessages = {
       chatsId: req.params.id,
       content: req.body.content,
       sender: req.body.sender,
       createdAt: Date.now(),
     };
-    chats.messages.push(...[newMessages]);
-    await chats.save();
-    res.json(chats);
+    chat.messages.push(...[newMessages]);
+    await chat.save();
+    res.json(chat);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.put("/:id/openai", async (req, res) => {
+  try {
+    console.log(req.body);
+    const chat = await Chats.findById(req.params.id);
+    if (!req.body.prompt) {
+      return res.status(400).json({ msg: "Prompt is required" });
+    } else if (!chat) {
+      return res.status(404).json({ msg: "Chat not found" });
+    }
+
+    const response = await openAiApi.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "assistant", content: req.body.prompt }],
+      max_tokens: 1000,
+      frequency_penalty: 0.5,
+      n: 1,
+    });
+    const newMessages = {
+      chatsId: req.params.id,
+      content: response.choices[0].message.content,
+      sender: req.body.sender,
+      createdAt: Date.now(),
+    };
+    chat.messages.push(...[newMessages]);
+    await chat.save();
+    res.json(chat);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -74,11 +111,11 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const chats = await Chats.findByIdAndDelete(req.params.id);
-    if (!chats) {
-      return res.status(404).json({ msg: "Chats not found" });
+    const chat = await Chats.findByIdAndDelete(req.params.id);
+    if (!chat) {
+      return res.status(404).json({ msg: "Chat not found" });
     }
-    res.json({ msg: "Chats removed" });
+    res.json({ msg: "Chat removed" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

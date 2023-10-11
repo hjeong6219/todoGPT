@@ -17,6 +17,14 @@ export const chatApi = createApi({
       }),
       invalidatesTags: ["Chat"],
     }),
+    updateChatWithAi: builder.mutation({
+      query: ({ _id, ...data }) => ({
+        url: `chats/${_id}/openai`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"],
+    }),
     updateChat: builder.mutation({
       query: ({ _id, ...data }) => ({
         url: `chats/${_id}`,
@@ -39,5 +47,6 @@ export const {
   useGetChatByTodoQuery,
   useAddChatMutation,
   useUpdateChatMutation,
+  useUpdateChatWithAiMutation,
   useDeleteChatMutation,
 } = chatApi;
