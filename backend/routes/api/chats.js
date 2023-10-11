@@ -51,8 +51,6 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
   try {
     const chats = await Chats.findById(req.params.id);
     if (!chats) {
