@@ -3,16 +3,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const todosApi = createApi({
   reducerPath: "todosApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
+  tagTypes: ["Todo"],
   endpoints: (builder) => ({
     getTodosByUser: builder.query({
       query: (userEmail) => `todos?userEmail=${userEmail}`,
+      providesTags: ["Todo"],
     }),
     getTodosByTitle: builder.query({
       query: ({ userEmail, title }) =>
         `todos?userEmail=${userEmail}&title=${title}`,
+      providesTags: ["Todo"],
     }),
     getTodoById: builder.query({
       query: (userId) => `todos?userId=${userId}`,
+      providesTags: ["Todo"],
     }),
     addTodo: builder.mutation({
       query: (data) => ({
@@ -20,6 +24,7 @@ export const todosApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Todo"],
     }),
     updateTodo: builder.mutation({
       query: ({ _id, ...data }) => ({
@@ -27,12 +32,14 @@ export const todosApi = createApi({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Todo"],
     }),
     deleteTodo: builder.mutation({
       query: (_id) => ({
         url: `todos/${_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Todo"],
     }),
   }),
 });
