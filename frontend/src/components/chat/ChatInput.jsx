@@ -37,7 +37,7 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
   };
   return (
     <form
-      className="absolute bottom-0 left-0 right-0 rounded-xl"
+      className="sticky bottom-0 left-0 right-0 w-full rounded-xl"
       onSubmit={handleSubmit}
       ref={ref}
     >

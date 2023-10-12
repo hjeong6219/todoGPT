@@ -24,23 +24,20 @@ function Chat({ chatId }) {
     return <div>Error fetching chat data</div>;
   }
   return (
-    <>
-      <div className="absolute inset-y-0 right-0 z-40 items-center justify-center w-1/2 h-full max-w-screen-xl overflow-x-hidden overflow-y-auto no-scrollbar rounded-xl bg-stone-50 focus:outline-none">
-        <div className="h-full pt-4 resize-none max-h-max scrollbar-hide focus:outline-none bg-stone-50 text-stone-900">
-          {messages &&
-            messages.map((message) => (
-              <ChatBubble
-                key={message._id}
-                sender={message.sender}
-                content={message.content}
-              />
-            ))}
-        </div>
-      </div>
-      <div className="absolute bottom-0 right-0 z-50 items-center justify-center w-1/2 max-w-screen-xl h-fit bg-stone-50 focus:outline-none">
+    <div className="z-40 flex flex-col items-end justify-end w-1/2 h-full max-w-screen-xl ml-2 shadow-lg rounded-xl bg-stone-50 focus:outline-none">
+      <div className="w-full pt-4 overflow-y-auto resize-none no-scrollbar focus:outline-none bg-stone-50 rounded-xl text-stone-900">
+        {messages &&
+          messages.map((message) => (
+            <ChatBubble
+              key={message._id}
+              sender={message.sender}
+              content={message.content}
+            />
+          ))}
+
         <ChatInput ref={chatEndRef} chatId={chatId} />
       </div>
-    </>
+    </div>
   );
 }
 
