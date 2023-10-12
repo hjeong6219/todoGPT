@@ -58,8 +58,8 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, category } = req.body;
-
+  const { title, content, createdAt, completed, Progress, category, userId } =
+    req.body;
   try {
     const todo = await Todos.findByIdAndUpdate(req.params.id, {
       title,

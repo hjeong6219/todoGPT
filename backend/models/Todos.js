@@ -31,7 +31,8 @@ const TodosSchema = new mongoose.Schema({
     required: false,
   },
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
     required: true,
   },
 });
