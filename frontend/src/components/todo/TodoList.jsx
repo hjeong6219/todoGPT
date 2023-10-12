@@ -152,7 +152,7 @@ function TodoList({ user }) {
               handleKeyDown={handleKeyDown}
             />
             {todoList.length > 0 ? (
-              <div className="grid w-auto grid-cols-3 gap-4 p-4 mt-4 h-76 bg-stone-100">
+              <div className="grid w-auto max-w-screen-xl grid-cols-3 gap-4 p-4 mx-auto mt-4 shadow-lg rounded-xl h-76 bg-stone-100">
                 {todoList.map((todo) => (
                   <Post key={todo._id} todo={todo} />
                 ))}
