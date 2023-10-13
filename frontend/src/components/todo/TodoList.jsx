@@ -40,10 +40,10 @@ function TodoList({ user }) {
     }
   );
 
-  const [showEditor, setShowEditor] = useState(false);
+  const [showTodo, setShowTodo] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState(null);
   const [todoTitle, setTodoTitle] = useState("");
   const [todoContent, setTodoContent] = useState("");
-  const [currentTodo, setCurrentTodo] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
 
   const [addTodo, { data: addTodoData, error: addTodoError }] =
@@ -63,7 +63,9 @@ function TodoList({ user }) {
           title: todoTitle,
           userEmail: userData.email,
         });
-        setCurrentTodo(addTodoData);
+        setCurrentTodo(addTodoResponse.data);
+        setTodoTitle(addTodoResponse.data.title);
+        setTodoContent(addTodoResponse.data.content);
         try {
           const addChatResponse = await addChat({
             todoId: addTodoResponse.data._id,
@@ -71,7 +73,7 @@ function TodoList({ user }) {
             content: "Hi there! How can I help you?",
           });
           setCurrentChat(addChatResponse.data);
-          setShowEditor(true);
+          setShowTodo(true);
         } catch (error) {
           console.error("Failed to add chat");
         }
@@ -90,7 +92,7 @@ function TodoList({ user }) {
     event.preventDefault();
     try {
       await updateTodo({
-        ...addTodoData,
+        ...currentTodo,
         userId: userData?._id,
         title: todoTitle,
         content: todoContent,
@@ -98,6 +100,14 @@ function TodoList({ user }) {
     } catch (error) {
       console.error("Failed to update todo");
     }
+  };
+
+  const handleShowTodo = (event, chat, todo) => {
+    setCurrentTodo(todo);
+    setTodoTitle(todo.title);
+    setTodoContent(todo.content);
+    setCurrentChat(chat[0]);
+    setShowTodo(true);
   };
 
   if (isLoadingUser) {
@@ -108,7 +118,7 @@ function TodoList({ user }) {
 
   return (
     <>
-      {showEditor && (
+      {showTodo && (
         <div className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
           <div className="relative w-full h-full">
             <div className="flex">
@@ -129,7 +139,10 @@ function TodoList({ user }) {
               <button
                 type="reset"
                 className="px-2 ml-2 text-stone-400 focus:outline-none bg-stone-100 hover:text-stone-700"
-                onClick={() => setShowEditor(false)}
+                onClick={() => {
+                  setShowTodo(false);
+                  setTodoTitle("");
+                }}
               >
                 <HiX />
               </button>
@@ -145,20 +158,24 @@ function TodoList({ user }) {
         </div>
       )}
       {userData && (
-        <div className={`${showEditor && "blur-lg"} w-full h-max`}>
+        <div className={`${showTodo && "blur-lg"} w-full h-max`}>
           <div>
             <TodoInput
               setTodoTitle={setTodoTitle}
               handleKeyDown={handleKeyDown}
             />
-            {todoList.length > 0 ? (
-              <div className="grid w-auto max-w-screen-xl grid-cols-3 gap-4 p-4 mx-auto mt-4 shadow-lg rounded-xl h-76 bg-stone-100">
-                {todoList.map((todo) => (
-                  <Post key={todo._id} todo={todo} />
-                ))}
-              </div>
-            ) : null}
           </div>
+          {todoList.length > 0 ? (
+            <div className="grid w-auto max-w-screen-xl gap-4 p-4 mx-auto mt-4 h-fit ">
+              {todoList.map((todo) => (
+                <Post
+                  key={todo._id}
+                  todo={todo}
+                  handleShowTodo={handleShowTodo}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       )}
     </>
