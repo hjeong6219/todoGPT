@@ -1,8 +1,8 @@
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-class Calendar extends React.Component {
-  render() {
-    return <Calendar startAccessor="start" endAccessor="end" />;
-  }
+function Calendar {
+return (
+<div>Calendar</div>
+)
 }
 export default Calendar;

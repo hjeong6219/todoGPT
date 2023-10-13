@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <div className="flex justify-center gap-4 pt-20 pb-4 mx-auto text-2xl border-b-2 w-60">
+    <div className="flex justify-center gap-4 pt-12 pb-4 mx-auto text-2xl border-b-2 w-60">
       <ul className="flex gap-4">
         <li>
           <Link

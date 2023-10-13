@@ -53,7 +53,7 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
         />
         <button
           type="submit"
-          className="inline-flex justify-center py-2 pr-1 text-blue-400 rounded-full cursor-pointer "
+          className="inline-flex py-2 pr-1 text-blue-400 rounded-full cursor-pointer focus:border-0 "
         >
           <HiOutlinePaperAirplane className="text-3xl" />
         </button>

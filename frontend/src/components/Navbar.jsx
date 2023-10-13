@@ -5,6 +5,7 @@ import {
   LoginLink,
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
+import Link from "next/link";
 
 export default function Navbar() {
   const { isAuthenticated, getUser } = getKindeServerSession();
@@ -12,9 +13,11 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between w-full mx-auto font-bold bg-stone-50">
-      <h1 className="px-10 my-10 text-3xl">KindeAuth</h1>
+      <Link href="/" className="px-10 my-10 text-3xl text-stone-800">
+        TodoGPT
+      </Link>
       <div className="flex items-center gap-4 px-10">
-        {isAuthenticated() && (
+        {isAuthenticated() ? (
           <div className="flex gap-4 font-normal">
             {user?.picture ? (
               <Image
@@ -25,7 +28,7 @@ export default function Navbar() {
                 alt="user profile avatar"
               />
             ) : (
-              <div className="p-4 text-white bg-black rounded-full">
+              <div className="px-5 pt-4 text-white bg-black rounded-full ">
                 {user?.given_name?.[0]}
                 {user?.family_name?.[0]}
               </div>
@@ -37,6 +40,13 @@ export default function Navbar() {
 
               <LogoutLink className="text-black">Log out</LogoutLink>
             </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-6 text-xl ">
+            <RegisterLink className="text-stone-800">Register</RegisterLink>
+            <LoginLink className="px-4 py-2 rounded-xl bg-stone-800 text-stone-50">
+              Get Started
+            </LoginLink>
           </div>
         )}
       </div>

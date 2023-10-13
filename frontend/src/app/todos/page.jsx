@@ -8,7 +8,6 @@ function Page() {
   const user = getUser();
   return isAuthenticated() ? (
     <div>
-      <Header />
       <TodoList user={user} />
     </div>
   ) : (

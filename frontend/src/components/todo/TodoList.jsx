@@ -13,6 +13,7 @@ import { useAddChatMutation } from "@/app/features/chat/chatApi";
 import Chat from "../chat/Chat";
 import { HiOutlineSave, HiX } from "react-icons/hi";
 import TodoContent from "./TodoContent";
+import Header from "../Header";
 
 function TodoList({ user }) {
   const {
@@ -118,34 +119,37 @@ function TodoList({ user }) {
 
   return (
     <>
+      <Header />
       {showTodo && (
-        <div className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
+        <div className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
           <div className="relative w-full h-full">
-            <div className="flex">
-              <textarea
-                className="relative z-50 flex-1 w-full h-12 col-span-7 px-4 py-2 text-2xl border-b-2 resize-none shadow-top-lg rounded-xl no-scrollbar focus:outline-none bg-stone-200 text-stone-900"
-                type="text"
-                value={todoTitle}
-                onChange={(event) => setTodoTitle(event.target.value)}
-                placeholder="Enter your title here"
-              />
-              <button
-                type="submit"
-                className="px-2 ml-2 text-stone-400 focus:outline-none bg-stone-100 hover:text-stone-700"
-                onClick={handleSubmit}
-              >
-                <HiOutlineSave />
-              </button>
-              <button
-                type="reset"
-                className="px-2 ml-2 text-stone-400 focus:outline-none bg-stone-100 hover:text-stone-700"
-                onClick={() => {
-                  setShowTodo(false);
-                  setTodoTitle("");
-                }}
-              >
-                <HiX />
-              </button>
+            <div className="sticky w-full">
+              <div className="flex items-center justify-center bg-stone-200 rounded-xl">
+                <textarea
+                  className="z-50 block w-full h-12 px-4 pt-2 text-2xl border-b-2 resize-none shadow-top-lg rounded-xl no-scrollbar focus:outline-none bg-stone-200 text-stone-900"
+                  type="text"
+                  value={todoTitle}
+                  onChange={(event) => setTodoTitle(event.target.value)}
+                  placeholder="Enter your title here"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex px-2 ml-2 text-2xl text-stone-400 focus:outline-none hover:text-stone-700"
+                  onClick={handleSubmit}
+                >
+                  <HiOutlineSave />
+                </button>
+                <button
+                  type="reset"
+                  className="inline-flex px-2 ml-2 text-2xl text-stone-400 focus:outline-none hover:text-stone-700"
+                  onClick={() => {
+                    setShowTodo(false);
+                    setTodoTitle("");
+                  }}
+                >
+                  <HiX />
+                </button>
+              </div>
             </div>
             <div className="relative flex items-stretch h-full pt-2 pb-12">
               <TodoContent
@@ -158,15 +162,17 @@ function TodoList({ user }) {
         </div>
       )}
       {userData && (
-        <div className={`${showTodo && "blur-lg"} w-full h-max`}>
-          <div>
-            <TodoInput
-              setTodoTitle={setTodoTitle}
-              handleKeyDown={handleKeyDown}
-            />
-          </div>
+        <div
+          className={`${
+            showTodo && "blur-lg"
+          } w-full mx-auto max-w-screen-xl h-max`}
+        >
+          <TodoInput
+            setTodoTitle={setTodoTitle}
+            handleKeyDown={handleKeyDown}
+          />
           {todoList.length > 0 ? (
-            <div className="grid w-auto max-w-screen-xl gap-4 p-4 mx-auto mt-4 h-fit ">
+            <div className="grid w-auto gap-4 p-4 mx-auto mt-4 h-fit ">
               {todoList.map((todo) => (
                 <Post
                   key={todo._id}
