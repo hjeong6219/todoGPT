@@ -123,7 +123,7 @@ function TodoList({ user }) {
     <>
       <Header />
       {showTodo && (
-        <div className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
+        <section className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
           <div className="relative w-full h-full">
             <div className="sticky w-full">
               <div className="flex items-center justify-center bg-stone-200 rounded-xl">
@@ -146,10 +146,10 @@ function TodoList({ user }) {
               <Chat chatId={currentChat._id} />
             </div>
           </div>
-        </div>
+        </section>
       )}
       {userData && (
-        <div
+        <section
           className={`${
             showTodo && "blur-lg"
           } w-full mx-auto max-w-screen-xl h-max`}
@@ -169,7 +169,7 @@ function TodoList({ user }) {
               ))}
             </div>
           ) : null}
-        </div>
+        </section>
       )}
     </>
   );

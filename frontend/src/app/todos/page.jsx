@@ -7,9 +7,9 @@ function Page() {
   const { getUser, isAuthenticated } = getKindeServerSession();
   const user = getUser();
   return isAuthenticated() ? (
-    <div>
+    <main>
       <TodoList user={user} />
-    </div>
+    </main>
   ) : (
     redirect("/sign-in")
   );
