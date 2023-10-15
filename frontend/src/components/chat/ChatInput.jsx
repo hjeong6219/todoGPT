@@ -36,11 +36,13 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
     }
   };
   return (
-    <form
-      className="sticky bottom-0 left-0 right-0 w-full rounded-xl"
-      onSubmit={handleSubmit}
-      ref={ref}
-    >
+    // <form
+    //   className="sticky bottom-0 left-0 right-0 w-full rounded-xl"
+    //   onSubmit={handleSubmit}
+    //   ref={ref}
+    // >
+
+    <div className="sticky bottom-0 left-0 right-0 w-full rounded-xl">
       <div className="flex items-center px-1 py-2 rounded-lg bg-stone-200">
         <TextareaAutosize
           id="chat"
@@ -53,12 +55,14 @@ const ChatInput = forwardRef(({ chatId }, ref) => {
         />
         <button
           type="submit"
+          onClick={handleSubmit}
           className="inline-flex py-2 pr-1 text-blue-400 rounded-full cursor-pointer focus:border-0 "
         >
           <HiOutlinePaperAirplane className="text-3xl" />
         </button>
       </div>
-    </form>
+    </div>
+    // </form>
   );
 });
 

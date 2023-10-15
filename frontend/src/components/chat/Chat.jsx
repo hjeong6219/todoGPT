@@ -1,11 +1,17 @@
 "use client";
 import ChatInput from "@/components/chat/ChatInput";
-import { useGetChatByIdQuery } from "../../app/features/chat/chatApi";
+import { useGetChatByTodoQuery } from "../../app/features/chat/chatApi";
 import ChatBubble from "@/components/chat/ChatBubble";
 import { useEffect, useRef } from "react";
 
-function Chat({ chatId }) {
-  const { data: messages, isLoading, isError } = useGetChatByIdQuery(chatId);
+function Chat({ todoId }) {
+  const {
+    data: chatData,
+    isLoading,
+    isError,
+  } = useGetChatByTodoQuery(todoId, {
+    skip: !todoId,
+  });
 
   const chatEndRef = useRef(null);
 
@@ -14,7 +20,7 @@ function Chat({ chatId }) {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [chatData]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -26,8 +32,8 @@ function Chat({ chatId }) {
   return (
     <div className="z-40 flex flex-col items-end justify-end w-1/2 h-full max-w-screen-xl ml-2 shadow-lg rounded-xl bg-stone-50 focus:outline-none">
       <div className="w-full pt-4 overflow-y-auto resize-none no-scrollbar focus:outline-none bg-stone-50 rounded-xl text-stone-900">
-        {messages &&
-          messages.map((message) => (
+        {chatData &&
+          chatData[0].messages.map((message) => (
             <ChatBubble
               key={message._id}
               sender={message.sender}
@@ -35,7 +41,7 @@ function Chat({ chatId }) {
             />
           ))}
 
-        <ChatInput ref={chatEndRef} chatId={chatId} />
+        <ChatInput ref={chatEndRef} chatId={chatData[0]._id} />
       </div>
     </div>
   );
