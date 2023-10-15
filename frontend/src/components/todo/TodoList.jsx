@@ -14,6 +14,8 @@ import Chat from "../chat/Chat";
 import { HiOutlineSave, HiX } from "react-icons/hi";
 import TodoContent from "./TodoContent";
 import Header from "../Header";
+import Title from "./Title";
+import EditorButton from "./EditorButton";
 
 function TodoList({ user }) {
   const {
@@ -125,30 +127,15 @@ function TodoList({ user }) {
           <div className="relative w-full h-full">
             <div className="sticky w-full">
               <div className="flex items-center justify-center bg-stone-200 rounded-xl">
-                <textarea
-                  className="z-50 block w-full h-12 px-4 pt-2 text-2xl border-b-2 resize-none shadow-top-lg rounded-xl no-scrollbar focus:outline-none bg-stone-200 text-stone-900"
-                  type="text"
-                  value={todoTitle}
-                  onChange={(event) => setTodoTitle(event.target.value)}
-                  placeholder="Enter your title here"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex px-2 ml-2 text-2xl text-stone-400 focus:outline-none hover:text-stone-700"
-                  onClick={handleSubmit}
-                >
-                  <HiOutlineSave />
-                </button>
-                <button
-                  type="reset"
-                  className="inline-flex px-2 ml-2 text-2xl text-stone-400 focus:outline-none hover:text-stone-700"
+                <Title todoTitle={todoTitle} setTodoTitle={setTodoTitle} />
+                <EditorButton type={"submit"} onClick={handleSubmit} />
+                <EditorButton
+                  type={"reset"}
                   onClick={() => {
                     setShowTodo(false);
                     setTodoTitle("");
                   }}
-                >
-                  <HiX />
-                </button>
+                />
               </div>
             </div>
             <div className="relative flex items-stretch h-full pt-2 pb-12">
