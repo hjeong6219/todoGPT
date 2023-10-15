@@ -14,8 +14,12 @@ export const todosApi = createApi({
         `todos?userEmail=${userEmail}&title=${title}`,
       providesTags: ["Todo"],
     }),
-    getTodoById: builder.query({
+    getTodosByUserId: builder.query({
       query: (userId) => `todos?userId=${userId}`,
+      providesTags: ["Todo"],
+    }),
+    getTodosById: builder.query({
+      query: (_id) => `todos/${_id}`,
       providesTags: ["Todo"],
     }),
     addTodo: builder.mutation({
@@ -46,8 +50,9 @@ export const todosApi = createApi({
 
 export const {
   useGetTodosByUserQuery,
+  useGetTodosByUserIdQuery,
+  useGetTodosByIdQuery,
   useGetTodosByTitleQuery,
-  useGetTodoByIdQuery,
   useAddTodoMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation,
