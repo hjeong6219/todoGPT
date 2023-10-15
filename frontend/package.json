@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@kinde-oss/kinde-auth-nextjs": "^1.8.22",
     "@reduxjs/toolkit": "^1.9.6",
     "axios": "^1.5.1",
+    "clsx": "^2.0.0",
+    "dayjs": "^1.11.10",
     "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest",
@@ -19,7 +22,8 @@
     "react-redux": "^8.1.3",
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
-    "react-textarea-autosize": "^8.5.3"
+    "react-textarea-autosize": "^8.5.3",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "autoprefixer": "latest",

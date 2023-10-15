@@ -1,8 +1,11 @@
-"use client";
-function Page() {
+import Calendar from "@/components/Calendar";
+
+function page() {
   return (
-    <div className="block mx-auto mt-10 shadow-xl -200 w-72">Calendar</div>
+    <div>
+      <Calendar />
+    </div>
   );
 }
 
-export default Page;
+export default page;
