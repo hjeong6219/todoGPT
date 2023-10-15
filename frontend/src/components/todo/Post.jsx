@@ -11,15 +11,6 @@ import {
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 function TodoEntry({ todo, handleShowTodo }) {
-  // const [content, setContent] = useState();
-  // const [title, setTitle] = useState(todo.title);
-  // const handleContentChange = (event) => {
-  //   setContent(event.target.value);
-  // };
-  // const handleTitleChange = (event) => {
-  //   setTitle(event.target.value);
-  // };
-
   const [updateTodoMutation] = useUpdateTodoMutation();
   const [deleteTodoMutation] = useDeleteTodoMutation();
   const [deleteChatMutation] = useDeleteChatMutation();
@@ -60,14 +51,14 @@ function TodoEntry({ todo, handleShowTodo }) {
             {todo.title}
           </div>
           <button
-            type="submit"
+            type="show"
             className="px-2 text-stone-400 focus:outline-none hover:text-stone-700"
-            onClick={(event) => handleShowTodo(event, currentChat, todo)}
+            onClick={() => handleShowTodo(todo)}
           >
             <HiOutlinePencilSquare />
           </button>
           <button
-            type="reset"
+            type="delete"
             className="px-2 text-stone-400 focus:outline-none hover:text-stone-700"
             onClick={handleDelete}
           >
