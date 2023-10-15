@@ -1,16 +1,18 @@
 "use client";
-import Post from "./Post";
+
+import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 import {
   useAddTodoMutation,
   useGetTodosByUserIdQuery,
 } from "../../app/features/todo/todosApi";
-import { useEffect, useState } from "react";
 import { useGetUserByEmailQuery } from "../../app/features/todo/usersApi";
-import { redirect } from "next/navigation";
-import TodoInput from "./TodoInput";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
+
+import TodoInput from "./TodoInput";
 import Header from "../Header";
 import TodoWrapper from "./TodoWrapper";
+import Post from "./Post";
 
 function TodoList({ user }) {
   const {

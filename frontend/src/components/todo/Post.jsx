@@ -2,12 +2,12 @@ import {
   useDeleteTodoMutation,
   useUpdateTodoMutation,
 } from "../../app/features/todo/todosApi";
-import { useState } from "react";
-import { HiX } from "react-icons/hi";
 import {
   useDeleteChatMutation,
   useGetChatByTodoQuery,
 } from "@/app/features/chat/chatApi";
+
+import { HiX } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 function TodoEntry({ todo, handleShowTodo }) {
