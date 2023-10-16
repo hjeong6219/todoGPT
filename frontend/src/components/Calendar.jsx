@@ -10,9 +10,6 @@ function Calendar() {
   const [date, setDate] = useState(today);
   const [selectedDate, setSelectedDate] = useState(today);
 
-  // console.log(date);
-  console.log(selectedDate.format("MM/DD/YYYY"));
-
   return (
     <div className="flex items-center justify-center w-full h-full gap-10 mt-5 divide-x-2">
       <div className=" w-96 h-96">
