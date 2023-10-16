@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   useGetTodosByIdQuery,
   useUpdateTodoMutation,
@@ -13,6 +14,7 @@ function TodoWrapper({ todo, setShowTodo }) {
     todo?._id,
     { skip: !todo }
   );
+
   const [updateTodo, { data: updateTodoData, error: updateTodoError }] =
     useUpdateTodoMutation();
 
@@ -55,7 +57,7 @@ function TodoWrapper({ todo, setShowTodo }) {
             </div>
           </div>
           <div className="relative flex items-stretch h-full pt-2 pb-12">
-            <TodoContent todoContent={todoData.content} />
+            <TodoContent todo={todoData} />
             <Chat todoId={todoData._id} />
           </div>
         </form>
