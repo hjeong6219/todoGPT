@@ -26,15 +26,6 @@ export const generateDate = (
   for (let i = lastDay.date() + 1; i < lastDay.date() + carryOver; i++) {
     days.push({ isCurrentMonth: "next", date: firstDay.date(i) });
   }
-
-  // for (let i = 1; i <= daysInMonth; i++) {
-  //   days.push(dayjs().date(i));
-  // }
-
-  // for (let i = 0; i < 6 - lastDay; i++) {
-  //   days.push(null);
-  // }
-
   return days;
 };
 

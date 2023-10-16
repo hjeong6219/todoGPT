@@ -27,8 +27,6 @@ const RichTextEditor = ({ className, todo }) => {
         ...todo,
         content: editor.getHTML(),
       });
-
-      console.log(editor.getHTML());
     },
     editorProps: {
       attributes: {
@@ -36,7 +34,6 @@ const RichTextEditor = ({ className, todo }) => {
       },
     },
   });
-  console.log(todo.content);
   return (
     <>
       {editor && (
