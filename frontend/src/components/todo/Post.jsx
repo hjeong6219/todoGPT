@@ -26,6 +26,10 @@ function TodoEntry({ todo, handleShowTodo }) {
     updateTodoMutation({ ...todo, title: title, content: content });
   };
 
+  const handleCompletion = () => {
+    updateTodoMutation({ ...todo, completed: !todo.completed });
+  };
+
   const handleDelete = (event) => {
     event.preventDefault();
     deleteTodoMutation(todo._id);
@@ -36,10 +40,18 @@ function TodoEntry({ todo, handleShowTodo }) {
     return <div>Loading...</div>;
   }
 
+  const todoCompleted = true;
+
   return (
     currentChat && (
       <div className="relative z-50 w-4/5 px-4 py-2 mx-auto blur-none bg-stone-50 rounded-3xl h-76">
         <div className="flex w-full h-12 px-2 text-xl rounded-xl">
+          <input
+            type="checkbox"
+            checked={todo.completed === true ? "checked" : ""}
+            onClick={handleCompletion}
+            className="my-auto mr-2 checkbox-sm checkbox"
+          />
           {/* <textarea
           className="w-full col-span-7 py-2 resize-none bg-stone-50 focus:outline-none text-stone-900"
           type="text"
