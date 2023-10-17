@@ -10,6 +10,7 @@ function Page() {
     //     <div>Take your todo app to the next level</div>
     //     <div className="max-w-screen-xl mx-auto">
     //       <div className="border mockup-window bg-base-300">
+    //         <Image src={require("")} alt="demo" />
     //       </div>
     //     </div>
     //     <div className="flex w-1/2 h-max"></div>
@@ -64,7 +65,7 @@ function Page() {
     // </div>
     <div className="fixed w-full h-full">
       <div className="flex">
-        {/* <div className="flex items-center w-1/2 h-screen ">
+        {/* <div className="flex items-center w-1/2 h-screen bg-center bg-no-repeat bg-auto bg-">
         </div>
         <div className="flex items-center w-1/2 h-screen">
           <div className="max-w-screen-lg mx-auto pb-36 ">
