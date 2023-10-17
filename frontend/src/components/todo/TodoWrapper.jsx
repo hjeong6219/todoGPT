@@ -25,7 +25,6 @@ function TodoWrapper({ todo, setShowTodo }) {
       title: formData.get("title"),
       content: formData.get("content"),
     };
-    console.log(values);
     try {
       await updateTodo({
         ...todoData,
