@@ -6,6 +6,7 @@ import {
   useDeleteChatMutation,
   useGetChatByTodoQuery,
 } from "@/app/features/chat/chatApi";
+import cn from "@/utilities/cn";
 
 import { HiX } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -44,12 +45,12 @@ function TodoEntry({ todo, handleShowTodo }) {
 
   return (
     currentChat && (
-      <div className="relative z-50 w-4/5 px-4 py-2 mx-auto blur-none bg-stone-50 rounded-3xl h-76">
+      <div className="relative z-50 w-4/5 px-4 py-2 mx-auto transition-transform duration-300 ease-in-out transform hover:scale-105 bg-stone-100 blur-none rounded-3xl h-76">
         <div className="flex w-full h-12 px-2 text-xl rounded-xl">
           <input
             type="checkbox"
             checked={todo.completed === true ? "checked" : ""}
-            onClick={handleCompletion}
+            onChange={handleCompletion}
             className="my-auto mr-2 checkbox-sm checkbox"
           />
           {/* <textarea
@@ -59,7 +60,12 @@ function TodoEntry({ todo, handleShowTodo }) {
           onChange={handleTitleChange}
           placeholder="Enter your title here"
         /> */}
-          <div className="w-full py-2 resize-none bg-stone-50 focus:outline-none text-stone-900">
+          <div
+            className={cn({
+              "line-through": todo.completed,
+              "w-full py-2 resize-none bg-stone-100 focus:outline-none text-stone-900": true,
+            })}
+          >
             {todo.title}
           </div>
           <button

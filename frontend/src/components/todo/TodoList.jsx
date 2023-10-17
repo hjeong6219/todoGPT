@@ -33,13 +33,15 @@ function TodoList({ user }) {
     }
   }, [userData, error]);
 
-  const { data: todoList, isLoading: isLoadingTodos } =
+  const { data: todoData, isLoading: isLoadingTodos } =
     useGetTodosByUserIdQuery(userData?._id, {
       skip: !userData,
     });
 
   const [showTodo, setShowTodo] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [sortedTodos, setSortedTodos] = useState([]);
+  const [todoList, setTodoList] = useState([]);
   const [todoTitle, setTodoTitle] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
 
@@ -79,6 +81,52 @@ function TodoList({ user }) {
     setShowTodo(true);
   };
 
+  // useEffect(() => {
+  //   if (todoData) {
+  //     let start = 0;
+  //     let end = todoData.length - 1;
+
+  //     while (start < end) {
+  //       while (start < end && todoData[start].completed) {
+  //         start++;
+  //       }
+
+  //       while (start < end && !todoData[end].completed) {
+  //         end--;
+  //       }
+  //     }
+
+  //     if (start < end) {
+  //       [todoData[start], todoData[end]] = [todoData[end], todoData[start]];
+  //     }
+  //   }
+  // }, [todoData]);
+
+  useEffect(() => {
+    if (todoData) {
+      const sortedTodos = [...todoData];
+      let start = 0;
+      let end = sortedTodos.length - 1;
+      while (start < end) {
+        while (start < end && !sortedTodos[start].completed) {
+          start++;
+        }
+        while (start < end && sortedTodos[end].completed) {
+          end--;
+        }
+        if (start < end) {
+          [sortedTodos[start], sortedTodos[end]] = [
+            sortedTodos[end],
+            sortedTodos[start],
+          ];
+        }
+      }
+      setSortedTodos(sortedTodos);
+    }
+  }, [todoData]);
+
+  // console.log(todoData);
+
   if (isLoadingUser) {
     return <div>Loading User Data...</div>;
   }
@@ -89,7 +137,7 @@ function TodoList({ user }) {
     <>
       <Header />
       {showTodo && <TodoWrapper todo={currentTodo} setShowTodo={setShowTodo} />}
-      {userData && (
+      {sortedTodos && (
         <section
           className={`${
             showTodo && "blur-lg"
@@ -99,9 +147,9 @@ function TodoList({ user }) {
             setTodoTitle={setTodoTitle}
             handleKeyDown={handleKeyDown}
           />
-          {todoList.length > 0 ? (
+          {sortedTodos.length > 0 ? (
             <div className="grid w-auto gap-4 p-4 mx-auto mt-4 h-fit ">
-              {todoList.map((todo) => (
+              {sortedTodos.map((todo) => (
                 <Post
                   key={todo._id}
                   todo={todo}
