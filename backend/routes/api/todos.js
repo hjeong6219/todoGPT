@@ -7,7 +7,24 @@ router.get("/", async (req, res) => {
   try {
     const userId = req.query.userId;
     const todos = await Todos.find({ userId });
-    res.json(todos);
+    const sortedTodos = [...todos];
+    let start = 0;
+    let end = sortedTodos.length - 1;
+    while (start < end) {
+      while (start < end && !sortedTodos[start].completed) {
+        start++;
+      }
+      while (start < end && sortedTodos[end].completed) {
+        end--;
+      }
+      if (start < end) {
+        [sortedTodos[start], sortedTodos[end]] = [
+          sortedTodos[end],
+          sortedTodos[start],
+        ];
+      }
+    }
+    res.json(sortedTodos);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
