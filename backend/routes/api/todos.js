@@ -6,25 +6,59 @@ const Todos = require("../../models/Todos");
 router.get("/", async (req, res) => {
   try {
     const userId = req.query.userId;
+    const todoColumns = [
+      {
+        id: "column1",
+        title: "Todo",
+        todos: [],
+      },
+      {
+        id: "column2",
+        title: "In Progress",
+        todos: [],
+      },
+      {
+        id: "column3",
+        title: "Completed",
+        todos: [],
+      },
+    ];
     const todos = await Todos.find({ userId });
-    const sortedTodos = [...todos];
-    let start = 0;
-    let end = sortedTodos.length - 1;
-    while (start < end) {
-      while (start < end && !sortedTodos[start].completed) {
-        start++;
+    todos.forEach((todo) => {
+      switch (todo.completed) {
+        case "notStarted":
+          todoColumns[0].todos.push(todo);
+          break;
+        case "inProgress":
+          todoColumns[1].todos.push(todo);
+          break;
+        case "completed":
+          todoColumns[2].todos.push(todo);
+          break;
+        default:
+          // Handle any unexpected cases
+          console.error("Unexpected todo completion status:", todo.completed);
+          break;
       }
-      while (start < end && sortedTodos[end].completed) {
-        end--;
-      }
-      if (start < end) {
-        [sortedTodos[start], sortedTodos[end]] = [
-          sortedTodos[end],
-          sortedTodos[start],
-        ];
-      }
-    }
-    res.json(sortedTodos);
+    });
+    // const sortedTodos = [...todos];
+    // let start = 0;
+    // let end = sortedTodos.length - 1;
+    // while (start < end) {
+    //   while (start < end && !sortedTodos[start].completed) {
+    //     start++;
+    //   }
+    //   while (start < end && sortedTodos[end].completed) {
+    //     end--;
+    //   }
+    //   if (start < end) {
+    //     [sortedTodos[start], sortedTodos[end]] = [
+    //       sortedTodos[end],
+    //       sortedTodos[start],
+    //     ];
+    //   }
+    // }
+    res.json(todoColumns);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

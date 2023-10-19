@@ -16,8 +16,8 @@ const TodosSchema = new mongoose.Schema({
     required: false,
   },
   completed: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: "todo",
     required: false,
   },
   Progress: {
