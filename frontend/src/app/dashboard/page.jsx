@@ -1,6 +1,8 @@
 import Alert from "@/components/dashboard/Alert";
+import KanbanBoard from "@/components/dashboard/KanbanBoard";
 import Navbar from "@/components/dashboard/Navbar";
 import SearchBar from "@/components/dashboard/SearchBar";
+import TodoList from "@/components/todo/TodoList";
 import { HiPlus } from "react-icons/hi";
 
 function Page() {
@@ -37,7 +39,9 @@ function Page() {
                   </p>
                 </div>
               </div>
-              <div className="mt-6 space-y-4">
+              <TodoList />
+
+              {/* <div className="mt-6 space-y-4">
                 <h4 className="pt-4 mb-2 font-bold text-gray-600">
                   In Progress
                 </h4>
@@ -63,7 +67,7 @@ function Page() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </main>{" "}
           <div className="relative w-full">
