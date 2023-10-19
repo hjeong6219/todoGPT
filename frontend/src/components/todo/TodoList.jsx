@@ -13,13 +13,14 @@ import TodoInput from "./TodoInput";
 import Header from "../Header";
 import TodoWrapper from "./TodoWrapper";
 import Post from "./Post";
+import KanbanBoard from "../dashboard/KanbanBoard";
 
 function TodoList({ user }) {
   const {
     data: userData,
     isLoading: isLoadingUser,
     error,
-  } = useGetUserByEmailQuery(user.email);
+  } = useGetUserByEmailQuery("jhn12212@gmail.com");
 
   useEffect(() => {
     if (error?.data?.message == "User does not exist.") {
@@ -84,34 +85,39 @@ function TodoList({ user }) {
 
   if (isLoadingTodos) return <div>Loading Todos...</div>;
 
+  console.log(todoData);
+
   return (
     <>
-      <Header />
+      {todoData ? (
+        <KanbanBoard todos={todoData} handleShowTodo={handleShowTodo} />
+      ) : null}
       {showTodo && <TodoWrapper todo={currentTodo} setShowTodo={setShowTodo} />}
-      {userData && (
-        <section
-          className={`${
-            showTodo && "blur-lg"
-          } w-full mx-auto max-w-screen-xl h-max`}
-        >
-          <TodoInput
-            setTodoTitle={setTodoTitle}
-            handleKeyDown={handleKeyDown}
-          />
-          {todoData.length > 0 ? (
-            <div className="grid w-auto gap-4 p-4 mx-auto mt-4 h-fit ">
-              {todoData.map((todo) => (
-                <Post
-                  key={todo._id}
-                  todo={todo}
-                  handleShowTodo={handleShowTodo}
-                />
-              ))}
-            </div>
-          ) : null}
-        </section>
-      )}
     </>
+    //   {userData && (
+    //     <section
+    //       className={`${
+    //         showTodo && "blur-lg"
+    //       } w-full mx-auto max-w-screen-xl h-max`}
+    //     >
+    //       <TodoInput
+    //         setTodoTitle={setTodoTitle}
+    //         handleKeyDown={handleKeyDown}
+    //       />
+    //       {todoData.length > 0 ? (
+    //         <div className="grid w-auto gap-4 p-4 mx-auto mt-4 h-fit ">
+    //           {todoData.map((todo) => (
+    //             <Post
+    //               key={todo._id}
+    //               todo={todo}
+    //               handleShowTodo={handleShowTodo}
+    //             />
+    //           ))}
+    //         </div>
+    //       ) : null}
+    //     </section>
+    //   )}
+    // </>
   );
 }
 

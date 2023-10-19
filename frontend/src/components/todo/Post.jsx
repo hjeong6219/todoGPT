@@ -11,7 +11,14 @@ import cn from "@/utilities/cn";
 import { HiX } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 
-function TodoEntry({ todo, handleShowTodo }) {
+function Post({
+  todo,
+  draggableProps,
+  dragHandleProps,
+  innerRef,
+  snapshot,
+  handleShowTodo,
+}) {
   const [updateTodoMutation] = useUpdateTodoMutation();
   const [deleteTodoMutation] = useDeleteTodoMutation();
   const [deleteChatMutation] = useDeleteChatMutation();
@@ -41,11 +48,16 @@ function TodoEntry({ todo, handleShowTodo }) {
     return <div>Loading...</div>;
   }
 
-  const todoCompleted = true;
-
   return (
     currentChat && (
-      <div className="relative z-50 w-4/5 px-4 py-2 mx-auto transition-transform duration-300 ease-in-out transform hover:scale-105 bg-stone-100 blur-none rounded-3xl h-76">
+      <div
+        className={`p-3 mb-3 bg-white rounded shadow-lg relative    ${
+          snapshot.isDragging ? "scale-105 ring-2 ring-blue-300" : "scale-100"
+        } hover:shadow-md hover:-translate-y-1`}
+        {...draggableProps}
+        {...dragHandleProps}
+        ref={innerRef}
+      >
         <div className="flex w-full h-12 px-2 text-xl rounded-xl">
           <input
             type="checkbox"
@@ -62,8 +74,8 @@ function TodoEntry({ todo, handleShowTodo }) {
         /> */}
           <div
             className={cn({
-              "line-through": todo.completed,
-              "w-full py-2 resize-none bg-stone-100 focus:outline-none text-stone-900": true,
+              "line-through": todo.completed === "completed" ? true : false,
+              "w-full py-2 resize-none  focus:outline-none text-stone-900": true,
             })}
           >
             {todo.title}
@@ -97,4 +109,4 @@ function TodoEntry({ todo, handleShowTodo }) {
   );
 }
 
-export default TodoEntry;
+export default Post;

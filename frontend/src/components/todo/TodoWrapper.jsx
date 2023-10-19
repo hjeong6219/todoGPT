@@ -45,7 +45,7 @@ function TodoWrapper({ todo, setShowTodo }) {
   }
 
   return (
-    <section className="absolute left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
+    <section className="fixed top-0 left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
       {todoData && (
         <form className="relative w-full h-full" onSubmit={handleUpdate}>
           <div className="sticky w-full">

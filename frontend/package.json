@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
     "@headlessui/react": "^1.7.17",
     "@kinde-oss/kinde-auth-nextjs": "^1.8.22",
     "@reduxjs/toolkit": "^1.9.6",
@@ -24,6 +25,7 @@
     "dayjs": "^1.11.10",
     "next": "^13.5.4",
     "react": "latest",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
     "react-redux": "^8.1.3",
