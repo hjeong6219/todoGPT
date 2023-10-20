@@ -65,14 +65,6 @@ function Page() {
     // </div>
     <div className="fixed w-full h-full">
       <div className="flex">
-        {/* <div className="flex items-center w-1/2 h-screen bg-center bg-no-repeat bg-auto bg-">
-        </div>
-        <div className="flex items-center w-1/2 h-screen">
-          <div className="max-w-screen-lg mx-auto pb-36 ">
-            <div className="border mockup-window bg-base-300">
-            </div>
-          </div>
-        </div> */}
         <div className="flex flex-col items-center justify-center w-full h-screen overflow-y-auto bg-gradient-to-tr pb-96 no-scrollbar from-stone-100 from-10% via-70% to-90% via-red-100 to-red-200">
           <div className="w-4/5 text-5xl text-center text-stone-600">
             Take your productivity to the next level <br /> with an AI

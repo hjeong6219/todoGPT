@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="light">
       <ReduxProvider>
         <body className={inter.className}>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </body>
       </ReduxProvider>

@@ -1,7 +1,7 @@
 "use client";
 import { useUpdateTodoMutation } from "@/app/features/todo/todosApi";
 import React, { useCallback, useEffect, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Post from "../todo/Post";
 
 function KanbanBoard({ todos, handleShowTodo }) {
@@ -119,26 +119,22 @@ function KanbanBoard({ todos, handleShowTodo }) {
                           index={index}
                         >
                           {(provided, snapshot) => (
-                            <Post
-                              todo={todo}
-                              innerRef={provided.innerRef}
-                              draggableProps={provided.draggableProps}
-                              dragHandleProps={provided.dragHandleProps}
-                              snapshot={snapshot}
-                              handleShowTodo={handleShowTodo}
-                            />
-                            // <div
-                            //   ref={provided.innerRef}
-                            //   {...provided.draggableProps}
-                            //   {...provided.dragHandleProps}
-                            //   className={`p-3 mb-3 bg-white rounded shadow-lg    ${
-                            //     snapshot.isDragging
-                            //       ? "scale-105 ring-2 ring-blue-300"
-                            //       : "scale-100"
-                            //   } hover:shadow-md hover:-translate-y-1`}
-                            // >
-                            //   {todo.title}
-                            // </div>
+                            <div
+                              className={`p-3 mb-3 bg-white rounded shadow-lg relative    ${
+                                snapshot.isDragging
+                                  ? "scale-105 ring-2 ring-blue-300"
+                                  : "scale-100"
+                              } hover:shadow-md hover:-translate-y-1`}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <Post
+                                todo={todo}
+                                snapshot={snapshot}
+                                handleShowTodo={handleShowTodo}
+                              />
+                            </div>
                           )}
                         </Draggable>
                       ))}
