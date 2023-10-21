@@ -15,12 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
-      <ReduxProvider>
-        <body className={inter.className}>
-          {/* <Navbar /> */}
-          {children}
-        </body>
-      </ReduxProvider>
+      <body className={inter.className}>
+        {/* <Navbar /> */}
+        {children}
+      </body>
     </html>
   );
 }

@@ -8,12 +8,14 @@ import Chat from "../chat/Chat";
 import EditorButton from "./EditorButton";
 import Title from "./Title";
 import TodoContent from "./TodoContent";
+import RichTextEditor from "../RichTextEditor";
 
-function TodoWrapper({ todo, setShowTodo }) {
+function TodoWrapper({ currentTodo, setShowTodo }) {
   const { data: todoData, isLoading: isLoadingTodo } = useGetTodosByIdQuery(
-    todo?._id,
-    { skip: !todo }
+    currentTodo,
+    { skip: !currentTodo }
   );
+  console.log(currentTodo);
 
   const [updateTodo, { data: updateTodoData, error: updateTodoError }] =
     useUpdateTodoMutation();
@@ -40,9 +42,9 @@ function TodoWrapper({ todo, setShowTodo }) {
     setShowTodo(false);
   }
 
-  if (isLoadingTodo) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoadingTodo) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <section className="fixed top-0 left-0 right-0 z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
@@ -54,6 +56,7 @@ function TodoWrapper({ todo, setShowTodo }) {
               <EditorButton type="submit" />
               <EditorButton type="close" onClick={handleClose} />
             </div>
+            <RichTextEditor todo={todoData} />
           </div>
           <div className="relative flex items-stretch h-full pt-2 pb-12">
             <TodoContent todo={todoData} />

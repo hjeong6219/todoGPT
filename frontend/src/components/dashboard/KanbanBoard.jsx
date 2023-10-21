@@ -131,7 +131,6 @@ function KanbanBoard({ todos, handleShowTodo }) {
                             >
                               <Post
                                 todo={todo}
-                                snapshot={snapshot}
                                 handleShowTodo={handleShowTodo}
                               />
                             </div>

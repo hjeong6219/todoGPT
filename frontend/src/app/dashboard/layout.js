@@ -7,10 +7,10 @@ import { ReduxProvider } from "../features/todo/provider";
 export default function Layout({ children }) {
   return (
     <section>
-      {/* <Provider store={store}> */}
-      {/* <Header /> */}
-      {children}
-      {/* </Provider> */}
+      <Provider store={store}>
+        {/* <Header /> */}
+        {children}
+      </Provider>
     </section>
   );
 }

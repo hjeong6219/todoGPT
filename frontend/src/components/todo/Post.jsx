@@ -12,9 +12,7 @@ import { forwardRef } from "react";
 import { HiX } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 
-const Post = forwardRef(function Post(props, ref) {
-  const { todo, draggableProps, dragHandleProps, snapshot, handleShowTodo } =
-    props;
+function Post({ todo, handleShowTodo }) {
   const [updateTodoMutation] = useUpdateTodoMutation();
   const [deleteTodoMutation] = useDeleteTodoMutation();
   const [deleteChatMutation] = useDeleteChatMutation();
@@ -39,7 +37,6 @@ const Post = forwardRef(function Post(props, ref) {
     deleteTodoMutation(todo._id);
     deleteChatMutation(currentChat[0]._id);
   };
-  console.log(ref);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -79,13 +76,13 @@ const Post = forwardRef(function Post(props, ref) {
         <button
           type="delete"
           className="px-2 text-stone-400 focus:outline-none hover:text-stone-700"
-          onClick={handleDelete}
+          // onClick={handleDelete}
         >
           <HiX />
         </button>
       </div>
     )
   );
-});
+}
 
 export default Post;

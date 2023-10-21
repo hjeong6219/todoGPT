@@ -92,7 +92,7 @@ function TodoList({ user }) {
       {todoData ? (
         <KanbanBoard todos={todoData} handleShowTodo={handleShowTodo} />
       ) : null}
-      {showTodo && <TodoWrapper todo={currentTodo} setShowTodo={setShowTodo} />}
+      {/* {showTodo && <TodoWrapper setShowTodo={setShowTodo} />} */}
     </>
     //   {userData && (
     //     <section
