@@ -13,7 +13,7 @@ import TodoWrapper from "../todo/TodoWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import TodoSkeleton from "../todo/TodoSkeleton";
-import { setCurrentTodo } from "@/app/features/todo/todoSlice";
+import { setCurrentTodo, setTodos } from "@/app/features/todo/todoSlice";
 
 function Dashboard({ user }) {
   const {
@@ -40,12 +40,15 @@ function Dashboard({ user }) {
   const { data: todoData, isLoading: isLoadingTodos } =
     useGetTodosByUserIdQuery(userData?._id, {
       skip: !userData,
-
-      refetchOnMountOrArgChange: true,
     });
 
-  console.log(todoData);
+  useEffect(() => {
+    if (todoData) {
+      dispatch(setTodos(todoData));
+    }
+  }, [todoData]);
 
+  const todos = useSelector((state) => state.todoSlice.columns);
   const [isShowModal, setIsShowModal] = useState(false);
 
   const handleShowTodo = (todo) => {
@@ -76,8 +79,8 @@ function Dashboard({ user }) {
     }
   };
 
-  const totalTasks = 10;
-  const tasksRemaining = 4;
+  const totalTasks = 2;
+  const tasksRemaining = 1;
 
   return (
     <>
@@ -126,7 +129,7 @@ function Dashboard({ user }) {
                     <TodoSkeleton />
                   ) : (
                     <KanbanBoard
-                      todos={todoData}
+                      todos={todos}
                       handleShowTodo={handleShowTodo}
                     />
                   )}

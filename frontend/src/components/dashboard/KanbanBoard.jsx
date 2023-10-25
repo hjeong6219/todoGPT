@@ -1,8 +1,10 @@
-"use client";
-import { useUpdateTodoMutation } from "@/app/features/todo/todosApi";
+import { useUpdateTodo } from "@/app/features/todo/todoSlice";
 import React, { useCallback, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Post from "../todo/Post";
+import { useDispatch } from "react-redux";
+import { setTodos } from "@/app/features/todo/todoSlice";
+import { useUpdateTodoMutation } from "@/app/features/todo/todosApi";
 
 function KanbanBoard({ todos, handleShowTodo }) {
   // This function is required to fix the bug within react-beautiful-dnd
@@ -15,7 +17,8 @@ function KanbanBoard({ todos, handleShowTodo }) {
     }
   }, []);
 
-  const [columns, setColumns] = useState(todos);
+  const dispatch = useDispatch();
+
   const [updateTodo, { data: updateTodoData, error: updateTodoError }] =
     useUpdateTodoMutation();
 
@@ -35,10 +38,10 @@ function KanbanBoard({ todos, handleShowTodo }) {
       return;
     }
 
-    const startColumn = columns.find(
+    const startColumn = todos.find(
       (column) => column.id === source.droppableId
     );
-    const finishColumn = columns.find(
+    const finishColumn = todos.find(
       (column) => column.id === destination.droppableId
     );
     // Reordering the same column
@@ -47,9 +50,13 @@ function KanbanBoard({ todos, handleShowTodo }) {
       const [removed] = newTodos.splice(source.index, 1);
       newTodos.splice(destination.index, 0, removed);
 
-      setColumns(
-        columns.map((column) =>
-          column.id === startColumn.id ? { ...column, todos: newTodos } : column
+      dispatch(
+        setTodos(
+          todos.map((column) =>
+            column.id === startColumn.id
+              ? { ...column, todos: newTodos }
+              : column
+          )
         )
       );
     } else {
@@ -77,16 +84,20 @@ function KanbanBoard({ todos, handleShowTodo }) {
         });
       }
 
-      setColumns(
-        columns.map((column) => {
-          if (column.id === startColumn.id) {
-            return { ...column, todos: startTodos };
-          } else if (column.id === finishColumn.id) {
-            return { ...column, todos: finishTodos };
-          } else {
-            return column;
-          }
-        })
+      // Update the todos in the Redux store
+      // by dispatching the setTodos action with the updated todos
+      dispatch(
+        setTodos(
+          todos.map((column) => {
+            if (column.id === startColumn.id) {
+              return { ...column, todos: startTodos };
+            } else if (column.id === finishColumn.id) {
+              return { ...column, todos: finishTodos };
+            } else {
+              return column;
+            }
+          })
+        )
       );
     }
   };
@@ -95,7 +106,7 @@ function KanbanBoard({ todos, handleShowTodo }) {
     <DragDropContext onDragEnd={onDragEnd}>
       {isBrowser ? (
         <div className="grid grid-cols-1 gap-5 p-4 my-4 bg-gray-100 rounded shadow-lg md:p-6 max-w-screen-2xl md:grid-cols-3">
-          {columns.map((column) => (
+          {todos.map((column) => (
             <div key={column.id}>
               <h3 className="pb-3 font-bold">{column.title}</h3>
               <Droppable droppableId={column.id}>
@@ -120,7 +131,7 @@ function KanbanBoard({ todos, handleShowTodo }) {
                         >
                           {(provided, snapshot) => (
                             <div
-                              className={`p-3 mb-3 bg-white rounded shadow-lg relative    ${
+                              className={`p-3 mb-3 bg-white rounded shadow-lg relative ${
                                 snapshot.isDragging
                                   ? "scale-105 ring-2 ring-blue-300"
                                   : "scale-100"
