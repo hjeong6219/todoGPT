@@ -5,10 +5,13 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useUpdateTodoMutation } from "@/app/features/todo/todosApi";
+import { setCurrentTodo } from "@/app/features/todo/todoSlice";
+import { useDispatch } from "react-redux";
 
 const RichTextEditor = ({ className, todo }) => {
   const [updateTodo, { data: updateTodoData, error: updateTodoError }] =
     useUpdateTodoMutation();
+  const dispatch = useDispatch();
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -23,10 +26,11 @@ const RichTextEditor = ({ className, todo }) => {
     ],
     content: todo.content,
     onUpdate({ editor }) {
-      updateTodo({
-        ...todo,
-        content: editor.getHTML(),
-      });
+      // updateTodo({
+      //   ...todo,
+      //   content: editor.getHTML(),
+      // });
+      dispatch(setCurrentTodo({ ...todo, content: editor.getHTML() }));
     },
     editorProps: {
       attributes: {

@@ -10,7 +10,10 @@ import { useEffect, useState } from "react";
 import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
 import Modal from "../Modal";
 import TodoWrapper from "../todo/TodoWrapper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader";
+import TodoSkeleton from "../todo/TodoSkeleton";
+import { setCurrentTodo } from "@/app/features/todo/todoSlice";
 
 function Dashboard({ user }) {
   const {
@@ -32,18 +35,21 @@ function Dashboard({ user }) {
     }
   }, [userData, error]);
 
+  const dispatch = useDispatch();
+
   const { data: todoData, isLoading: isLoadingTodos } =
     useGetTodosByUserIdQuery(userData?._id, {
       skip: !userData,
+
+      refetchOnMountOrArgChange: true,
     });
 
-  const [currentTodo, setCurrentTodo] = useState("");
-  console.log(currentTodo);
+  console.log(todoData);
 
   const [isShowModal, setIsShowModal] = useState(false);
 
   const handleShowTodo = (todo) => {
-    setCurrentTodo(todo._id);
+    dispatch(setCurrentTodo(todo));
     setIsShowModal(true);
   };
 
@@ -73,23 +79,17 @@ function Dashboard({ user }) {
   const totalTasks = 10;
   const tasksRemaining = 4;
 
-  if (isLoadingUser) {
-    return <div>Loading User Data...</div>;
-  }
-
-  if (isLoadingTodos) return <div>Loading Todos...</div>;
-
   return (
     <>
-      {userData && todoData ? (
+      {isLoadingUser ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <Loader>Loading User Data...</Loader>
+        </div>
+      ) : (
         <div className="leading-normal text-gray-900 bg-gray-100">
           {isShowModal && (
             <Modal>
-              <TodoWrapper
-                currentTodo={currentTodo}
-                setCurrentTodo={setCurrentTodo}
-                handleShowTodo={handleShowTodo}
-              />
+              <TodoWrapper setIsShowModal={setIsShowModal} />
             </Modal>
           )}
           <div className="flex w-full h-screen">
@@ -122,10 +122,14 @@ function Dashboard({ user }) {
                       </p>
                     </div>
                   </div>
-                  <KanbanBoard
-                    todos={todoData}
-                    handleShowTodo={handleShowTodo}
-                  />
+                  {isLoadingTodos ? (
+                    <TodoSkeleton />
+                  ) : (
+                    <KanbanBoard
+                      todos={todoData}
+                      handleShowTodo={handleShowTodo}
+                    />
+                  )}
 
                   {/* <div className="mt-6 space-y-4">
                 <h4 className="pt-4 mb-2 font-bold text-gray-600">
@@ -166,7 +170,7 @@ function Dashboard({ user }) {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
