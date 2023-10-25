@@ -1,11 +1,11 @@
 "use client";
 import { ImSpinner2 } from "react-icons/im";
 
-function Loader() {
+function Loader({ children }) {
   return (
-    <button className="shadow-lg rounded-md flex p-4" disabled>
-      <ImSpinner2 className="animate-spin mr-4 text-4xl" />
-      <p className=" text-4xl">Loading...</p>
+    <button className="flex p-4" disabled>
+      <ImSpinner2 className="animate-spin mr-4 text-5xl" />
+      <p className=" text-5xl">{children}</p>
     </button>
   );
 }
