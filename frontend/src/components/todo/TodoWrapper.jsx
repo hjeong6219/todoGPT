@@ -44,7 +44,7 @@ function TodoWrapper({ setIsShowModal }) {
   // }
 
   return (
-    <section className="absolute z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-3/5 ">
+    <section className="absolute z-30 items-center justify-center w-4/5 p-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-100 h-4/5 ">
       {todoData && (
         <div className="relative w-full h-full">
           <div className="sticky w-full">

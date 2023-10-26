@@ -21,7 +21,7 @@ const todoSlice = createSlice({
     clearCurrentTodo: (state) => {
       state.currentTodo = null;
     },
-    setTodos: (state, action) => {
+    setTodo: (state, action) => {
       state.columns = action.payload;
     },
     addTodo: (state, action) => {
@@ -75,7 +75,7 @@ export const {
   setCurrentTodo,
   updateCurrentTodo,
   clearCurrentTodo,
-  setTodos,
+  setTodo,
   addTodo,
   removeTodo,
   moveTodo,

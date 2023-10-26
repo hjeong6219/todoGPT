@@ -77,7 +77,7 @@ function Post({ todo, handleShowTodo }) {
         <button
           type="delete"
           className="px-2 text-stone-400 focus:outline-none hover:text-stone-700"
-          // onClick={handleDelete}
+          onClick={handleDelete}
         >
           <HiX />
         </button>

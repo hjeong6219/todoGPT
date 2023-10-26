@@ -17,7 +17,7 @@ const TodosSchema = new mongoose.Schema({
   },
   completed: {
     type: String,
-    default: "todo",
+    default: "notStarted",
     required: false,
   },
   Progress: {

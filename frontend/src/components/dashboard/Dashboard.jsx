@@ -13,7 +13,7 @@ import TodoWrapper from "../todo/TodoWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import TodoSkeleton from "../todo/TodoSkeleton";
-import { setCurrentTodo, setTodos } from "@/app/features/todo/todoSlice";
+import { setCurrentTodo, setTodo } from "@/app/features/todo/todoSlice";
 
 function Dashboard({ user }) {
   const {
@@ -44,7 +44,7 @@ function Dashboard({ user }) {
 
   useEffect(() => {
     if (todoData) {
-      dispatch(setTodos(todoData));
+      dispatch(setTodo(todoData));
     }
   }, [todoData]);
 
@@ -129,6 +129,7 @@ function Dashboard({ user }) {
                     <TodoSkeleton />
                   ) : (
                     <KanbanBoard
+                      user={userData}
                       todos={todos}
                       handleShowTodo={handleShowTodo}
                     />
