@@ -164,7 +164,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
                     {...provided.droppableProps}
                   >
                     <div
-                      className={`flex-grow min-h-10px overflow-auto p-2 rounded ${
+                      className={`flex-grow min-h-10px no-scrollbar overflow-auto p-2 rounded ${
                         snapshot.isDraggingOver
                           ? "bg-blue-200 border-2 border-blue-300"
                           : "bg-gray-100"
