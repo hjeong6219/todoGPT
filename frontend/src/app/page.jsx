@@ -72,7 +72,7 @@ function Page() {
           </div>
 
           <div className="p-2 mt-8 text-2xl border-2 border-spacing-y-12 border-stone-600">
-            <Link href="/todos">Let's get started!</Link>
+            <Link href="/dashboard">Let's get started!</Link>
           </div>
         </div>
       </div>
