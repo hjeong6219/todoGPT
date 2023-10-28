@@ -6,59 +6,74 @@ const Todos = require("../../models/Todos");
 router.get("/", async (req, res) => {
   try {
     const userId = req.query.userId;
-    const todoColumns = [
-      {
-        id: "column1",
-        title: "Todo",
-        todos: [],
-      },
-      {
-        id: "column2",
-        title: "In Progress",
-        todos: [],
-      },
-      {
-        id: "column3",
-        title: "Completed",
-        todos: [],
-      },
-    ];
     const todos = await Todos.find({ userId });
-    todos.forEach((todo) => {
-      switch (todo.completed) {
-        case "notStarted":
-          todoColumns[0].todos.push(todo);
-          break;
-        case "inProgress":
-          todoColumns[1].todos.push(todo);
-          break;
-        case "completed":
-          todoColumns[2].todos.push(todo);
-          break;
-        default:
-          // Handle any unexpected cases
-          console.error("Unexpected todo completion status:", todo.completed);
-          break;
-      }
-    });
-    // const sortedTodos = [...todos];
-    // let start = 0;
-    // let end = sortedTodos.length - 1;
-    // while (start < end) {
-    //   while (start < end && !sortedTodos[start].completed) {
-    //     start++;
-    //   }
-    //   while (start < end && sortedTodos[end].completed) {
-    //     end--;
-    //   }
-    //   if (start < end) {
-    //     [sortedTodos[start], sortedTodos[end]] = [
-    //       sortedTodos[end],
-    //       sortedTodos[start],
-    //     ];
-    //   }
-    // }
-    res.json(todoColumns);
+    switch (req.query.page) {
+      case "board":
+        const todoColumns = [
+          {
+            id: "column1",
+            title: "Todo",
+            todos: [],
+          },
+          {
+            id: "column2",
+            title: "In Progress",
+            todos: [],
+          },
+          {
+            id: "column3",
+            title: "Completed",
+            todos: [],
+          },
+        ];
+        todos.forEach((todo) => {
+          switch (todo.completed) {
+            case "notStarted":
+              todoColumns[0].todos.push(todo);
+              break;
+            case "inProgress":
+              todoColumns[1].todos.push(todo);
+              break;
+            case "completed":
+              todoColumns[2].todos.push(todo);
+              break;
+            default:
+              console.error(
+                "Unexpected todo completion status:",
+                todo.completed
+              );
+              break;
+          }
+        });
+        res.json(todoColumns);
+        break;
+      case "list":
+        const sortedTodos = [...todos];
+        let start = 0;
+        let end = sortedTodos.length - 1;
+        while (start < end) {
+          while (start < end && !sortedTodos[start].completed) {
+            start++;
+          }
+          while (start < end && sortedTodos[end].completed) {
+            end--;
+          }
+          if (start < end) {
+            [sortedTodos[start], sortedTodos[end]] = [
+              sortedTodos[end],
+              sortedTodos[start],
+            ];
+          }
+        }
+        res.json(sortedTodos);
+        break;
+      case "calendar":
+        res.json(todos);
+        break;
+      default:
+        console.error("Unexpected page:", req.query.page);
+        break;
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
