@@ -1,89 +1,187 @@
 "use client";
-import { generateDate, weekdays, months } from "@/utilities/calendar";
+import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
+import {
+  generateDate,
+  weekdays,
+  months,
+  getTodosByDate,
+} from "@/utilities/calendar";
 import cn from "@/utilities/cn";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import Navbar from "@/components/dashboard/Navbar";
+import Loader from "./Loader";
+import { useGetUserByEmailQuery } from "@/app/features/todo/usersApi";
 
-function Calendar() {
+function Calendar({ user }) {
+  const {
+    data: userData,
+    isLoading: isLoadingUser,
+    error,
+  } = useGetUserByEmailQuery(user.email);
+
+  // const user = useSelector((state) => state.userSlice);
+
+  const { data: todos, isLoading: isLoadingTodos } = useGetTodosByUserIdQuery(
+    { userId: userData?._id, page: "calendar", sort: "name", order: "asc" },
+    {
+      skip: !userData,
+    }
+  );
+
   const today = dayjs();
   const [date, setDate] = useState(today);
   const [selectedDate, setSelectedDate] = useState(today);
+  const [expandedTodo, setExpandedTodo] = useState(false);
+
+  const handleToggleTodo = (todoId) => {
+    if (expandedTodo === todoId) {
+      // If the clicked todo item is already expanded, collapse it.
+      setExpandedTodo(null);
+    } else {
+      // Otherwise, expand the new todo item.
+      setExpandedTodo(todoId);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center w-full h-full gap-10 mt-5 divide-x-2">
-      <div className=" w-96 h-96">
-        <div className="flex justify-between">
-          <h1 className="font-semibold">
-            {months[date.month()]}, {date.year()}
-          </h1>
-          <div className="flex items-center gap-5">
-            <HiChevronLeft
-              className="w-5 h-5 cursor-pointer"
-              onClick={() => {
-                setDate(date.subtract(1, "month"));
-              }}
-            />
-            <h1
-              className="cursor-pointer"
-              onClick={() => {
-                setDate(today);
-              }}
-            >
-              Today
-            </h1>
-            <HiChevronRight
-              className="w-5 h-5 cursor-pointer"
-              onClick={() => {
-                setDate(date.add(1, "month"));
-              }}
-            />
+    <>
+      {isLoadingTodos ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <Loader>Loading Calendar...</Loader>
+        </div>
+      ) : (
+        <div className="flex w-full h-screen">
+          <Navbar />
+          <div className="flex items-center justify-center w-full h-full gap-10 mt-5 divide-x-2">
+            <div className=" w-96 h-96">
+              <div className="flex justify-between">
+                <h1 className="font-semibold">
+                  {months[date.month()]}, {date.year()}
+                </h1>
+                <div className="flex items-center gap-5">
+                  <HiChevronLeft
+                    className="w-5 h-5 cursor-pointer"
+                    onClick={() => {
+                      setDate(date.subtract(1, "month"));
+                    }}
+                  />
+                  <h1
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setDate(today);
+                    }}
+                  >
+                    Today
+                  </h1>
+                  <HiChevronRight
+                    className="w-5 h-5 cursor-pointer"
+                    onClick={() => {
+                      setDate(date.add(1, "month"));
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="grid w-full grid-cols-7 text-stone-500">
+                {weekdays.map((day, i) => {
+                  return (
+                    <h1
+                      key={"weekday" + i}
+                      className="grid text-sm place-content-center h-14"
+                    >
+                      {day}
+                    </h1>
+                  );
+                })}
+              </div>
+              <div className="grid w-full grid-cols-7">
+                {generateDate(date.month(), date.year()).map(
+                  ({ date, isCurrentMonth, isToday, isWeekend }, i) => {
+                    return (
+                      <div
+                        key={"day" + i}
+                        className="relative grid h-14 place-content-center"
+                      >
+                        <h1
+                          className={cn({
+                            "h-10 w-10 grid place-content-center rounded-full hover:bg-gray-800 hover:text-white transition-all cursor-pointer": true,
+                            "text-gray-400": isCurrentMonth !== "current",
+                            "text-red-600": isWeekend,
+                            "bg-red-600 text-gray-200":
+                              isToday && selectedDate.isSame(date, "day"),
+                            "hover:bg-red-600  hover:text-white": isToday,
+                            "bg-gray-800 text-white":
+                              selectedDate.isSame(date, "day") && !isToday,
+                          })}
+                          onClick={() => setSelectedDate(date)}
+                        >
+                          {date.date()}
+                          {getTodosByDate(todos, date).length > 0 && (
+                            <span
+                              className={cn({
+                                "absolute bottom-0 w-2 h-2 mb-1 transform -translate-x-1/2 bg-red-600 rounded-full -translate-y-3/4 left-1/2": true,
+                                "bg-white hover:bg-white":
+                                  selectedDate.isSame(date, "day") && isToday,
+                              })}
+                            ></span>
+                          )}
+                        </h1>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+            <div className="px-5 overflow-y-auto h-96 w-96">
+              <h1 className="mb-4 font-semibold">
+                Schedule for {selectedDate.format("MMMM D, YYYY")}
+              </h1>
+              {(() => {
+                const todosForSelectedDate = getTodosByDate(
+                  todos,
+                  selectedDate
+                );
+                if (todosForSelectedDate.length > 0) {
+                  return todosForSelectedDate.map((todo, i) => {
+                    const isExpanded = expandedTodo === todo._id;
+
+                    const contentClasses = `transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
+                      isExpanded ? "max-h-[6rem]" : "max-h-0"
+                    }`;
+
+                    return (
+                      <div
+                        key={"todo" + i}
+                        className="flex flex-col gap-2 p-4 mb-3 bg-white border-l-4 border-blue-500 rounded shadow cursor-pointer"
+                        onClick={() => handleToggleTodo(todo._id)}
+                      >
+                        <h1
+                          className={`text-lg font-semibold ${
+                            todo.completed === "completed" ? "line-through" : ""
+                          }`}
+                        >
+                          {todo.title}
+                        </h1>
+                        {todo.content && (
+                          <div
+                            className={contentClasses} // using transition classes
+                            dangerouslySetInnerHTML={{ __html: todo.content }}
+                          />
+                        )}
+                      </div>
+                    );
+                  });
+                } else {
+                  return <p>No tasks scheduled for this day.</p>;
+                }
+              })()}
+            </div>
           </div>
         </div>
-        <div className="grid w-full grid-cols-7 text-stone-500">
-          {weekdays.map((day, i) => {
-            return (
-              <h1
-                key={"weekday" + i}
-                className="grid text-sm place-content-center h-14"
-              >
-                {day}
-              </h1>
-            );
-          })}
-        </div>
-        <div className="grid w-full grid-cols-7">
-          {generateDate(date.month(), date.year()).map(
-            ({ date, isCurrentMonth, isToday }, i) => {
-              return (
-                <div key={"day" + i} className="grid h-14 place-content-center">
-                  <h1
-                    className={cn({
-                      "h-10 w-10 grid place-content-center rounded-full hover:bg-black hover:text-white transition-all cursor-pointer": true,
-                      "text-gray-400": isCurrentMonth !== "current",
-                      "bg-red-600 text-gray-200":
-                        isToday && selectedDate.isSame(date, "day"),
-                      "hover:bg-red-600  hover:text-white": isToday,
-                      "bg-black text-white":
-                        selectedDate.isSame(date, "day") && !isToday,
-                    })}
-                    onClick={() => setSelectedDate(date)}
-                  >
-                    {date.date()}
-                  </h1>
-                </div>
-              );
-            }
-          )}
-        </div>
-      </div>
-      <div className="px-5 h-96 w-96">
-        <h1 className="font-semibold">
-          Schedule for {selectedDate.toDate().toDateString()}
-        </h1>
-        <p>No meetings for date</p>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
