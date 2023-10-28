@@ -4,6 +4,7 @@ import { usersApi } from "./features/todo/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { chatApi } from "./features/chat/chatApi";
 import todoReducer from "./features/todo/todoSlice";
+import userReducer from "./features/user/userSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [chatApi.reducerPath]: chatApi.reducer,
     todoSlice: todoReducer,
+    userSlice: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

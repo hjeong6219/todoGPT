@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import TodoSkeleton from "../todo/TodoSkeleton";
 import { setCurrentTodo, setTodo } from "@/app/features/todo/todoSlice";
+import { setUser } from "@/app/features/user/userSlice";
 
 function Dashboard({ user }) {
   const {
@@ -21,6 +22,8 @@ function Dashboard({ user }) {
     isLoading: isLoadingUser,
     error,
   } = useGetUserByEmailQuery(user.email);
+
+  const dispatch = useDispatch();
 
   // Redirects to auth-callback if user does not exist in database
   useEffect(() => {
@@ -33,14 +36,18 @@ function Dashboard({ user }) {
           fullName
       );
     }
+    if (userData) {
+      dispatch(setUser(userData));
+    }
   }, [userData, error]);
 
-  const dispatch = useDispatch();
-
   const { data: todoData, isLoading: isLoadingTodos } =
-    useGetTodosByUserIdQuery(userData?._id, {
-      skip: !userData,
-    });
+    useGetTodosByUserIdQuery(
+      { userId: userData?._id, page: "board", sort: "Name", order: "asc" },
+      {
+        skip: !userData,
+      }
+    );
 
   useEffect(() => {
     if (todoData) {
