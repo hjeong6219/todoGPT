@@ -1,3 +1,4 @@
+import Bubble from "@/components/Bubble";
 import Loader from "../../components/Loader";
 import TodoSkeleton from "@/components/todo/TodoSkeleton";
 
@@ -6,6 +7,7 @@ function Page() {
     <div>
       <Loader />
       <TodoSkeleton />
+      <Bubble />
     </div>
   );
 }
