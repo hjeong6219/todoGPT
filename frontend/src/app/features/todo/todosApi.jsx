@@ -15,7 +15,10 @@ export const todosApi = createApi({
       providesTags: ["Todo"],
     }),
     getTodosByUserId: builder.query({
-      query: (userId) => `todos?userId=${userId}`,
+      query: ({ userId, page, sort, order }) => {
+        const queryParams = new URLSearchParams({ userId, page, sort, order });
+        return `todos?${queryParams.toString()}`;
+      },
       providesTags: ["Todo"],
     }),
     getTodosById: builder.query({
