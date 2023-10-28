@@ -14,10 +14,13 @@ export const generateDate = (
   }
 
   for (let i = firstDay.date(); i <= lastDay.date(); i++) {
+    const date = firstDay.date(i);
+    const isWeekend = date.day() === 0 || date.day() === 6;
     days.push({
       isCurrentMonth: "current",
-      date: firstDay.date(i),
-      isToday: firstDay.date(i).isSame(dayjs(), "day"),
+      date,
+      isToday: date.isSame(dayjs(), "day"),
+      isWeekend,
     });
   }
 
@@ -28,7 +31,6 @@ export const generateDate = (
   }
   return days;
 };
-
 export const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
 
 export const months = [
@@ -45,3 +47,10 @@ export const months = [
   "November",
   "December",
 ];
+
+export const getTodosByDate = (todos, date) => {
+  if (!todos) return [];
+  return todos.filter((todo) =>
+    dayjs(todo.dueDate, "MM-DD-YYYY").isSame(date, "day")
+  );
+};
