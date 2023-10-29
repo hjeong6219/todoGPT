@@ -10,7 +10,6 @@ import cn from "@/utilities/cn";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import { useSelector } from "react-redux";
 import Navbar from "@/components/dashboard/Navbar";
 import Loader from "./Loader";
 import { useGetUserByEmailQuery } from "@/app/features/todo/usersApi";
@@ -36,12 +35,19 @@ function Calendar({ user }) {
   const [selectedDate, setSelectedDate] = useState(today);
   const [expandedTodo, setExpandedTodo] = useState(false);
 
+  const handleSelectedDate = (date, i, isCurrentMonth) => {
+    if (isCurrentMonth === "last") {
+      setDate(date.subtract(0, "month"));
+    } else if (isCurrentMonth === "next") {
+      setDate(date.add(0, "month"));
+    }
+    setSelectedDate(date);
+  };
+
   const handleToggleTodo = (todoId) => {
     if (expandedTodo === todoId) {
-      // If the clicked todo item is already expanded, collapse it.
       setExpandedTodo(null);
     } else {
-      // Otherwise, expand the new todo item.
       setExpandedTodo(todoId);
     }
   };
@@ -115,7 +121,9 @@ function Calendar({ user }) {
                             "bg-gray-800 text-white":
                               selectedDate.isSame(date, "day") && !isToday,
                           })}
-                          onClick={() => setSelectedDate(date)}
+                          onClick={() =>
+                            handleSelectedDate(date, i, isCurrentMonth)
+                          }
                         >
                           {date.date()}
                           {getTodosByDate(todos, date).length > 0 && (
@@ -166,7 +174,7 @@ function Calendar({ user }) {
                         </h1>
                         {todo.content && (
                           <div
-                            className={contentClasses} // using transition classes
+                            className={contentClasses}
                             dangerouslySetInnerHTML={{ __html: todo.content }}
                           />
                         )}

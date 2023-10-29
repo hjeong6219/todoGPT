@@ -24,7 +24,7 @@ export const generateDate = (
     });
   }
 
-  const carryOver = 36 - days.length;
+  const carryOver = 43 - days.length;
 
   for (let i = lastDay.date() + 1; i < lastDay.date() + carryOver; i++) {
     days.push({ isCurrentMonth: "next", date: firstDay.date(i) });
