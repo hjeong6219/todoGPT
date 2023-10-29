@@ -103,7 +103,7 @@ function Dashboard({ user }) {
             </Modal>
           )}
           <div className="flex w-full h-screen">
-            <Alert />
+            {/* <Alert /> */}
             <Navbar />
             <div className="flex flex-col flex-1 h-screen overflow-hidden">
               <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white">
@@ -115,7 +115,7 @@ function Dashboard({ user }) {
                     <SearchBar />
                   </div>
                   <div className="mt-6 mb-4">
-                    <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <div className="p-6 bg-white border-2 rounded-lg shadow-lg border-gray-50">
                       <h4 className="mb-4 font-bold text-gray-600">
                         Today's Overview
                       </h4>
@@ -141,34 +141,6 @@ function Dashboard({ user }) {
                       handleShowTodo={handleShowTodo}
                     />
                   )}
-
-                  {/* <div className="mt-6 space-y-4">
-                <h4 className="pt-4 mb-2 font-bold text-gray-600">
-                  In Progress
-                </h4>
-                <div className="p-4 mb-2 bg-white rounded-md shadow-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-800">My ongoing todo</span>
-                    <button className="text-yellow-600 transition duration-200 hover:text-yellow-800">
-                      Mark as done
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <h4 className="mb-2 font-bold text-gray-600">Completed</h4>
-                  <div className="p-4 mb-2 bg-white rounded-md shadow-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-800 line-through">
-                        My completed todo
-                      </span>
-                      <button className="text-green-600 transition duration-200 hover:text-green-800">
-                        Undo
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
                 </div>
               </main>
               <div className="relative w-full">

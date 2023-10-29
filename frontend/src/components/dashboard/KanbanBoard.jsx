@@ -152,7 +152,18 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {isBrowser ? (
-        <div className="grid grid-cols-1 gap-5 p-4 my-4 bg-gray-100 rounded shadow-lg md:p-6 max-w-screen-2xl md:grid-cols-3">
+        <div className="relative grid grid-cols-1 gap-5 p-4 my-4 bg-white border-2 rounded shadow-lg border-gray-50 md:p-6 max-w-screen-2xl md:grid-cols-3">
+          <div className="absolute top-0 right-0 p-4">
+            <label htmlFor="status-filter" className="mr-2">
+              Filter by status:{" "}
+            </label>
+            <select id="status-filter">
+              <option value="all">All</option>
+              <option value="notStarted">Not Started</option>
+              <option value="inProgress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
           {todos.map((column) => (
             <div key={column.id} className="flex flex-col h-full">
               <h3 className="pb-3 font-bold">{column.title}</h3>
@@ -167,7 +178,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
                       className={`flex-grow min-h-10px no-scrollbar overflow-auto p-2 rounded ${
                         snapshot.isDraggingOver
                           ? "bg-blue-200 border-2 border-blue-300"
-                          : "bg-gray-100"
+                          : "bg-white"
                       }`}
                     >
                       {column.todos.map((todo, index) => (
@@ -181,7 +192,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`p-3 mb-3 bg-white rounded shadow ${
+                              className={`p-3  bg-white rounded shadow border-2 border-gray-100 ${
                                 snapshot.isDragging
                                   ? "scale-105 ring-2 ring-blue-300"
                                   : "scale-100"
