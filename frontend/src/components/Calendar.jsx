@@ -55,21 +55,21 @@ function Calendar({ user }) {
       ) : (
         <div className="flex w-full h-screen">
           <Navbar />
-          <div className="flex items-center justify-center w-full h-full gap-10 mt-5 divide-x-2">
-            <div className=" w-96 h-96">
+          <div className="flex flex-col items-center w-full pt-8 h-content md:justify-center md:pt-24 max-h-min md:px-16 md:items-start md:flex-row">
+            <div className="max-w-screen-xl md:pr-4 md:border-r-2 md:py-auto w-96 h-fit md:w-3/4 ">
               <div className="flex justify-between">
-                <h1 className="font-semibold">
+                <h1 className="font-semibold xl:text-3xl">
                   {months[date.month()]}, {date.year()}
                 </h1>
                 <div className="flex items-center gap-5">
                   <HiChevronLeft
-                    className="w-5 h-5 cursor-pointer"
+                    className="w-5 h-5 cursor-pointer xl:h-10 xl:w-10"
                     onClick={() => {
                       setDate(date.subtract(1, "month"));
                     }}
                   />
                   <h1
-                    className="cursor-pointer"
+                    className="cursor-pointer xl:text-xl "
                     onClick={() => {
                       setDate(today);
                     }}
@@ -77,19 +77,19 @@ function Calendar({ user }) {
                     Today
                   </h1>
                   <HiChevronRight
-                    className="w-5 h-5 cursor-pointer"
+                    className="w-5 h-5 cursor-pointer xl:h-10 xl:w-10"
                     onClick={() => {
                       setDate(date.add(1, "month"));
                     }}
                   />
                 </div>
               </div>
-              <div className="grid w-full grid-cols-7 text-stone-500">
+              <div className="grid w-full grid-cols-7 xl:pt-8 text-stone-500">
                 {weekdays.map((day, i) => {
                   return (
                     <h1
                       key={"weekday" + i}
-                      className="grid text-sm place-content-center h-14"
+                      className="grid text-sm xl:text-xl place-content-center h-14"
                     >
                       {day}
                     </h1>
@@ -102,11 +102,11 @@ function Calendar({ user }) {
                     return (
                       <div
                         key={"day" + i}
-                        className="relative grid h-14 place-content-center"
+                        className="relative grid h-14 xl:h-28 place-content-center"
                       >
                         <h1
                           className={cn({
-                            "h-10 w-10 grid place-content-center rounded-full hover:bg-gray-800 hover:text-white transition-all cursor-pointer": true,
+                            "h-10 w-10 xl:h-16 xl:w-16 xl:text-xl grid place-content-center rounded-full hover:bg-gray-800 hover:text-white transition-all cursor-pointer": true,
                             "text-gray-400": isCurrentMonth !== "current",
                             "text-red-600": isWeekend,
                             "bg-red-600 text-gray-200":
@@ -121,7 +121,7 @@ function Calendar({ user }) {
                           {getTodosByDate(todos, date).length > 0 && (
                             <span
                               className={cn({
-                                "absolute bottom-0 w-2 h-2 mb-1 transform -translate-x-1/2 bg-red-600 rounded-full -translate-y-3/4 left-1/2": true,
+                                "absolute bottom-0 w-2 h-2 mb-1 transform -translate-x-1/2 xl:w-3 xl:h-3 xl:bottom-4 bg-red-600 rounded-full -translate-y-3/4 left-1/2": true,
                                 "bg-white hover:bg-white":
                                   selectedDate.isSame(date, "day") && isToday,
                               })}
@@ -134,8 +134,8 @@ function Calendar({ user }) {
                 )}
               </div>
             </div>
-            <div className="px-5 overflow-y-auto h-96 w-96">
-              <h1 className="mb-4 font-semibold">
+            <div className="px-5 pt-8 overflow-y-auto h-fit w-96 md:w-fill md:pt-12 md:h-96 xl:h-4/5">
+              <h1 className="mb-4 font-semibold xl:text-xl">
                 Schedule for {selectedDate.format("MMMM D, YYYY")}
               </h1>
               {(() => {
@@ -148,7 +148,7 @@ function Calendar({ user }) {
                     const isExpanded = expandedTodo === todo._id;
 
                     const contentClasses = `transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-                      isExpanded ? "max-h-[6rem]" : "max-h-0"
+                      isExpanded ? "max-h-[6rem] border-t-2 pt-2  " : "max-h-0"
                     }`;
 
                     return (
