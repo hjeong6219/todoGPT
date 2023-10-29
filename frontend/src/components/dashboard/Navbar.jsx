@@ -1,7 +1,9 @@
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
+  const pathname = usePathname();
   return (
     <nav className="h-full bg-white shadow-lg">
       <div className="px-4 py-6">
@@ -12,16 +14,20 @@ function Navbar() {
         <ul className="space-y-3">
           <li>
             <Link
-              href="/"
-              className="text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600"
+              href="/dashboard"
+              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                pathname === "/dashboard" && "bg-blue-50 text-blue-600"
+              }}`}
             >
-              Home
+              Dashboard
             </Link>
           </li>
           <li>
             <Link
-              href="/dashboard"
-              className="text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600"
+              href="/todos"
+              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                pathname === "/todos" && "bg-blue-50 text-blue-600"
+              }`}
             >
               My Todos
             </Link>
@@ -29,7 +35,9 @@ function Navbar() {
           <li>
             <Link
               href="/calendar"
-              className="text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600"
+              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                pathname === "/calendar" && "bg-blue-50 text-blue-600"
+              }`}
             >
               Calendar
             </Link>
@@ -37,7 +45,9 @@ function Navbar() {
           <li>
             <Link
               href="#"
-              className="text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600"
+              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                pathname === "/account" && "bg-blue-50 text-blue-600"
+              }`}
             >
               Account
             </Link>
