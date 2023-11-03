@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Login from "../components/Login";
 import Image from "next/image";
 
 function Page() {
