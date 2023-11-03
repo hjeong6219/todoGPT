@@ -11,7 +11,6 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@hello-pangea/dnd": "^16.3.0",
-    "@kinde-oss/kinde-auth-nextjs": "^1.8.22",
     "@reduxjs/toolkit": "^1.9.6",
     "@tailwindcss/typography": "^0.5.10",
     "@tiptap/extension-link": "^2.1.12",
@@ -24,6 +23,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
     "next": "^13.5.4",
+    "next-auth": "^4.24.4",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
