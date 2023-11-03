@@ -1,15 +1,15 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import { CredentialsProvider } from "next-auth/providers";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+export const options = {
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GITHUB_OAUTH_SECRET,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
-    credentialsProvider({
+    CredentialsProvider({
       name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
@@ -29,4 +29,4 @@ export const authOptions = {
     }),
   ],
 };
-export default NextAuth(authOptions);
+export default NextAuth(options);
