@@ -13,14 +13,17 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import Navbar from "@/components/dashboard/Navbar";
 import Loader from "./Loader";
 import { useGetUserByEmailQuery } from "@/app/features/todo/usersApi";
+import { useSession } from "next-auth/react";
 
-function Calendar({ user }) {
+function Calendar() {
+  const { data: session, status } = useSession();
   const {
     data: userData,
     isLoading: isLoadingUser,
     error,
-  } = useGetUserByEmailQuery(user.email);
-
+  } = useGetUserByEmailQuery(session?.user?.email, {
+    skip: !session?.user,
+  });
   // const user = useSelector((state) => state.userSlice);
 
   const { data: todos, isLoading: isLoadingTodos } = useGetTodosByUserIdQuery(
@@ -59,7 +62,7 @@ function Calendar({ user }) {
           <Loader>Loading Calendar...</Loader>
         </div>
       ) : (
-        <div className="flex w-full h-screen">
+        <div className="flex w-full h-full">
           <Navbar />
           <div className="flex flex-col items-center w-full pt-8 h-content md:justify-center md:pt-24 max-h-min md:px-16 md:items-start md:flex-row">
             <div className="max-w-screen-xl md:pr-4 md:border-r-2 md:py-auto w-96 h-fit md:w-3/4 ">

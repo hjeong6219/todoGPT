@@ -1,16 +1,25 @@
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+"use client";
 import { redirect } from "next/navigation";
 import Calendar from "@/components/Calendar";
+import { useSession } from "next-auth/react";
+import Loader from "@/components/Loader";
 
 function Page() {
-  const { getUser, isAuthenticated } = getKindeServerSession();
-  const user = getUser();
-  return isAuthenticated() ? (
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      return redirect("/api/auth/signin?callbackUrl=/calendar");
+    },
+  });
+
+  if (status == "loading") return;
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <Loader>Loading the calendar...</Loader>;
+  </div>;
+  return (
     <main>
-      <Calendar user={user} />
+      <Calendar />
     </main>
-  ) : (
-    redirect("/sign-in")
   );
 }
 

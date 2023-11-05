@@ -15,25 +15,31 @@ import Loader from "../Loader";
 import TodoSkeleton from "../todo/TodoSkeleton";
 import { setCurrentTodo, setTodo } from "@/app/features/todo/todoSlice";
 import { setUser } from "@/app/features/user/userSlice";
+import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-function Dashboard({ user }) {
+function Dashboard() {
+  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
   const {
     data: userData,
     isLoading: isLoadingUser,
     error,
-  } = useGetUserByEmailQuery(user.email);
-
-  const dispatch = useDispatch();
+  } = useGetUserByEmailQuery(session?.user?.email, {
+    skip: !session?.user,
+  });
 
   // Redirects to auth-callback if user does not exist in database
   useEffect(() => {
-    if (error?.data?.message == "User does not exist.") {
-      const fullName = user.given_name + " " + user.family_name;
+    if (
+      session?.user != undefined &&
+      error?.data?.message == "User does not exist."
+    ) {
       redirect(
         "/auth-callback?origin=todos&userEmail=" +
-          user.email +
+          session?.user?.email +
           "&userName=" +
-          fullName
+          session?.user?.name
       );
     }
     if (userData) {
@@ -91,7 +97,7 @@ function Dashboard({ user }) {
 
   return (
     <>
-      {isLoadingUser ? (
+      {isLoadingUser || status === "loading" ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <Loader>Loading User Data...</Loader>
         </div>

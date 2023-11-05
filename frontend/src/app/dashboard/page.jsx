@@ -1,25 +1,19 @@
 "use client";
+import Loader from "@/components/Loader";
 import Navbar from "@/components/dashboard/Navbar";
-
-import { useEffect, useState } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 function Page() {
-  const [user, setUser] = useState();
-  const [authStatus, setAuthStatus] = useState(null);
+  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
+  if (session) {
+    dispatch(setUser(session.user));
+  }
 
-  console.log(user);
+  if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
 
-  useEffect(() => {
-    const getKindeSession = async () => {
-      const res = await fetch("/api/kindeSession");
-      const data = await res.json();
-      setUser(data.user);
-      setAuthStatus(data.authenticated);
-    };
-
-    getKindeSession();
-  }, []);
-  console.log(authStatus);
   return (
     <div className="flex h-screen bg-white">
       <div className="flex flex-col h-screen">
