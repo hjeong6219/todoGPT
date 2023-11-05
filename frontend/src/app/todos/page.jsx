@@ -1,16 +1,20 @@
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+"use client";
+import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Dashboard from "@/components/dashboard/Dashboard";
 
 function Page() {
-  const { getUser, isAuthenticated } = getKindeServerSession();
-  const user = getUser();
-  return isAuthenticated() ? (
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      return redirect("/api/auth/signin?callbackUrl=/todos");
+    },
+  });
+
+  return (
     <main>
-      <Dashboard user={user} />
+      <Dashboard />
     </main>
-  ) : (
-    redirect("/sign-in")
   );
 }
 
