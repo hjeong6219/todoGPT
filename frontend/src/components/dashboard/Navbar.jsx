@@ -1,11 +1,11 @@
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 function Navbar() {
   const pathname = usePathname();
   return (
-    <nav className="h-full bg-white shadow-lg">
+    <nav className="bg-white">
       <div className="px-4 py-6">
         <div className="flex flex-col items-center mb-6">
           <div className="p-4 bg-blue-400 rounded-full"></div>
@@ -54,9 +54,12 @@ function Navbar() {
           </li>
         </ul>
         <div className="mt-6">
-          <LogoutLink className="block w-full px-4 py-2 text-center text-gray-700 transition duration-200 border border-gray-300 rounded hover:bg-gray-100">
+          <button
+            onClick={() => signOut()}
+            className="block w-full px-4 py-2 text-center text-gray-700 transition duration-200 border border-gray-300 rounded hover:bg-gray-100"
+          >
             Logout
-          </LogoutLink>
+          </button>
         </div>
       </div>
     </nav>
