@@ -1,3 +1,4 @@
+import AuthProvider from "./context/AuthProvider";
 import { ReduxProvider } from "./features/todo/provider";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -12,9 +13,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
-      <ReduxProvider>
-        <body className={inter.className}>{children}</body>
-      </ReduxProvider>
+      <AuthProvider>
+        <ReduxProvider>
+          <body className={inter.className}>{children}</body>
+        </ReduxProvider>
+      </AuthProvider>
     </html>
   );
 }
