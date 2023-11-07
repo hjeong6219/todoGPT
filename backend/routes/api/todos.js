@@ -222,28 +222,28 @@ router.put("/:id", async (req, res) => {
 //       }
 //     };
 
-    stream.response.body.on("data", (chunk) => {
-      buffer += chunk.toString();
-      processBuffer();
-    });
+//     stream.response.body.on("data", (chunk) => {
+//       buffer += chunk.toString();
+//       processBuffer();
+//     });
 
-    stream.response.body.on("end", async () => {
-      if (htmlBuffer.length > 0) {
-        // Any remaining content in the htmlBuffer is likely not valid HTML, or it's incomplete
-        await saveTodoContent(htmlBuffer);
-      }
-      console.log("Stream ended, final content:", todo.content);
-    });
+//     stream.response.body.on("end", async () => {
+//       if (htmlBuffer.length > 0) {
+//         // Any remaining content in the htmlBuffer is likely not valid HTML, or it's incomplete
+//         await saveTodoContent(htmlBuffer);
+//       }
+//       console.log("Stream ended, final content:", todo.content);
+//     });
 
-    stream.response.body.on("error", (error) => {
-      console.error("Stream encountered an error:", error);
-      res.status(500).json({ message: "Stream error" });
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+//     stream.response.body.on("error", (error) => {
+//       console.error("Stream encountered an error:", error);
+//       res.status(500).json({ message: "Stream error" });
+//     });
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 router.delete("/:id", async (req, res) => {
   try {
