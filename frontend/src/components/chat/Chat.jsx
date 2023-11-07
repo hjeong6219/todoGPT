@@ -30,7 +30,7 @@ function Chat({ todoId }) {
     return <div>Error fetching chat data</div>;
   }
   return (
-    <div className="z-40 flex flex-col items-end overflow-hidden justify-end w-1/2 h-full max-w-screen-xl ml-2 shadow-lg rounded-xl bg-stone-50 focus:outline-none">
+    <div className="z-40 flex flex-col items-end justify-end w-1/2 h-full max-w-screen-xl ml-2 overflow-hidden shadow-lg rounded-xl bg-stone-50 focus:outline-none">
       <div className="w-full pt-4 overflow-y-auto resize-none no-scrollbar focus:outline-none bg-stone-50 rounded-xl text-stone-900">
         {chatData &&
           chatData[0].messages.map((message) => (
