@@ -33,6 +33,15 @@ export const todosApi = createApi({
       }),
       invalidatesTags: ["Todo"],
     }),
+    // below api function is not currently used.
+    // updateTodoWithAi: builder.mutation({
+    //   query: ({ _id, ...data }) => ({
+    //     url: `todos/${_id}/openai`,
+    //     method: "PUT",
+    //     body: data,
+    //   }),
+    //   invalidatesTags: ["Todo"],
+    // }),
     updateTodo: builder.mutation({
       query: ({ _id, ...data }) => ({
         url: `todos/${_id}`,
@@ -57,6 +66,7 @@ export const {
   useGetTodosByIdQuery,
   useGetTodosByTitleQuery,
   useAddTodoMutation,
+  useUpdateTodoWithAiMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation,
 } = todosApi;
