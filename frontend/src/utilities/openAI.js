@@ -2,9 +2,12 @@ import { DOMParser } from "prosemirror-model";
 
 export const chatCompletion = async (editor, setDebouncedContent) => {
   let prompt = editor.getHTML();
+  if (prompt === "<p></p>") {
+    prompt = "";
+  }
   console.log(prompt);
   let message;
-  if (prompt === "<p></p>" || prompt === "") {
+  if (prompt === "") {
     message = {
       role: "system",
       content: "Hello, I'm your personal assistant. How can I help you today?",
