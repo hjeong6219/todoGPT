@@ -14,6 +14,7 @@ import { setCurrentTodo } from "@/app/features/todo/todoSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 import { chatCompletion } from "@/utilities/openAI";
+import { Extension } from "@tiptap/core";
 
 function debounce(fn, delay) {
   let timeoutId;
