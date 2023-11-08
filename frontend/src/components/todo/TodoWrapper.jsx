@@ -44,11 +44,11 @@ function TodoWrapper({ setIsShowModal }) {
   // }
 
   return (
-    <section className="absolute z-30 items-center justify-center w-4/5 py-4 pl-8 pr-4 mx-auto my-2 shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-200 h-4/5 ">
+    <section className="absolute z-30 items-center justify-center w-4/5 pb-6 mx-auto shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-200 h-4/5 ">
       {todoData && (
         <div className="relative w-full h-full">
           <div className="sticky w-full">
-            <div className="flex items-center justify-center bg-stone-200 rounded-xl">
+            <div className="flex items-center justify-center pt-2 bg-stone-200 rounded-xl">
               <Title todo={currentTodo} />
               <EditorButton type="submit" onClick={handleUpdate} />
               <EditorButton type="close" onClick={handleClose} />

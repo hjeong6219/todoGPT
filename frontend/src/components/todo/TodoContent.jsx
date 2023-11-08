@@ -4,9 +4,9 @@ import RichTextEditor from "../RichTextEditor";
 
 function TodoContent({ todo }) {
   return (
-    <div className="z-40 items-stretch w-full h-full mr-2 overflow-y-auto shadow-lg rounded-xl no-scrollbar bg-stone-50 focus:outline-none">
+    <div className="z-40 items-stretch w-full h-full overflow-y-auto rounded-sm shadow-lg no-scrollbar bg-stone-50 focus:outline-none">
       <RichTextEditor
-        className="relative h-full px-8 pt-8 text-xl resize-none rounded-xl bg-stone-50 focus:outline-none"
+        className="relative h-full px-6 pt-4 text-xl rounded-sm resize-none bg-stone-50 focus:outline-none"
         name="content"
         todo={todo}
 
