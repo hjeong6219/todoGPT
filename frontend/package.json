@@ -12,9 +12,13 @@
     "@headlessui/react": "^1.7.17",
     "@hello-pangea/dnd": "^16.3.0",
     "@reduxjs/toolkit": "^1.9.6",
-    "@tailwindcss/typography": "^0.5.10",
+    "@tiptap/extension-character-count": "^2.1.12",
+    "@tiptap/extension-highlight": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-placeholder": "^2.1.12",
+    "@tiptap/extension-task-item": "^2.1.12",
+    "@tiptap/extension-task-list": "^2.1.12",
+    "@tiptap/extension-typography": "^2.1.12",
     "@tiptap/extension-underline": "^2.1.12",
     "@tiptap/pm": "^2.1.12",
     "@tiptap/react": "^2.1.12",
@@ -36,6 +40,7 @@
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "latest",
     "daisyui": "^3.9.2",
     "eslint": "latest",
