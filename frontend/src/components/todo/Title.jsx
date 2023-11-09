@@ -7,7 +7,7 @@ function Title({ todo }) {
 
   return (
     <input
-      className="z-50 block w-full h-10 px-4 text-3xl resize-none no-scrollbar focus:outline-none bg-stone-200 text-stone-900"
+      className="z-50 block w-full h-10 px-4 text-3xl bg-transparent resize-none no-scrollbar focus:outline-none text-stone-900"
       type="text"
       name="title"
       value={currentTodo.title}

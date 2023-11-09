@@ -45,11 +45,11 @@ function TodoWrapper({ setIsShowModal }) {
   // }
 
   return (
-    <section className="absolute z-30 items-center justify-center w-4/5 pb-6 mx-auto shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-200 h-4/5 ">
+    <section className="absolute z-30 items-center justify-center w-4/5 pb-12 mx-auto shadow-lg max-w-screen-2xl border-stone-400 rounded-xl bg-stone-200 h-4/5 ">
       {todoData && (
         <div className="relative w-full h-full">
           <div className="sticky w-full">
-            <div className="flex items-center justify-center pt-4 pl-2 pr-4 bg-stone-200 rounded-xl">
+            <div className="flex items-center justify-center pt-2 pr-4 bg-stone-200 rounded-xl">
               <Title todo={currentTodo} />
               {/* <EditorButton type="submit" onClick={handleUpdate} /> */}
               <EditorButton
@@ -59,7 +59,7 @@ function TodoWrapper({ setIsShowModal }) {
               <EditorButton type="close" onClick={handleClose} />
             </div>
           </div>
-          <div className="relative flex w-full h-full pt-2 mb-12 overflow-x-hidden overflow-y-hidden">
+          <div className="relative flex w-full h-full mb-12 overflow-x-hidden overflow-y-hidden">
             <TodoContent todo={currentTodo} isMenuOpen={isMenuOpen} />
             {/* <Chat todoId={currentTodo._id} /> */}
           </div>
