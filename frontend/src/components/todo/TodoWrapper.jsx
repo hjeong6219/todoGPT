@@ -15,6 +15,7 @@ import { clearCurrentTodo } from "@/app/features/todo/todoSlice";
 function TodoWrapper({ setIsShowModal }) {
   const dispatch = useDispatch();
   const currentTodo = useSelector((state) => state.todoSlice.currentTodo);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { data: todoData, isLoading: isLoadingTodo } = useGetTodosByIdQuery(
     currentTodo._id,
@@ -48,14 +49,18 @@ function TodoWrapper({ setIsShowModal }) {
       {todoData && (
         <div className="relative w-full h-full">
           <div className="sticky w-full">
-            <div className="flex items-center justify-center pt-2 bg-stone-200 rounded-xl">
+            <div className="flex items-center justify-center pt-4 pl-2 pr-4 bg-stone-200 rounded-xl">
               <Title todo={currentTodo} />
-              <EditorButton type="submit" onClick={handleUpdate} />
+              {/* <EditorButton type="submit" onClick={handleUpdate} /> */}
+              <EditorButton
+                type="menu"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              />
               <EditorButton type="close" onClick={handleClose} />
             </div>
           </div>
-          <div className="relative flex items-stretch w-full h-full pt-2 pb-20 mb-12 overflow-y-auto">
-            <TodoContent todo={currentTodo} />
+          <div className="relative flex w-full h-full pt-2 mb-12 overflow-x-hidden overflow-y-hidden">
+            <TodoContent todo={currentTodo} isMenuOpen={isMenuOpen} />
             {/* <Chat todoId={currentTodo._id} /> */}
           </div>
         </div>

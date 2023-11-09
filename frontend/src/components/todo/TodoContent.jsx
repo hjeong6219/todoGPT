@@ -2,16 +2,29 @@
 import { useRef, useState } from "react";
 import RichTextEditor from "../RichTextEditor";
 
-function TodoContent({ todo }) {
+function TodoContent({ todo, isMenuOpen }) {
   return (
-    <div className="z-40 items-stretch w-full h-full overflow-y-auto rounded-sm shadow-lg no-scrollbar bg-stone-50 focus:outline-none">
-      <RichTextEditor
-        className="relative h-full px-6 pt-4 text-xl rounded-sm resize-none bg-stone-50 focus:outline-none"
-        name="content"
-        todo={todo}
-
-        // setContent={setContent}
-      />
+    <div className="relative flex items-stretch w-full h-full pt-2 mb-12 overflow-y-auto">
+      <div
+        className={`z-40 rounded-t-sm shadow-lg pb-20  bg-stone-50 focus:outline-none flex-grow  ${
+          isMenuOpen ? "w-4/5 rounded-bl-xl" : "w-full rounded-b-xl"
+        }`}
+      >
+        <RichTextEditor
+          className="w-full h-full px-6 pt-4 pb-20 overflow-y-auto text-xl rounded-sm resize-none no-scrollbar bg-stone-50 focus:outline-none"
+          name="content"
+          todo={todo}
+          // setContent={setContent}
+        />
+      </div>
+      {isMenuOpen && (
+        <div
+          className={`z-50 relative right-0  w-1/5 h-full overflow-y-hidden rounded-br-xl shadow-lg no-scrollbar bg-stone-50 focus:outline-nonetransform transition-transform  ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        ></div>
+      )}
+      {/* <Chat todoId={currentTodo._id} /> */}
     </div>
   );
 }

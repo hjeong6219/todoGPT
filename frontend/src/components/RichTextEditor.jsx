@@ -394,7 +394,7 @@ const RichTextEditor = ({ className }) => {
 
       <EditorContent editor={editor} className="h-full prose max-w-none" />
 
-      <div className="absolute bottom-0 w-full pl-2 mb-8 bg-stone-50 rounded-b-xl character-count text-stone-500">
+      <div className="relative bottom-0 w-full h-16 pt-6 pl-2 bg-stone-50 rounded-b-xl character-count text-stone-500">
         {editor.storage.characterCount.characters()}/{wordLimit} characters
         <br />
         {editor.storage.characterCount.words()} words
