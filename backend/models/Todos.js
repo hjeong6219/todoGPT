@@ -11,17 +11,17 @@ const TodosSchema = new mongoose.Schema({
     required: false,
   },
   createdAt: {
-    type: String,
+    type: Number,
     default: "",
     required: false,
   },
   updatedAt: {
-    type: String,
+    type: Number,
     default: "",
     required: false,
   },
   dueDate: {
-    type: String,
+    type: Number,
     default: "",
     required: false,
   },
@@ -33,6 +33,11 @@ const TodosSchema = new mongoose.Schema({
   Progress: {
     type: Number,
     default: -1,
+    required: false,
+  },
+  priority: {
+    type: String,
+    default: "",
     required: false,
   },
   category: {

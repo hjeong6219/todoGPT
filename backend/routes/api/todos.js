@@ -96,8 +96,16 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, status, userId } =
-    req.body;
+  const {
+    title,
+    content,
+    createdAt,
+    updatedAt,
+    completed,
+    progress,
+    status,
+    userId,
+  } = req.body;
 
   try {
     // Check if a Todo item with the same title already exists for the user
@@ -115,7 +123,8 @@ router.post("/", async (req, res) => {
       createdAt: Date.now(),
       updatedAt: Date.now(),
       completed,
-      Progress,
+      progress,
+      priority,
       status,
       userId,
     });
@@ -127,16 +136,26 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, status, userId } =
-    req.body;
+  const {
+    title,
+    content,
+    completed,
+    updatedAt,
+    dueDate,
+    progress,
+    priority,
+    status,
+    userId,
+  } = req.body;
   try {
     const todo = await Todos.findByIdAndUpdate(req.params.id, {
       title,
       content,
-      createdAt,
       completed,
-      updatedAt: Date.now(),
-      Progress,
+      updatedAt,
+      dueDate,
+      progress,
+      priority,
       status,
       userId,
     });
