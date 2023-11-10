@@ -33,16 +33,16 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
     useAddChatMutation();
 
   const handleAddNewTodo = async (columnId, inputValue) => {
-    let completed = "";
+    let status = "";
     switch (columnId) {
       case "column1":
-        completed = "notStarted";
+        status = "notStarted";
         break;
       case "column2":
-        completed = "inProgress";
+        status = "inProgress";
         break;
       case "column3":
-        completed = "completed";
+        status = "completed";
         break;
     }
     try {
@@ -50,7 +50,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
         userId: user._id,
         title: inputValue,
         userEmail: user.email,
-        completed: completed,
+        status: status,
       });
       if (addTodoResponse) {
         try {
@@ -117,17 +117,17 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
       if (destination.droppableId === "column3") {
         updateTodo({
           _id: draggableId,
-          completed: "completed",
+          status: "completed",
         });
       } else if (destination.droppableId === "column2") {
         updateTodo({
           _id: draggableId,
-          completed: "inProgress",
+          status: "inProgress",
         });
       } else if (destination.droppableId === "column1") {
         updateTodo({
           _id: draggableId,
-          completed: "notStarted",
+          status: "notStarted",
         });
       }
 

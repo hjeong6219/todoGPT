@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
           },
         ];
         todos.forEach((todo) => {
-          switch (todo.completed) {
+          switch (todo.status) {
             case "notStarted":
               todoColumns[0].todos.push(todo);
               break;
@@ -43,10 +43,7 @@ router.get("/", async (req, res) => {
               todoColumns[2].todos.push(todo);
               break;
             default:
-              console.error(
-                "Unexpected todo completion status:",
-                todo.completed
-              );
+              console.error("Unexpected todo completion status:", todo.status);
               break;
           }
         });
@@ -57,10 +54,10 @@ router.get("/", async (req, res) => {
         let start = 0;
         let end = sortedTodos.length - 1;
         while (start < end) {
-          while (start < end && !sortedTodos[start].completed) {
+          while (start < end && !sortedTodos[start].status) {
             start++;
           }
-          while (start < end && sortedTodos[end].completed) {
+          while (start < end && sortedTodos[end].status) {
             end--;
           }
           if (start < end) {
@@ -99,7 +96,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, category, userId } =
+  const { title, content, createdAt, completed, Progress, status, userId } =
     req.body;
 
   try {
@@ -115,10 +112,11 @@ router.post("/", async (req, res) => {
     const todo = await Todos.create({
       title,
       content,
-      createdAt,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       completed,
       Progress,
-      category,
+      status,
       userId,
     });
     res.json(todo);
@@ -129,7 +127,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { title, content, createdAt, completed, Progress, category, userId } =
+  const { title, content, createdAt, completed, Progress, status, userId } =
     req.body;
   try {
     const todo = await Todos.findByIdAndUpdate(req.params.id, {
@@ -137,8 +135,9 @@ router.put("/:id", async (req, res) => {
       content,
       createdAt,
       completed,
+      updatedAt: Date.now(),
       Progress,
-      category,
+      status,
       userId,
     });
     res.json(todo);

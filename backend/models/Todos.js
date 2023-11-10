@@ -15,19 +15,19 @@ const TodosSchema = new mongoose.Schema({
     default: "",
     required: false,
   },
+  updatedAt: {
+    type: String,
+    default: "",
+    required: false,
+  },
   dueDate: {
     type: String,
     default: "",
     required: false,
   },
-  dueTime: {
+  status: {
     type: String,
     default: "",
-    required: false,
-  },
-  completed: {
-    type: String,
-    default: "notStarted",
     required: false,
   },
   Progress: {
