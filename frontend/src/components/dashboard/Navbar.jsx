@@ -15,7 +15,7 @@ function Navbar() {
           <li>
             <Link
               href="/dashboard"
-              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+              className={`text-gray-700 block py-2.5 px-4 lg:text-lg rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                 pathname === "/dashboard" && "bg-blue-50 text-blue-600"
               }}`}
             >
@@ -25,7 +25,7 @@ function Navbar() {
           <li>
             <Link
               href="/todos"
-              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+              className={`text-gray-700 block py-2.5 px-4 lg:text-lg rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                 pathname === "/todos" && "bg-blue-50 text-blue-600"
               }`}
             >
@@ -35,7 +35,7 @@ function Navbar() {
           <li>
             <Link
               href="/calendar"
-              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+              className={`text-gray-700 block py-2.5 px-4 lg:text-lg rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                 pathname === "/calendar" && "bg-blue-50 text-blue-600"
               }`}
             >
@@ -45,7 +45,7 @@ function Navbar() {
           <li>
             <Link
               href="#"
-              className={`text-gray-700 block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+              className={`text-gray-700 block py-2.5 px-4 lg:text-lg rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                 pathname === "/account" && "bg-blue-50 text-blue-600"
               }`}
             >
