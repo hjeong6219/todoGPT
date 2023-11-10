@@ -2,6 +2,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Dashboard from "@/components/dashboard/Dashboard";
+import { Toaster } from "react-hot-toast";
 
 function Page() {
   const { data: session, status } = useSession({
@@ -14,6 +15,7 @@ function Page() {
   return (
     <main>
       <Dashboard />
+      <Toaster />
     </main>
   );
 }
