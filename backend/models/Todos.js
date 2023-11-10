@@ -42,7 +42,7 @@ const TodosSchema = new mongoose.Schema({
   },
   category: {
     type: Array,
-    default: "",
+    default: null,
     required: false,
   },
   userId: {
