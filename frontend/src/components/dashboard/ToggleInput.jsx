@@ -50,18 +50,18 @@ const ToggleInput = ({ onAddTodo, columnId }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="mt-2 text-gray-600 rounded-lg resize-none focus:outline-none focus:shadow-outline"
+            className="mt-2 text-gray-600 border-none rounded-lg resize-none focus:outline-none focus:shadow-outline"
             rows="1"
             placeholder="Enter new todo..."
           />
         </div>
       ) : (
         <div
-          className="flex border-t-2 border-gray-200 cursor-pointer hover:border-gray-400 focus:outline-none"
+          className="flex text-gray-300 border-t-2 border-gray-200 cursor-pointer hover:text-gray-600 hover:border-gray-400 focus:outline-none"
           onClick={() => setShowTextArea(true)}
         >
-          <HiPlus className="mt-2 text-xl" />
-          <span className="mt-2 text-gray-600">Add New Todo</span>
+          <HiPlus className="mt-2 text-xl " />
+          <span className="mt-2 ">Add New Todo</span>
         </div>
       )}
     </>
