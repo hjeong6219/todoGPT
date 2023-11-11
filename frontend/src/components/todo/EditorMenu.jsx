@@ -46,7 +46,7 @@ function EditorMenu({ isMenuOpen, todo }) {
     >
       <div className="flex-col">
         <div
-          className={`grid grid-cols-1 px-4 py-1 lg:py-2 md:text-lg ${
+          className={`grid grid-cols-1 px-4 py-1  md:text-lg ${
             categories.length < 1 ? "lg:grid-cols-2" : "lg:grid-cols-1"
           }`}
         >
@@ -68,10 +68,10 @@ function EditorMenu({ isMenuOpen, todo }) {
                   }
                 }
               }}
-              className="max-w-xs min-w-0 px-1 border-2 rounded-md resize-none border-stone-300 bg-stone-50 hover:bg-stone-200 focus:outline-none"
+              className="max-w-xs min-w-0 px-1 rounded-md resize-none focus:bg-stone-200 bg-stone-50 hover:bg-stone-200 focus:outline-none"
             />
           )}
-          <div className="flex flex-row flex-wrap gap-2 pt-1">
+          <div className="flex flex-row flex-wrap gap-2 ">
             {categories.map((category, index) => (
               <React.Fragment key={index}>
                 <input
@@ -105,7 +105,7 @@ function EditorMenu({ isMenuOpen, todo }) {
                       }
                     }
                   }}
-                  className="w-32 px-1 border-2 rounded-md resize-none min-w-8 border-stone-300 bg-stone-50 hover:bg-stone-200 focus:outline-none"
+                  className="w-32 px-1 mt-1 border-2 rounded-md resize-none min-w-8 focus:border-stone-200 bg-stone-100 focus:bg-stone-200 hover:bg-stone-200 focus:outline-stone-300"
                 />
                 {index === categories.length - 1 && (
                   <div
@@ -120,7 +120,7 @@ function EditorMenu({ isMenuOpen, todo }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 px-4 py-1 lg:py-2 md:text-lg lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 px-4 py-1 md:text-lg lg:grid-cols-2 ">
           <label className="font-bold">Priority:</label>
           <select
             className="w-32 border-none rounded-md md:w-36 bg-stone-50 hover:bg-stone-200 focus:outline-none"
@@ -142,7 +142,7 @@ function EditorMenu({ isMenuOpen, todo }) {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 px-4 py-1 lg:py-2 md:text-lg lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 px-4 py-1 md:text-lg lg:grid-cols-2 ">
           <label className="font-bold">Status:</label>
           <select
             value={todo.status}
@@ -160,14 +160,14 @@ function EditorMenu({ isMenuOpen, todo }) {
             </option>
           </select>
         </div>
-        <div className="grid grid-cols-1 px-4 py-1 border-b-2 lg:py-2 border-stone-300 md:text-lg lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 px-4 py-1 border-b-2 border-stone-300 md:text-lg lg:grid-cols-2 ">
           <label htmlFor="date-picker" className="font-bold text-gray-700">
             Select a date:
           </label>
           <input
             type="date"
             id="date-picker"
-            className="left-0 w-32 text-gray-700 border-none rounded-md md:w-36 text-md hover:bg-stone-200 bg-stone-50 form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="left-0 w-32 border-none rounded-md md:w-36 text-md hover:bg-stone-200 bg-stone-50 form-input focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={
               todo.dueDate
                 ? dayjs(todo.dueDate).toISOString().split("T")[0]
@@ -189,7 +189,6 @@ function EditorMenu({ isMenuOpen, todo }) {
           <span>{dayjs(todo.updatedAt).format("MM-DD-YYYY HH:mm:ss")}</span>
         </div>
       </div>
-      <button onClick={notify}>Click Me!</button>
     </div>
   );
 }
