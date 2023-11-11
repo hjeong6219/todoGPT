@@ -1,9 +1,7 @@
 "use client";
-import Alert from "@/components/dashboard/Alert";
 import KanbanBoard from "@/components/dashboard/KanbanBoard";
 import Navbar from "@/components/dashboard/Navbar";
 import SearchBar from "@/components/dashboard/SearchBar";
-import TodoList from "@/components/todo/TodoList";
 import { HiPlus } from "react-icons/hi";
 import { useGetUserByEmailQuery } from "../../app/features/todo/usersApi";
 import { useEffect, useState } from "react";
@@ -108,8 +106,7 @@ function Dashboard() {
               <TodoWrapper setIsShowModal={setIsShowModal} />
             </Modal>
           )}
-          <div className="flex w-full h-screen">
-            {/* <Alert /> */}
+          <div className={`flex w-full h-screen ${isShowModal && "blur-md"}`}>
             <Navbar />
             <div className="flex flex-col flex-1 h-screen overflow-hidden">
               <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white">
