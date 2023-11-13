@@ -4,6 +4,7 @@ import Loader from "../../components/Loader";
 import TodoSkeleton from "@/components/todo/TodoSkeleton";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
+import Weather from "@/components/dashboard/Weather";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -21,6 +22,7 @@ function Page() {
           <p>{session?.user?.name}</p>
           <TodoSkeleton />
           <Bubble />
+          <Weather />
           <button onClick={() => signOut()}>Sign out</button>
         </div>
       </>
