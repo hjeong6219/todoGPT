@@ -109,16 +109,16 @@ function Dashboard() {
           <div className={`flex w-full h-screen ${isShowModal && "blur-md"}`}>
             <Navbar />
             <div className="flex flex-col flex-1 h-screen overflow-hidden">
-              <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white">
+              <main className="flex-1 overflow-x-hidden overflow-y-auto bg-stone-50">
                 <div className="container right-0 px-6 py-8 mx-auto max-w-screen-2xl">
                   <div className="flex items-center justify-between">
                     <h3 className="text-3xl font-medium text-gray-700">
-                      TodoGPT
+                      Planner
                     </h3>
                     <SearchBar />
                   </div>
                   <div className="mt-6 mb-4">
-                    <div className="p-6 bg-white border-2 rounded-lg shadow-lg border-gray-50">
+                    <div className="p-6 bg-white border-2 rounded-lg shadow-lg md:text-xl border-gray-50">
                       <h4 className="mb-4 font-bold text-gray-600">
                         Today's Overview
                       </h4>

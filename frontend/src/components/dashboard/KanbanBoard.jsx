@@ -166,7 +166,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
           </div>
           {todos.map((column) => (
             <div key={column.id} className="flex flex-col h-full">
-              <h3 className="pb-3 font-bold">{column.title}</h3>
+              <h3 className="pb-3 font-bold md:text-xl">{column.title}</h3>
               <Droppable droppableId={column.id}>
                 {(provided, snapshot) => (
                   <div

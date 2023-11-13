@@ -15,8 +15,8 @@ function Page() {
   if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
 
   return (
-    <div className="flex h-screen bg-white">
-      <div className="flex flex-col h-screen">
+    <div className="flex h-screen bg-stone-100">
+      <div className="flex h-screen">
         <Navbar />
       </div>
       <div className="flex-1 mx-auto overflow-hidden max-w-screen-2xl">

@@ -62,10 +62,11 @@ function Calendar() {
           <Loader>Loading Calendar...</Loader>
         </div>
       ) : (
-        <div className="flex w-full h-full">
+        <div className="flex w-full h-screen bg-gray-50">
           <Navbar />
-          <div className="flex flex-col items-center w-full pt-8 h-content md:justify-center md:pt-24 max-h-min md:px-16 md:items-start md:flex-row">
-            <div className="max-w-screen-xl md:pr-4 md:border-r-2 md:py-auto w-96 h-fit md:w-3/4 ">
+          <div className="flex flex-col items-center w-full pt-8 h-content md:justify-center max-h-min md:px-16 md:items-start md:flex-row">
+            <div className="max-w-screen-xl md:pr-4 md:border-r-2 border-stone-400 md:py-auto w-96 h-fit md:w-3/4 ">
+              <p className="pb-8 text-md md:text-3xl">Calendar</p>
               <div className="flex justify-between">
                 <h1 className="font-semibold xl:text-3xl">
                   {months[date.month()]}, {date.year()}
@@ -145,7 +146,7 @@ function Calendar() {
                 )}
               </div>
             </div>
-            <div className="px-5 pt-8 overflow-y-auto h-fit w-96 md:w-fill md:pt-12 md:h-96 xl:h-4/5">
+            <div className="px-5 pt-8 overflow-y-auto h-fit w-96 md:w-fill md:pt-16 md:h-96 xl:h-4/5">
               <h1 className="mb-4 font-semibold xl:text-xl">
                 Schedule for {selectedDate.format("MMMM D, YYYY")}
               </h1>
