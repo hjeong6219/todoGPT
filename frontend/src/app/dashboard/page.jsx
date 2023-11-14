@@ -4,6 +4,7 @@ import Navbar from "@/components/dashboard/Navbar";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
+import Weather from "@/components/dashboard/Weather";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -39,6 +40,11 @@ function Page() {
             <p className="text-gray-600">
               "Keep your spirits high, tackle everything with enthusiasm!"
             </p>
+          </section>
+
+          <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
+            <h2 className="text-xl font-bold text-gray-700">Today's Weather</h2>
+            <Weather />
           </section>
 
           <section className="mb-6">
