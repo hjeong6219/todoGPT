@@ -86,7 +86,9 @@ const Weather = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-40 mb-6 rounded shadow-lg animate-pulse bg-slate-300"></div>
+    );
   }
 
   if (error) {
@@ -94,13 +96,16 @@ const Weather = () => {
   }
 
   return (
-    <div>
-      <Image src={icon} width={120} height={120} alt="weather icon" />
-      {/* <h2>Today's Weather in {weatherData.name}</h2> */}
-      <p>Temperature: {Math.round(weatherData.main.temp * 10) / 10}°C</p>
-      <p>Weather: {weatherData.weather[0].main}</p>
-      <p>Humidity: {weatherData.main.humidity}%</p>
-    </div>
+    <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
+      <h2 className="text-xl font-bold text-gray-700">Today's Weather</h2>
+      <div>
+        <Image src={icon} width={120} height={120} alt="weather icon" />
+        {/* <h2>Today's Weather in {weatherData.name}</h2> */}
+        <p>Temperature: {Math.round(weatherData.main.temp * 10) / 10}°C</p>
+        <p>Weather: {weatherData.weather[0].main}</p>
+        <p>Humidity: {weatherData.main.humidity}%</p>
+      </div>
+    </section>
   );
 };
 

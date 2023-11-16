@@ -5,6 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
+import { useGetUserByEmailQuery } from "../features/todo/usersApi";
+import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -12,6 +14,23 @@ function Page() {
   if (session) {
     dispatch(setUser(session.user));
   }
+  const {
+    data: userData,
+    isLoading: isLoadingUser,
+    error,
+  } = useGetUserByEmailQuery(session?.user?.email, {
+    skip: !session?.user,
+  });
+
+  // const todoData = null;
+
+  const { data: todoData, isLoading: isLoadingTodos } =
+    useGetTodosByUserIdQuery(
+      { userId: userData?._id, page: "board", sort: "Name", order: "asc" },
+      {
+        skip: !userData,
+      }
+    );
 
   if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
 
@@ -42,49 +61,67 @@ function Page() {
             </p>
           </section>
 
-          <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
-            <h2 className="text-xl font-bold text-gray-700">Today's Weather</h2>
-            <Weather />
-          </section>
+          <Weather />
+          {todoData ? (
+            <>
+              <section className="mb-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                    <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
+                    <p className="text-gray-600">
+                      Tasks that need to be addressed.
+                    </p>
+                  </div>
 
-          <section className="mb-6">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="p-4 bg-gray-100 rounded shadow-lg">
-                <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
+                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                    <h3 className="text-lg font-bold text-gray-700">
+                      In Progress
+                    </h3>
+                    <p className="text-gray-600">
+                      Tasks you are currently working on.
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                    <h3 className="text-lg font-bold text-gray-700">
+                      Completed
+                    </h3>
+                    <p className="text-gray-600">
+                      Tasks you have completed. Well done!
+                    </p>
+                  </div>
+                </div>
+              </section>
+              <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
+                <h4 className="text-lg font-bold text-gray-700">
+                  Today's To-Dos
+                </h4>
                 <p className="text-gray-600">
-                  Tasks that need to be addressed.
+                  Tasks scheduled for today. Stay focused!
                 </p>
-              </div>
-
-              <div className="p-4 bg-gray-100 rounded shadow-lg">
-                <h3 className="text-lg font-bold text-gray-700">In Progress</h3>
+              </section>
+              <section className="p-4 bg-gray-100 rounded shadow-lg">
+                <h4 className="text-lg font-bold text-gray-700">
+                  Upcoming To-Dos
+                </h4>
                 <p className="text-gray-600">
-                  Tasks you are currently working on.
+                  Here's what's lined up for you. Plan ahead!
                 </p>
-              </div>
-
-              <div className="p-4 bg-gray-100 rounded shadow-lg">
-                <h3 className="text-lg font-bold text-gray-700">Completed</h3>
-                <p className="text-gray-600">
-                  Tasks you have completed. Well done!
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
-            <h4 className="text-lg font-bold text-gray-700">Today's To-Dos</h4>
-            <p className="text-gray-600">
-              Tasks scheduled for today. Stay focused!
-            </p>
-          </section>
-
-          <section className="p-4 bg-gray-100 rounded shadow-lg">
-            <h4 className="text-lg font-bold text-gray-700">Upcoming To-Dos</h4>
-            <p className="text-gray-600">
-              Here's what's lined up for you. Plan ahead!
-            </p>
-          </section>
+              </section>
+            </>
+          ) : (
+            <>
+              <section className="mb-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                </div>
+              </section>
+              <div className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300"></div>
+              <div className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300"></div>
+            </>
+          )}
         </main>
       </div>
     </div>
