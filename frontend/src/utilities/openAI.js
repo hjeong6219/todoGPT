@@ -80,14 +80,13 @@ export const chatCompletion = async (editor, setDebouncedContent) => {
 
 export const weatherAdvisor = async (data, setContent) => {
   let message = {
-      role: "assistant",
-      content: `You are an AI assistant that is going to give a useful tip to the user.
+    role: "assistant",
+    content: `You are an AI assistant that is going to give a useful tip to the user.
       Always round up the temperature to the tenth degree and refrain from mentioning the user's location or coordinates.
       The temperature is in Celsius. Please give an advice accordingly to the given object in one sentence such as what to wear,
       what activities are good for the weather, and etc:
       ${data}`,
-    };
-  }
+  };
 
   try {
     const response = await fetch(process.env.NEXT_PUBLIC_OPENAI_API_URL, {
