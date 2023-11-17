@@ -7,6 +7,8 @@ import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
 import { useGetUserByEmailQuery } from "../features/todo/usersApi";
 import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
+import dayjs from "dayjs";
+import { useState } from "react";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -32,6 +34,43 @@ function Page() {
       }
     );
 
+  let todoCount = 0;
+  let inProgressCount = 0;
+  let completedCount = 0;
+  let todosDueToday = [];
+  let todosDueComingWeek = [];
+
+  if (todoData) {
+    todoCount =
+      todoData.filter((column) => column.title === "Todo")[0]?.todos.length ||
+      0;
+    inProgressCount =
+      todoData.filter((column) => column.title === "In Progress")[0]?.todos
+        .length || 0;
+    completedCount =
+      todoData.filter((column) => column.title === "Completed")[0]?.todos
+        .length || 0;
+
+    todosDueToday = todoData
+      .filter((column) => column.title !== "Completed")
+      .flatMap((column) => column.todos)
+      .filter((todo) => {
+        const dueDate = dayjs(todo.dueDate).startOf("day");
+        return dueDate.isSame(dayjs().startOf("day"));
+      });
+
+    todosDueComingWeek = todoData
+      .filter((column) => column.title !== "Completed")
+      .flatMap((column) => column.todos)
+      .filter((todo) => {
+        const dueDate = dayjs(todo.dueDate).startOf("day");
+        const tomorrow = dayjs().add(1, "day").startOf("day");
+        const oneWeekFromNow = dayjs().add(8, "day").startOf("day");
+        return dueDate.isAfter(tomorrow) && dueDate.isBefore(oneWeekFromNow);
+      });
+    console.log(todosDueComingWeek.length);
+  }
+
   if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
 
   return (
@@ -39,8 +78,8 @@ function Page() {
       <div className="flex h-screen">
         <Navbar />
       </div>
-      <div className="flex-1 mx-auto overflow-hidden max-w-screen-2xl">
-        <main className="h-full p-4 overflow-y-auto">
+      <div className="flex-1 mx-auto overflow-hidden max-w-screen-2xl ">
+        <main className="h-full p-4 overflow-y-auto no-scrollbar">
           <section className="flex items-center justify-between px-4 py-8">
             <div className="flex items-center gap-4">
               <h1 className="text-2xl font-bold text-gray-700">Dashboard</h1>
@@ -69,7 +108,7 @@ function Page() {
                   <div className="p-4 bg-gray-100 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
                     <p className="text-gray-600">
-                      Tasks that need to be addressed.
+                      {todoCount} todo(s) that needs to be addressed.
                     </p>
                   </div>
 
@@ -78,7 +117,7 @@ function Page() {
                       In Progress
                     </h3>
                     <p className="text-gray-600">
-                      Tasks you are currently working on.
+                      {inProgressCount} todo(s) you are currently working on.
                     </p>
                   </div>
 
@@ -87,26 +126,52 @@ function Page() {
                       Completed
                     </h3>
                     <p className="text-gray-600">
-                      Tasks you have completed. Well done!
+                      {completedCount} todo(s) you have completed. Well done!
                     </p>
                   </div>
                 </div>
               </section>
               <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
-                <h4 className="text-lg font-bold text-gray-700">
-                  Today's To-Dos
-                </h4>
-                <p className="text-gray-600">
-                  Tasks scheduled for today. Stay focused!
-                </p>
+                {todosDueToday.length > 0 ? (
+                  <>
+                    <h4 className="text-lg font-bold text-gray-700">
+                      Today's To-Dos
+                    </h4>
+                    <p className="text-gray-600">
+                      Tasks scheduled for today. Stay focused!
+                      <ul>
+                        {todosDueToday.map((todo) => {
+                          return <li>{todo.title}</li>;
+                        })}
+                      </ul>
+                    </p>
+                  </>
+                ) : (
+                  <h4 className="text-lg font-bold text-gray-700">
+                    <p>No tasks scheduled for today.</p>
+                  </h4>
+                )}
               </section>
               <section className="p-4 bg-gray-100 rounded shadow-lg">
-                <h4 className="text-lg font-bold text-gray-700">
-                  Upcoming To-Dos
-                </h4>
-                <p className="text-gray-600">
-                  Here's what's lined up for you. Plan ahead!
-                </p>
+                {todosDueComingWeek.length > 0 ? (
+                  <>
+                    <h4 className="text-lg font-bold text-gray-700">
+                      Upcoming To-Dos
+                    </h4>
+                    <p className="text-gray-600">
+                      Here's what's lined up for you. Plan ahead!
+                      <ul>
+                        {todosDueComingWeek.map((todo) => {
+                          return <li>{todo.title}</li>;
+                        })}
+                      </ul>
+                    </p>
+                  </>
+                ) : (
+                  <h4 className="text-lg font-bold text-gray-700">
+                    <p>No tasks scheduled for the coming week.</p>
+                  </h4>
+                )}
               </section>
             </>
           ) : (
@@ -118,8 +183,8 @@ function Page() {
                   <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
                 </div>
               </section>
-              <div className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300"></div>
-              <div className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300"></div>
+              <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
+              <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
             </>
           )}
         </main>
