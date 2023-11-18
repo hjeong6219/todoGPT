@@ -24,7 +24,6 @@ function Calendar() {
   } = useGetUserByEmailQuery(session?.user?.email, {
     skip: !session?.user,
   });
-  // const user = useSelector((state) => state.userSlice);
 
   const { data: todos, isLoading: isLoadingTodos } = useGetTodosByUserIdQuery(
     { userId: userData?._id, page: "calendar", sort: "name", order: "asc" },

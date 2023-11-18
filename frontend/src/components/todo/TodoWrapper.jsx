@@ -8,7 +8,6 @@ import Chat from "../chat/Chat";
 import EditorButton from "./EditorButton";
 import Title from "./Title";
 import TodoContent from "./TodoContent";
-import RichTextEditor from "../RichTextEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentTodo } from "@/app/features/todo/todoSlice";
 

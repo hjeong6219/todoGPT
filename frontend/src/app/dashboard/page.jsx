@@ -1,14 +1,13 @@
 "use client";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/dashboard/Navbar";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
 import { useGetUserByEmailQuery } from "../features/todo/usersApi";
 import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 import dayjs from "dayjs";
-import { useState } from "react";
 
 function Page() {
   const { data: session, status } = useSession();

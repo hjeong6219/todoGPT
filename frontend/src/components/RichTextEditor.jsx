@@ -10,10 +10,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import {
-  useGetTodosByIdQuery,
-  useUpdateTodoMutation,
-} from "@/app/features/todo/todosApi";
+import { useUpdateTodoMutation } from "@/app/features/todo/todosApi";
 import { setCurrentTodo } from "@/app/features/todo/todoSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
