@@ -8,6 +8,7 @@ import {
 } from "@/app/features/chat/chatApi";
 import cn from "@/utilities/cn";
 import { forwardRef } from "react";
+import toast from "react-hot-toast";
 
 import { HiX } from "react-icons/hi";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -26,16 +27,19 @@ function Post({ todo, handleShowTodo }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateTodoMutation({ ...todo, title: title, content: content });
+    toast.success("Todo updated!");
   };
 
   const handleCompletion = () => {
     updateTodoMutation({ ...todo, completed: !todo.completed });
+    toast.success("Todo updated!");
   };
 
   const handleDelete = (event) => {
     event.preventDefault();
     deleteTodoMutation(todo._id);
     deleteChatMutation(currentChat[0]._id);
+    toast.success("Todo deleted!");
   };
 
   if (isLoading) {
