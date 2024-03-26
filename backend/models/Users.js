@@ -1,5 +1,6 @@
 const { isEmail } = require("validator");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const UsersSchema = new mongoose.Schema({
   email: {
@@ -18,6 +19,11 @@ const UsersSchema = new mongoose.Schema({
   todos: {
     type: Array,
     default: [],
+    required: false,
+  },
+  password: {
+    type: String,
+    default: "",
     required: false,
   },
 });
