@@ -12,7 +12,7 @@ import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import Navbar from "@/components/dashboard/Navbar";
 import Loader from "./Loader";
-import { useGetUserByEmailQuery } from "@/app/features/todo/usersApi";
+import { useGetUserByEmailQuery } from "@/app/features/user/usersApi";
 import { useSession } from "next-auth/react";
 
 function Calendar() {
