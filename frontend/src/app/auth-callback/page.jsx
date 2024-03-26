@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   useAddUserMutation,
   useGetUserByEmailQuery,
-} from "../features/todo/usersApi";
+} from "../features/user/usersApi";
 import { useEffect, useRef, useState } from "react";
 
 function Page() {
