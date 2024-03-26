@@ -1,11 +1,9 @@
-import { DOMParser } from "prosemirror-model";
-
 export const chatCompletion = async (editor, setDebouncedContent) => {
   let prompt = editor.getHTML();
   if (prompt === "<p></p>") {
     prompt = "";
   }
-  console.log(prompt);
+  // console.log(prompt);
   let message;
   if (prompt === "") {
     message = {
@@ -15,11 +13,22 @@ export const chatCompletion = async (editor, setDebouncedContent) => {
   } else {
     message = {
       role: "assistant",
-      content: `Please either continue writing or generate a todo based on my prompt in a brief HTML-format: ${prompt}
-      The prompt should use <p> tag for the content.
-      Also, create an unordered list with each item be in a <li> only if necessary.
-      There is no need to repeat the given prompt in the response.
-      Please try to keep the answer under 50 words if possible.`,
+      content: `Following is the prompt from the user:
+      ${prompt}
+      You can select any of the following actions:
+      1. Continue writing the content.
+      2. Generate a todo list based on the content.
+      3. Summarize the content.
+      4. Pick a topic for the user if nothing is prompted.
+      Follow the below criteria for the response:
+      1. Do not repeat information that is already given in the prompt and introduce a new topic instead. Do not repeatedly give same recommendations.
+      2. If the user doesn't prompt for a topic, pick a topic and give recommendations.
+      3. Try to include action items in bullets.
+      4. Increase the scope of topics other than mental well being
+      5. The response should use <p> tag for the content.
+      6. If the response contains a list, create an unordered list with each item in a <li>. Creating a list is not mandatory.
+      7. Please try to keep the answer under 100 words if possible.
+      `,
     };
   }
 
@@ -41,7 +50,7 @@ export const chatCompletion = async (editor, setDebouncedContent) => {
     const decoder = new TextDecoder("utf-8");
 
     let newContent = prompt;
-    console.log(newContent);
+    // console.log(newContent);
 
     while (true) {
       const { done, value } = await reader.read();
@@ -65,7 +74,7 @@ export const chatCompletion = async (editor, setDebouncedContent) => {
             newContent += "\n";
           }
           newContent += content;
-          console.log(newContent);
+          // console.log(newContent);
 
           editor.commands.setContent(newContent);
 
