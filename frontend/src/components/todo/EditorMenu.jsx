@@ -12,7 +12,6 @@ function EditorMenu({ isMenuOpen, todo }) {
   const [categories, setCategories] = useState(todo.category || []);
   const [updateTodo] = useUpdateTodoMutation();
   const dispatch = useDispatch();
-  const notify = () => toast("Here is your toast.");
 
   const handleUpdateTodo = async (option, value) => {
     const timestamp = dayjs().valueOf();
