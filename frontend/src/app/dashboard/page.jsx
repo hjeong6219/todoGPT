@@ -73,7 +73,7 @@ function Page() {
   if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
 
   return (
-    <div className="flex h-screen bg-stone-100">
+    <div className="flex h-screen bg-slate-50">
       <div className="flex h-screen">
         <Navbar />
       </div>
@@ -104,14 +104,14 @@ function Page() {
             <>
               <section className="mb-6">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
                     <p className="text-gray-600">
                       {todoCount} todo(s) that needs to be addressed.
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">
                       In Progress
                     </h3>
@@ -120,7 +120,7 @@ function Page() {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gray-100 rounded shadow-lg">
+                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">
                       Completed
                     </h3>
@@ -130,7 +130,7 @@ function Page() {
                   </div>
                 </div>
               </section>
-              <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
+              <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
                 {todosDueToday.length > 0 ? (
                   <>
                     <h4 className="text-lg font-bold text-gray-700">
@@ -151,7 +151,7 @@ function Page() {
                   </h4>
                 )}
               </section>
-              <section className="p-4 bg-gray-100 rounded shadow-lg">
+              <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
                 {todosDueComingWeek.length > 0 ? (
                   <>
                     <h4 className="text-lg font-bold text-gray-700">

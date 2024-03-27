@@ -96,7 +96,7 @@ const Weather = () => {
 
   if (!hasPermission) {
     return (
-      <section className="p-4 mb-6 rounded shadow-lg bg-blue-50">
+      <section className="p-4 mb-6 bg-white border border-gray-100 rounded shadow-lg">
         <div className="text-red-600">
           Grant location permission to get weather information
         </div>
@@ -105,7 +105,7 @@ const Weather = () => {
   }
 
   return (
-    <section className="p-4 mb-6 rounded shadow-lg bg-blue-50">
+    <section className="p-4 mb-6 bg-white border border-gray-100 rounded shadow-lg">
       <h2 className="text-xl font-bold text-gray-700">
         Today's Weather in {weatherData.name}
       </h2>
