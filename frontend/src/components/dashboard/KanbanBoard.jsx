@@ -153,7 +153,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
     <DragDropContext onDragEnd={onDragEnd}>
       {isBrowser ? (
         <div className="relative grid grid-cols-1 gap-5 p-4 my-4 bg-white border-2 rounded shadow-lg border-gray-50 md:p-6 max-w-screen-2xl md:grid-cols-3">
-          <div className="absolute top-0 right-0 p-4">
+          <div className="relative col-start-1 md:col-start-3 justify-self-end">
             <label htmlFor="status-filter" className="mr-2">
               Filter by status:{" "}
             </label>
@@ -166,7 +166,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
           </div>
           {todos.map((column) => (
             <div key={column.id} className="flex flex-col h-full">
-              <h3 className="pb-3 font-bold md:text-xl">{column.title}</h3>
+              <h3 className="p-3 font-bold md:text-xl">{column.title}</h3>
               <Droppable droppableId={column.id}>
                 {(provided, snapshot) => (
                   <div
@@ -192,7 +192,7 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`p-3  bg-white rounded shadow border-2 border-gray-100 ${
+                              className={`p-3 mb-2  bg-white rounded shadow border-2 border-gray-100 ${
                                 snapshot.isDragging
                                   ? "scale-105 ring-2 ring-blue-300"
                                   : "scale-100"
