@@ -63,9 +63,9 @@ function Page() {
       .flatMap((column) => column.todos)
       .filter((todo) => {
         const dueDate = dayjs(todo.dueDate).startOf("day");
-        const tomorrow = dayjs().add(1, "day").startOf("day");
-        const oneWeekFromNow = dayjs().add(8, "day").startOf("day");
-        return dueDate.isAfter(tomorrow) && dueDate.isBefore(oneWeekFromNow);
+        const today = dayjs().startOf("day");
+        const oneWeekFromToday = dayjs().add(8, "day").startOf("day");
+        return dueDate.isAfter(today) && dueDate.isBefore(oneWeekFromToday);
       });
     console.log(todosDueComingWeek.length);
   }
