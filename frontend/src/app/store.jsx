@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { todosApi } from "./features/todo/todosApi";
-import { usersApi } from "./features/todo/usersApi";
+import { usersApi } from "./features/user/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { chatApi } from "./features/chat/chatApi";
 import todoReducer from "./features/todo/todoSlice";

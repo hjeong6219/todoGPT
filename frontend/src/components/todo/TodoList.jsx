@@ -6,7 +6,7 @@ import {
   useAddTodoMutation,
   useGetTodosByUserIdQuery,
 } from "../../app/features/todo/todosApi";
-import { useGetUserByEmailQuery } from "../../app/features/todo/usersApi";
+import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
 
 import TodoInput from "./TodoInput";

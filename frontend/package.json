@@ -43,6 +43,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "latest",
+    "bcrypt": "^5.1.1",
     "daisyui": "^3.9.2",
     "eslint": "latest",
     "eslint-config-next": "latest",

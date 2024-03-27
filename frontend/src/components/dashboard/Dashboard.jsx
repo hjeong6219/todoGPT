@@ -3,7 +3,7 @@ import KanbanBoard from "@/components/dashboard/KanbanBoard";
 import Navbar from "@/components/dashboard/Navbar";
 import SearchBar from "@/components/dashboard/SearchBar";
 import { HiPlus } from "react-icons/hi";
-import { useGetUserByEmailQuery } from "../../app/features/todo/usersApi";
+import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";
 import { useEffect, useState } from "react";
 import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
 import Modal from "../Modal";

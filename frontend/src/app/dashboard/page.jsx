@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
-import { useGetUserByEmailQuery } from "../features/todo/usersApi";
+import { useGetUserByEmailQuery } from "../features/user/usersApi";
 import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 import dayjs from "dayjs";
 

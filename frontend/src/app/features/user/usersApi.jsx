@@ -17,6 +17,13 @@ export const usersApi = createApi({
         body: data,
       }),
     }),
+    registerUser: builder.mutation({
+      query: (data) => ({
+        url: "users/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -24,4 +31,5 @@ export const {
   useGetUserByEmailQuery,
   useGetUserByEmailId,
   useAddUserMutation,
+  useRegisterUserMutation,
 } = usersApi;

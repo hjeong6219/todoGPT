@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import AuthProvider from "./context/AuthProvider";
 import { ReduxProvider } from "./features/todo/provider";
 import "./globals.css";
@@ -15,7 +16,10 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="light">
       <AuthProvider>
         <ReduxProvider>
-          <body className={inter.className}>{children}</body>
+          <body className={inter.className}>
+            <Toaster />
+            {children}
+          </body>
         </ReduxProvider>
       </AuthProvider>
     </html>

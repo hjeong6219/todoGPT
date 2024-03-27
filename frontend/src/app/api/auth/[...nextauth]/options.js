@@ -1,38 +1,74 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 export const options = {
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       callbackUrl: process.env.GITHUB_CALLBACK_URL,
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = {
-          id: 1,
-          name: "jsmith",
-          email: "@jsmith",
-          username: "jsmith",
-          password: "password",
-        };
-        if (
-          credentials.username === user.name &&
-          credentials.password === credentials.password
-        ) {
-          return user;
-        } else {
-          return null;
+        try {
+          const { data } = await axios.post(
+            "http://localhost:5000/users/login",
+            {
+              email: credentials.email,
+              password: credentials.password,
+            }
+          );
+          if (data.userExists) {
+            return data.userExists;
+          } else {
+            throw new Error(error.response?.data?.message);
+          }
+        } catch (error) {
+          throw new Error(error.response?.data?.message);
         }
+      },
+      callbacks: {
+        async jwt(token, user) {
+          if (user) {
+            token.id = user._id;
+          }
+          return token;
+        },
+        async session(session, token) {
+          if (token.id) {
+            session.user.id = token.id;
+          }
+          return session;
+        },
+        async redirect({ url, baseUrl }) {
+          return new URL(url).origin === new URL(baseUrl).origin
+            ? url
+            : baseUrl;
+        },
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+    // signOut: "/auth/signout",
+    // error: "/auth/error",
+    // verifyRequest: "/auth/verify-request",
+    // newUser: null,
+  },
 };
 export default NextAuth(options);
