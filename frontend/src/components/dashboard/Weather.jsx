@@ -7,11 +7,13 @@ const Weather = () => {
   const [icon, setIcon] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
+          setHasPermission(true);
           const { latitude, longitude } = position.coords;
           const query = encodeURIComponent(`${latitude},${longitude}`);
 
@@ -79,6 +81,7 @@ const Weather = () => {
         }
       },
       (err) => {
+        setHasPermission(false);
         setError(err);
         setIsLoading(false);
       }
@@ -91,16 +94,23 @@ const Weather = () => {
     );
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (!hasPermission) {
+    return (
+      <section className="p-4 mb-6 rounded shadow-lg bg-blue-50">
+        <div className="text-red-600">
+          Grant location permission to get weather information
+        </div>
+      </section>
+    );
   }
 
   return (
-    <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
-      <h2 className="text-xl font-bold text-gray-700">Today's Weather</h2>
+    <section className="p-4 mb-6 rounded shadow-lg bg-blue-50">
+      <h2 className="text-xl font-bold text-gray-700">
+        Today's Weather in {weatherData.name}
+      </h2>
       <div>
         <Image src={icon} width={120} height={120} alt="weather icon" />
-        {/* <h2>Today's Weather in {weatherData.name}</h2> */}
         <p>Temperature: {Math.round(weatherData.main.temp * 10) / 10}°C</p>
         <p>Weather: {weatherData.weather[0].main}</p>
         <p>Humidity: {weatherData.main.humidity}%</p>
