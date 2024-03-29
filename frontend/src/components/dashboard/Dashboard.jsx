@@ -15,6 +15,7 @@ import { setCurrentTodo, setTodo } from "@/app/features/todo/todoSlice";
 import { setUser } from "@/app/features/user/userSlice";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
+import sortTodos from "@/utilities/sortTodos";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -53,19 +54,22 @@ function Dashboard() {
       }
     );
 
-  useEffect(() => {
-    if (todoData) {
-      dispatch(setTodo(todoData));
-    }
-  }, [todoData]);
-
   const todos = useSelector((state) => state.todoSlice.columns);
+  const todoStatus = useSelector((state) => state.todoSlice.todoStatus);
+  const todoSearch = useSelector((state) => state.todoSlice.todoSearch);
   const [isShowModal, setIsShowModal] = useState(false);
 
   const handleShowTodo = (todo) => {
     dispatch(setCurrentTodo(todo));
     setIsShowModal(true);
   };
+
+  useEffect(() => {
+    if (todoData) {
+      const sortedTodos = sortTodos(todoData, todoStatus, todoSearch);
+      dispatch(setTodo(sortedTodos));
+    }
+  }, [todoData, todoStatus, todoSearch]);
 
   const generateTodo = async () => {
     try {

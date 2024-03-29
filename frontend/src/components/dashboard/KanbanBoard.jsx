@@ -9,6 +9,7 @@ import {
 } from "@/app/features/todo/todosApi";
 import ToggleInput from "./ToggleInput";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
+import { setTodoStatus } from "@/app/features/todo/todoSlice";
 
 function KanbanBoard({ user, todos, handleShowTodo }) {
   // This function is required to fix the bug within react-beautiful-dnd
@@ -157,7 +158,10 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
             <label htmlFor="status-filter" className="mr-2">
               Filter by status:{" "}
             </label>
-            <select id="status-filter">
+            <select
+              id="status-filter"
+              onChange={(e) => dispatch(setTodoStatus(e.target.value))}
+            >
               <option value="all">All</option>
               <option value="notStarted">Not Started</option>
               <option value="inProgress">In Progress</option>

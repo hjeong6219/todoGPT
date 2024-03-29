@@ -24,6 +24,12 @@ const todoSlice = createSlice({
     setTodo: (state, action) => {
       state.columns = action.payload;
     },
+    setTodoStatus: (state, action) => {
+      state.todoStatus = action.payload;
+    },
+    setTodoSearch: (state, action) => {
+      state.todoSearch = action.payload;
+    },
     addTodo: (state, action) => {
       const { columnId, todo } = action.payload;
       const column = state.columns.find((col) => col.id === columnId);
@@ -76,6 +82,8 @@ export const {
   updateCurrentTodo,
   clearCurrentTodo,
   setTodo,
+  setTodoStatus,
+  setTodoSearch,
   addTodo,
   removeTodo,
   moveTodo,
