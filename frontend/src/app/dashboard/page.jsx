@@ -23,8 +23,6 @@ function Page() {
     skip: !session?.user,
   });
 
-  // const todoData = null;
-
   const { data: todoData, isLoading: isLoadingTodos } =
     useGetTodosByUserIdQuery(
       { userId: userData?._id, page: "board", sort: "Name", order: "asc" },
@@ -67,13 +65,13 @@ function Page() {
         const oneWeekFromToday = dayjs().add(8, "day").startOf("day");
         return dueDate.isAfter(today) && dueDate.isBefore(oneWeekFromToday);
       });
-    console.log(todosDueComingWeek.length);
   }
 
-  if (status == "loading") return <Loader>Loading the dashboard...</Loader>;
+  if (status == "loading" || isLoadingUser)
+    return <Loader>Loading the dashboard...</Loader>;
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-stone-50">
       <div className="flex h-screen">
         <Navbar />
       </div>
@@ -81,19 +79,18 @@ function Page() {
         <main className="h-full p-4 overflow-y-auto no-scrollbar">
           <section className="flex items-center justify-between px-4 py-8">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-700">Dashboard</h1>
+              <h1 className="text-4xl font-bold text-gray-700">Dashboard</h1>
             </div>
           </section>
-          <section className="p-4 mb-6 bg-white rounded shadow-lg">
-            <h2 className="text-xl font-bold text-gray-700">Welcome back!</h2>
-            <p className="text-gray-600">
-              Here's what's lined up for you today.
-            </p>
-          </section>
-          <section className="p-4 mb-6 bg-gray-100 rounded shadow-lg">
-            <h2 className="text-xl font-bold text-gray-700">
-              Message of the Day
+          <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-700 ">
+              Welcome back {userData.fullName}!
             </h2>
+          </section>
+          <h2 className="px-4 py-2 text-2xl font-bold text-gray-700">
+            Message of the Day
+          </h2>
+          <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
             <p className="text-gray-600">
               "Keep your spirits high, tackle everything with enthusiasm!"
             </p>
@@ -104,14 +101,14 @@ function Page() {
             <>
               <section className="mb-6">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
+                  <div className="p-4 bg-white border-2 border-blue-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
                     <p className="text-gray-600">
                       {todoCount} todo(s) that needs to be addressed.
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
+                  <div className="p-4 bg-white border-2 border-yellow-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">
                       In Progress
                     </h3>
@@ -120,7 +117,7 @@ function Page() {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
+                  <div className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
                     <h3 className="text-lg font-bold text-gray-700">
                       Completed
                     </h3>

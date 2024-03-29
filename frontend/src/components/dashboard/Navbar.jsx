@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 function Navbar() {
   const pathname = usePathname();
   return (
-    <nav className="bg-white">
+    <nav className="bg-slate-50">
       <div className="px-4 py-6">
         <div className="flex flex-col items-center mb-6">
           <div className="p-4 bg-blue-400 rounded-full"></div>
