@@ -25,9 +25,12 @@ export default function sortTodos(todos, todoStatus = "all", todoSearch = "") {
   }
 
   if (todoSearch !== "") {
-    todos = todos.filter((todo) =>
-      todo.title.toLowerCase().includes(todoSearch.toLowerCase())
-    );
+    todos = todos.map((column) => ({
+      ...column,
+      todos: column.todos.filter((todo) =>
+        todo.title.toLowerCase().includes(todoSearch.toLowerCase())
+      ),
+    }));
   }
 
   todos.forEach((column) => {
