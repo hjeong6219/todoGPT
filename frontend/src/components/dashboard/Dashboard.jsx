@@ -94,8 +94,25 @@ function Dashboard() {
     }
   };
 
-  const totalTasks = 2;
-  const tasksRemaining = 1;
+  let today = new Date();
+  let completedTodosDueToday = 0;
+  let todosDueToday = 0;
+
+  todos.forEach((column) => {
+    completedTodosDueToday += column.todos.filter((todo) => {
+      let todoDueDate = new Date(todo.dueDate);
+      return todoDueDate.getDate() === today.getDate();
+    }).length;
+  });
+
+  todos.forEach((column) => {
+    todosDueToday += column.todos.filter((todo) => {
+      let todoDueDate = new Date(todo.dueDate);
+      return (
+        todo.status !== "completed" && todoDueDate.getDate() === today.getDate()
+      );
+    }).length;
+  });
 
   return (
     <>
@@ -126,17 +143,23 @@ function Dashboard() {
                       <h4 className="mb-4 font-bold text-gray-600">
                         Today's Overview
                       </h4>
-                      <p className="text-lg text-gray-700 ">
-                        You have
-                        <span className="font-bold text-blue-600">
-                          {" " + tasksRemaining + " "}
-                        </span>
-                        tasks remaining out of
-                        <span className="font-bold text-blue-600">
-                          {" " + totalTasks}
-                        </span>
-                        .
-                      </p>
+                      {todosDueToday === 0 ? (
+                        <p className="text-lg text-gray-700">
+                          There are no tasks for today.
+                        </p>
+                      ) : (
+                        <p className="text-lg text-gray-700">
+                          You have
+                          <span className="font-bold text-blue-600">
+                            {" " + todosDueToday + " "}
+                          </span>
+                          tasks remaining out of
+                          <span className="font-bold text-blue-600">
+                            {" " + completedTodosDueToday + " "}
+                          </span>
+                          tasks today.
+                        </p>
+                      )}
                     </div>
                   </div>
                   {isLoadingTodos ? (
