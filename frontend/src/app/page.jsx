@@ -1,81 +1,122 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
+import {
+  HiArrowLongRight,
+  HiBolt,
+  HiChartBar,
+  HiArrowTrendingUp,
+  HiMiniUsers,
+} from "react-icons/hi2";
 
 function Page() {
   return (
-    // <div className="flex flex-row w-full h-screen">
-    //   <div className="flex flex-col w-1/2 border-r-2 h-max min-h-max bg-stone-200">
-    //     <div>Take your todo app to the next level</div>
-    //     <div className="max-w-screen-xl mx-auto">
-    //       <div className="border mockup-window bg-base-300">
-    //         <Image src={require("")} alt="demo" />
-    //       </div>
-    //     </div>
-    //     <div className="flex w-1/2 h-max"></div>
-    //   </div>
-    // </div>
-    //   <div className="w-full px-32 pt-40 pb-20 text-center bg-stone-50">
-    //     <p className="text-4xl text-sky-400">Welcome to TodoGPT</p>
-    //     <p className="text-4xl text-sky-400">
-    //       Your Personal Todo Application with AI Assistant for Productivity!
-    //     </p>
-    //   </div>
-    //   <div className="flex-col justify-center w-full bg-blue-200">
-    //     <div className="max-w-6xl px-10 py-20 mx-auto text-xl ">
-    //       <p className="text-3xl text-purple-800">With TodoGPT, you can:</p>
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Manage Your Tasks:
-    //       </p>
-    //       Keep track of your to-do list effortlessly. Add, edit, or delete tasks
-    //       with just a few clicks or voice commands.
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Smart Prioritization:
-    //       </p>
-    //       Let AI help you prioritize your tasks based on deadlines, importance,
-    //       and dependencies. No more guessing what to tackle first.
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Customized Scheduling:
-    //       </p>
-    //       Our AI understands your preferences. It can create a personalized
-    //       schedule that optimizes your productivity, considering your peak hours
-    //       and commitments.
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Task Reminders:
-    //       </p>
-    //       Never forget an important task again. Receive timely reminders and
-    //       notifications to keep you on track.
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Natural Language Interaction:
-    //       </p>
-    //       Interact with your AI assistant naturally. Just tell it what you need,
-    //       and it will understand and assist.
-    //       <p className="text-2xl font-semibold text-blue-800">
-    //         Stay Organized:
-    //       </p>
-    //       Categorize tasks, tag them, and organize your to-do list your way.
-    //       Your AI assistant adapts to your workflow.
-    //     </div>
-    //   </div>
-    //   <div className="w-full px-32 py-20 text-center bg-stone-50">
-    //     <p className="text-4xl text-sky-400">Join us now!</p>
-    //     <Link href="/todos">Let's get started!</Link>
-    //   </div>
-    // </div>
-    <div className="fixed w-full h-full">
-      <div className="flex">
-        <div className="flex flex-col items-center justify-center w-full h-screen overflow-y-auto bg-gradient-to-tr pb-96 no-scrollbar from-stone-100 from-10% via-70% to-90% via-red-100 to-red-200">
-          <div className="w-4/5 text-5xl text-center text-stone-600">
-            Take your productivity to the next level <br /> with an AI
-            Assistant!
-          </div>
-
-          <div className="p-2 mt-8 text-2xl border-2 border-spacing-y-12 border-stone-600">
-            <Link href="/dashboard">Let's get started!</Link>
+    <>
+      <section className="w-full py-24 bg-gradient-to-r from-sky-500 to-blue-500 md:py-32 lg:py-40">
+        <div className="container flex flex-col items-center justify-center max-w-screen-lg mx-auto text-center">
+          <h1 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            Ready to revolutionize your productivity?
+          </h1>
+          <p className="max-w-3xl mt-6 text-lg text-gray-200 md:text-xl">
+            Leverage AI as Your Personal Assistant. <br />
+            TodoGPT Simplifies Task Management and Boosts Your Productivity.
+          </p>
+          <div className="mt-10">
+            <Link
+              className="inline-flex items-center px-6 py-3 text-lg font-medium transition-colors bg-white rounded-md shadow-lg text-sky-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+              href="/dashboard"
+            >
+              Get Started
+              <HiArrowLongRight className="w-5 h-5 ml-2" />
+            </Link>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+      <section className="w-full py-12 md:py-24">
+        <div className="container flex flex-col items-center justify-center mx-auto space-y-10 text-center max-w-screen-2xl">
+          <div className="space-y-2 md:pb-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              Why TodoGPT?
+            </h2>
+            <p className="mx-auto max-w-[800px] text-gray-500 md:text-2xl dark:text-gray-400">
+              TodoGPT is a task management tool that leverages AI to help you
+            </p>
+          </div>
+          <div className="grid gap-4 md:gap-8 lg:gap-12 sm:grid-cols-2">
+            <div className="flex flex-col items-center space-y-2">
+              <HiBolt className="flex-shrink-0 w-20 h-20" />
+              <div className="space-y-2 text-center">
+                <h3 className="font-bold">Enhanced Productivity</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Boost your productivity with AI-powered task management and
+                  prioritization.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center space-y-2">
+              <HiChartBar className="flex-shrink-0 w-20 h-20" />
+              <div className="space-y-2 text-center">
+                <h3 className="font-bold">Dashboard</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Visualize your tasks and progress with our intuitive dashboard
+                  and analytics.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center space-y-2">
+              <HiArrowTrendingUp className="flex-shrink-0 w-20 h-20" />
+              <div className="space-y-2 text-center">
+                <h3 className="font-bold">Performance Tracking</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Monitor your performance and identify areas for improvement
+                  with our performance tracking tools.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center space-y-2">
+              <HiMiniUsers className="flex-shrink-0 w-20 h-20" />
+              <div className="space-y-2 text-center">
+                <h3 className="font-bold">User Experience</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Enjoy a seamless user experience with our user-friendly
+                  interface and intuitive features.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="w-full py-12 bg-gray-100 md:py-24 dark:bg-gray-800">
+        <div className="container flex flex-col items-center justify-center mx-auto space-y-10 text-center max-w-screen-2xl">
+          <div className="space-y-2">
+            <h2 className="pb-4 text-3xl font-bold tracking-tighter dark:text-gray-500 sm:text-5xl md:text-6xl">
+              Get in Touch
+            </h2>
+            <p className="mx-auto max-w-[800px] text-gray-500 md:text-xl dark:text-gray-400">
+              Have any questions or need help? <br />
+              Don't hesitate to reach out.
+            </p>
+          </div>
+          <div className="w-full max-w-md space-y-2">
+            <form className="flex space-x-2">
+              <input
+                className="flex-1 max-w-lg px-3 py-1 text-xl border-gray-300 rounded-md dark:border-gray-700 focus:border-sky-500 focus:ring focus:ring-sky-500 focus:ring-opacity-50"
+                placeholder="Enter your email"
+                type="email"
+              />
+              <button
+                className="px-6 py-2 text-lg text-gray-300 bg-black rounded-lg dark:text-gray-500 dark:bg-gray-700 hover:bg-gray-900 focus:outline-none focus:ring focus:ring-gray-500 focus:ring-opacity-50"
+                type="submit"
+              >
+                Contact Us
+              </button>
+            </form>
+            <p className="py-2 text-xs text-gray-500 dark:text-gray-400">
+              We'll get back to you as soon as possible.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
