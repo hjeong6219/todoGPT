@@ -24,6 +24,7 @@ export const chatCompletion = async (editor, setDebouncedContent) => {
       1. Do not repeat information that is already given in the prompt and introduce a new topic instead. Do not repeatedly give same recommendations.
       2. If the user doesn't prompt for a topic, pick a topic and give recommendations.
       3. Try to include action items in bullets.
+      4. To create a checklist, the format is as follows: <ul data-type="taskList"><li data-checked="false"><label contenteditable="false"><input type="checkbox"><span></span></label><div><p>item 1</p></div></li><li data-checked="false"><label contenteditable="false"><input type="checkbox"><span></span></label><div><p>item 2</p></div></li><li data-checked="false"><label contenteditable="false"><input type="checkbox"><span></span></label><div><p>item 3</p></div></li></ul>
       4. Increase the scope of topics other than mental well being
       5. The response should use <p> tag for the content.
       6. If the response contains a list, create an unordered list with each item in a <li>. Creating a list is not mandatory.
