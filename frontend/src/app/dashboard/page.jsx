@@ -3,6 +3,7 @@ import Loader from "@/components/Loader";
 import Navbar from "@/components/dashboard/Navbar";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
 import { useGetUserByEmailQuery } from "../features/user/usersApi";
@@ -12,9 +13,6 @@ import dayjs from "dayjs";
 function Page() {
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
-  if (session) {
-    dispatch(setUser(session.user));
-  }
   const {
     data: userData,
     isLoading: isLoadingUser,
@@ -22,6 +20,24 @@ function Page() {
   } = useGetUserByEmailQuery(session?.user?.email, {
     skip: !session?.user,
   });
+
+  // Redirects to auth-callback if user does not exist in database
+  useEffect(() => {
+    if (
+      session?.user != undefined &&
+      error?.data?.message == "User does not exist."
+    ) {
+      redirect(
+        "/auth-callback?origin=todos&userEmail=" +
+          session?.user?.email +
+          "&userName=" +
+          session?.user?.name
+      );
+    }
+    if (userData) {
+      dispatch(setUser(userData));
+    }
+  }, [userData, error]);
 
   const { data: todoData, isLoading: isLoadingTodos } =
     useGetTodosByUserIdQuery(
@@ -91,10 +107,10 @@ function Page() {
               Welcome back, {userData.fullName.split(" ")[0]}!
             </h2>
           </section>
-          <h2 className="px-4 py-2 text-2xl font-bold text-gray-700">
-            Message of the Day
-          </h2>
           <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+            <h2 className="text-xl font-bold text-gray-700 ">
+              Message of the Day
+            </h2>
             <p className="text-gray-600">
               "Keep your spirits high, tackle everything with enthusiasm!"
             </p>
@@ -131,48 +147,48 @@ function Page() {
                   </div>
                 </div>
               </section>
-              <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
-                {todosDueToday.length > 0 ? (
-                  <>
-                    <h4 className="text-lg font-bold text-gray-700">
-                      Today's To-Dos
-                    </h4>
-                    <p className="text-gray-600">
-                      Tasks scheduled for today. Stay focused!
-                      <ul>
-                        {todosDueToday.map((todo) => {
-                          return <li>{todo.title}</li>;
-                        })}
-                      </ul>
-                    </p>
-                  </>
-                ) : (
+              {todosDueToday.length > 0 ? (
+                <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+                  <h4 className="text-lg font-bold text-gray-700">
+                    Today's To-Dos
+                  </h4>
+                  <p className="text-gray-600">
+                    Tasks scheduled for today. Stay focused!
+                    <ul>
+                      {todosDueToday.map((todo) => {
+                        return <li>{todo.title}</li>;
+                      })}
+                    </ul>
+                  </p>
+                </section>
+              ) : (
+                <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
                   <h4 className="text-lg font-bold text-gray-700">
                     <p>No tasks scheduled for today.</p>
                   </h4>
-                )}
-              </section>
-              <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
-                {todosDueComingWeek.length > 0 ? (
-                  <>
-                    <h4 className="text-lg font-bold text-gray-700">
-                      Upcoming To-Dos
-                    </h4>
-                    <p className="text-gray-600">
-                      Here's what's lined up for you. Plan ahead!
-                      <ul>
-                        {todosDueComingWeek.map((todo) => {
-                          return <li>{todo.title}</li>;
-                        })}
-                      </ul>
-                    </p>
-                  </>
-                ) : (
+                </section>
+              )}
+              {todosDueComingWeek.length > 0 ? (
+                <section className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
+                  <h4 className="text-lg font-bold text-gray-700">
+                    Upcoming To-Dos
+                  </h4>
+                  <p className="text-gray-600">
+                    Here's what's lined up for you. Plan ahead!
+                    <ul>
+                      {todosDueComingWeek.map((todo) => {
+                        return <li>{todo.title}</li>;
+                      })}
+                    </ul>
+                  </p>
+                </section>
+              ) : (
+                <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
                   <h4 className="text-lg font-bold text-gray-700">
                     <p>No tasks scheduled for the coming week.</p>
                   </h4>
-                )}
-              </section>
+                </section>
+              )}
             </>
           ) : (
             <>
