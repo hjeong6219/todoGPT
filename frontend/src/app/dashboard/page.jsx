@@ -88,7 +88,7 @@ function Page() {
           </section>
           <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
             <h2 className="text-2xl font-bold text-gray-700 ">
-              Welcome back, {userData.fullName}!
+              Welcome back, {userData.fullName.split(" ")[0]}!
             </h2>
           </section>
           <h2 className="px-4 py-2 text-2xl font-bold text-gray-700">
