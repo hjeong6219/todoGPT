@@ -68,7 +68,11 @@ function Page() {
   }
 
   if (status == "loading" || isLoadingUser)
-    return <Loader>Loading the dashboard...</Loader>;
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <Loader>Loading the dashboard...</Loader>
+      </div>
+    );
 
   return (
     <div className="flex h-screen bg-stone-50">
