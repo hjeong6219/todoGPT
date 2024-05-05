@@ -12,6 +12,7 @@ import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import TodoTile from "@/components/TodoTile";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -95,7 +96,7 @@ function Page() {
     }
   };
 
-  if (status == "loading" || isLoadingUser)
+  if (status == "loading" || isLoadingUser || isLoadingTodos || !userData)
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <Loader>Loading the dashboard...</Loader>
@@ -174,60 +175,15 @@ function Page() {
                         <h4 className="text-lg font-bold text-gray-700">
                           Tasks scheduled for today.
                         </h4>
-                        <p className="text-gray-600">
+                        <div className="text-gray-600">
                           <ul>
-                            {(() => {
-                              if (todosDueToday.length > 0) {
-                                return todosDueToday.map((todo, i) => {
-                                  const isExpanded = expandedTodo === todo._id;
-
-                                  return (
-                                    <div
-                                      key={"todo" + i}
-                                      className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
-                                        todo.priority === "low"
-                                          ? "border-blue-500"
-                                          : todo.priority === "medium"
-                                          ? "border-yellow-500"
-                                          : todo.priority === "high"
-                                          ? "border-red-500"
-                                          : ""
-                                      } rounded shadow cursor-pointer`}
-                                      onClick={() => handleToggleTodo(todo._id)}
-                                    >
-                                      <h1
-                                        className={`text-lg font-semibold pt-1 ${
-                                          todo.status === "completed"
-                                            ? "line-through"
-                                            : ""
-                                        }`}
-                                      >
-                                        {todo.title}
-                                      </h1>
-                                      {todo.content && (
-                                        <div
-                                          className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-                                            isExpanded
-                                              ? "max-h-32 border-t-2 pt-2 mb-2  "
-                                              : "max-h-0"
-                                          }`}
-                                        >
-                                          <ReactMarkdown
-                                            rehypePlugins={[rehypeRaw]}
-                                          >
-                                            {todo.content}
-                                          </ReactMarkdown>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                });
-                              } else {
-                                return <p>No tasks scheduled for this day.</p>;
-                              }
-                            })()}
+                            <TodoTile
+                              todos={todosDueToday}
+                              handleToggleTodo={handleToggleTodo}
+                              expandedTodo={expandedTodo}
+                            />
                           </ul>
-                        </p>
+                        </div>
                       </section>
                     ) : (
                       <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
@@ -242,62 +198,15 @@ function Page() {
                         <h4 className="text-lg font-bold text-gray-700">
                           Tasks scheduled for the following week.
                         </h4>
-                        <p className="text-gray-600">
+                        <div className="text-gray-600">
                           <ul>
-                            {(() => {
-                              if (todosDueComingWeek.length > 0) {
-                                return todosDueComingWeek.map((todo, i) => {
-                                  const isExpanded = expandedTodo === todo._id;
-
-                                  return (
-                                    <div
-                                      key={"todo" + i}
-                                      className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
-                                        todo.priority === "low"
-                                          ? "border-blue-500"
-                                          : todo.priority === "medium"
-                                          ? "border-yellow-500"
-                                          : todo.priority === "high"
-                                          ? "border-red-500"
-                                          : ""
-                                      } rounded shadow cursor-pointer`}
-                                      onClick={() => handleToggleTodo(todo._id)}
-                                    >
-                                      <h1
-                                        className={`text-lg pt-1 font-semibold ${
-                                          todo.status === "completed"
-                                            ? "line-through"
-                                            : ""
-                                        }`}
-                                      >
-                                        {todo.title}
-                                      </h1>
-                                      {todo.content && (
-                                        <div
-                                          className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-                                            isExpanded
-                                              ? "max-h-32 border-t-2 pt-2   mb-2"
-                                              : "max-h-0"
-                                          }`}
-                                        >
-                                          <ReactMarkdown
-                                            rehypePlugins={[rehypeRaw]}
-                                          >
-                                            {todo.content}
-                                          </ReactMarkdown>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                });
-                              } else {
-                                return (
-                                  <p>No tasks scheduled for the coming week.</p>
-                                );
-                              }
-                            })()}
+                            <TodoTile
+                              todos={todosDueComingWeek}
+                              handleToggleTodo={handleToggleTodo}
+                              expandedTodo={expandedTodo}
+                            />
                           </ul>
-                        </p>
+                        </div>
                       </section>
                     ) : (
                       <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
@@ -312,13 +221,6 @@ function Page() {
                     <h4 className="text-lg font-bold text-gray-700">
                       No tasks scheduled.
                     </h4>
-                    <p className="text-gray-600">
-                      <ul>
-                        {todosDueToday.map((todo) => {
-                          return <li>{todo.title}</li>;
-                        })}
-                      </ul>
-                    </p>
                   </section>
                 )}
               </>

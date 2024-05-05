@@ -14,8 +14,7 @@ import Navbar from "@/components/dashboard/Navbar";
 import Loader from "./Loader";
 import { useGetUserByEmailQuery } from "@/app/features/user/usersApi";
 import { useSession } from "next-auth/react";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
+import TodoTile from "./TodoTile";
 
 function Calendar() {
   const { data: session, status } = useSession();
@@ -55,6 +54,8 @@ function Calendar() {
       setExpandedTodo(todoId);
     }
   };
+
+  const todosDueThisDate = getTodosByDate(todos, selectedDate);
 
   return (
     <>
@@ -151,56 +152,25 @@ function Calendar() {
               <h1 className="mb-4 font-semibold xl:text-xl">
                 Schedule for {selectedDate.format("MMMM D, YYYY")}
               </h1>
-              {(() => {
-                const todosForSelectedDate = getTodosByDate(
-                  todos,
-                  selectedDate
-                );
-                if (todosForSelectedDate.length > 0) {
-                  return todosForSelectedDate.map((todo, i) => {
-                    const isExpanded = expandedTodo === todo._id;
-
-                    return (
-                      <div
-                        key={"todo" + i}
-                        className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
-                          todo.priority === "low"
-                            ? "border-blue-500"
-                            : todo.priority === "medium"
-                            ? "border-yellow-500"
-                            : todo.priority === "high"
-                            ? "border-red-500"
-                            : ""
-                        } rounded shadow cursor-pointer`}
-                        onClick={() => handleToggleTodo(todo._id)}
-                      >
-                        <h1
-                          className={`text-lg font-semibold pt-1 ${
-                            todo.status === "completed" ? "line-through" : ""
-                          }`}
-                        >
-                          {todo.title}
-                        </h1>
-                        {todo.content && (
-                          <div
-                            className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-                              isExpanded
-                                ? "max-h-32 border-t-2 pt-2 mb-2  "
-                                : "max-h-0"
-                            }`}
-                          >
-                            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                              {todo.content}
-                            </ReactMarkdown>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  });
-                } else {
-                  return <p>No tasks scheduled for this day.</p>;
-                }
-              })()}
+              <div className="text-gray-600">
+                {selectedDate.isSame(today, "day") &&
+                todosDueThisDate.length === 0 ? (
+                  <p className="text-lg text-gray-700">No tasks for today.</p>
+                ) : !selectedDate.isSame(today, "day") &&
+                  todosDueThisDate.length === 0 ? (
+                  <p className="text-lg text-gray-700">
+                    No tasks scheduled for this date.
+                  </p>
+                ) : (
+                  <ul>
+                    <TodoTile
+                      todos={todosDueThisDate}
+                      handleToggleTodo={handleToggleTodo}
+                      expandedTodo={expandedTodo}
+                    />
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>
