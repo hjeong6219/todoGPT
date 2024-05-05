@@ -96,23 +96,24 @@ function Dashboard() {
 
   let today = new Date();
   let completedTodosDueToday = 0;
+  let incompleteTodosDueToday = 0;
   let todosDueToday = 0;
 
   todos.forEach((column) => {
-    completedTodosDueToday += column.todos.filter((todo) => {
+    column.todos.forEach((todo) => {
       let todoDueDate = new Date(todo.dueDate);
-      return todoDueDate.getDate() === today.getDate();
-    }).length;
+      if (todoDueDate.getDate() === today.getDate()) {
+        todosDueToday++;
+        if (todo.status === "completed") {
+          completedTodosDueToday++;
+        } else {
+          incompleteTodosDueToday++;
+        }
+      }
+    });
   });
 
-  todos.forEach((column) => {
-    todosDueToday += column.todos.filter((todo) => {
-      let todoDueDate = new Date(todo.dueDate);
-      return (
-        todo.status !== "completed" && todoDueDate.getDate() === today.getDate()
-      );
-    }).length;
-  });
+  console.log(todosDueToday, incompleteTodosDueToday, completedTodosDueToday);
 
   return (
     <>
@@ -143,7 +144,12 @@ function Dashboard() {
                       <h4 className="mb-4 font-bold text-gray-600">
                         Today's Overview
                       </h4>
-                      {todosDueToday === 0 ? (
+                      {todosDueToday > 0 &&
+                      todosDueToday === completedTodosDueToday ? (
+                        <p className="text-lg text-gray-700">
+                          All todos completed for today!
+                        </p>
+                      ) : todosDueToday === 0 ? (
                         <p className="text-lg text-gray-700">
                           There are no tasks for today.
                         </p>
@@ -151,11 +157,14 @@ function Dashboard() {
                         <p className="text-lg text-gray-700">
                           You have
                           <span className="font-bold text-blue-600">
-                            {" " + todosDueToday + " "}
+                            {" " + incompleteTodosDueToday + " "}
                           </span>
                           tasks remaining out of
                           <span className="font-bold text-blue-600">
-                            {" " + completedTodosDueToday + " "}
+                            {" " +
+                              (completedTodosDueToday +
+                                incompleteTodosDueToday) +
+                              " "}
                           </span>
                           tasks today.
                         </p>
