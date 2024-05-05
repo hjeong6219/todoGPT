@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import RichTextEditor from "../RichTextEditor";
+import RichTextEditor from "./RichTextEditor";
 import { Editor } from "@tiptap/react";
 import EditorMenu from "./EditorMenu";
 

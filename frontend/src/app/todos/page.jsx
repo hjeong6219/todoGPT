@@ -1,7 +1,7 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Dashboard from "@/components/dashboard/Dashboard";
+import TodoBoard from "@/components/todo/TodoBoard";
 import { Toaster } from "react-hot-toast";
 
 function Page() {
@@ -14,7 +14,7 @@ function Page() {
 
   return (
     <main>
-      <Dashboard />
+      <TodoBoard />
       <Toaster />
     </main>
   );

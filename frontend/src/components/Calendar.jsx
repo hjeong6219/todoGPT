@@ -10,11 +10,11 @@ import cn from "@/utilities/cn";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import Navbar from "@/components/dashboard/Navbar";
+import Navbar from "@/components/todo/Navbar";
 import Loader from "./Loader";
 import { useGetUserByEmailQuery } from "@/app/features/user/usersApi";
 import { useSession } from "next-auth/react";
-import TodoTile from "./TodoTile";
+import TodoTile from "./dashboard/TodoTile";
 
 function Calendar() {
   const { data: session, status } = useSession();

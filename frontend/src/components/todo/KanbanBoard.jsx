@@ -1,7 +1,7 @@
 import { setTodo } from "@/app/features/todo/todoSlice";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import Post from "../todo/Post";
+import Post from "./Post";
 import { useDispatch } from "react-redux";
 import {
   useAddTodoMutation,

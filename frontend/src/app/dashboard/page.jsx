@@ -1,6 +1,6 @@
 "use client";
 import Loader from "@/components/Loader";
-import Navbar from "@/components/dashboard/Navbar";
+import Navbar from "@/components/todo/Navbar";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -12,7 +12,7 @@ import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import TodoTile from "@/components/TodoTile";
+import TodoTile from "@/components/dashboard/TodoTile";
 
 function Page() {
   const { data: session, status } = useSession();

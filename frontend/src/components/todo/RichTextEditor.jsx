@@ -1,5 +1,5 @@
 "use client";
-import "../styles/tiptap.scss";
+import "../../styles/tiptap.scss";
 import {
   useEditor,
   EditorContent,
