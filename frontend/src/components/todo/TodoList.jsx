@@ -10,7 +10,6 @@ import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
 
 import TodoInput from "./TodoInput";
-import Header from "../Header";
 import TodoWrapper from "./TodoWrapper";
 import Post from "./Post";
 import KanbanBoard from "../dashboard/KanbanBoard";
