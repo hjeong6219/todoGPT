@@ -11,12 +11,12 @@ import {
 function Page() {
   return (
     <>
-      <section className="w-full py-24 bg-gradient-to-r from-sky-500 to-blue-500 md:py-32 lg:py-40">
+      <section className="w-full py-12 bg-gradient-to-r from-sky-500 to-blue-500 md:py-20 lg:py-28">
         <div className="container flex flex-col items-center justify-center max-w-screen-lg mx-auto text-center">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl xl:text-7xl">
             Ready to revolutionize your productivity?
           </h1>
-          <p className="max-w-3xl mt-6 text-lg text-gray-200 md:text-xl">
+          <p className="max-w-4xl mt-6 text-lg text-gray-200 md:text-2xl">
             Leverage AI as Your Personal Assistant. <br />
             TodoGPT Simplifies Task Management and Boosts Your Productivity.
           </p>
@@ -31,10 +31,10 @@ function Page() {
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24">
-        <div className="container flex flex-col items-center justify-center mx-auto space-y-10 text-center max-w-screen-2xl">
+      <section className="w-full py-12 md:py-20 lg:py-28">
+        <div className="container flex flex-col items-center justify-center mx-auto space-y-16 text-center max-w-screen-2xl">
           <div className="space-y-2 md:pb-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+            <h2 className="my-4 text-2xl font-bold tracking-tighter md:text-3xl lg:text-4xl xl:text-6xl">
               Why TodoGPT?
             </h2>
             <p className="mx-auto max-w-[800px] text-gray-500 md:text-2xl dark:text-gray-400">
@@ -85,7 +85,7 @@ function Page() {
           </div>
         </div>
       </section>
-      <section className="w-full py-12 bg-gray-100 md:py-24 dark:bg-gray-800">
+      <section className="w-full py-12 bg-gray-100 md:py-20 lg:py-28 dark:bg-gray-800">
         <div className="container flex flex-col items-center justify-center mx-auto space-y-10 text-center max-w-screen-2xl">
           <div className="space-y-2">
             <h2 className="pb-4 text-3xl font-bold tracking-tighter dark:text-gray-500 sm:text-5xl md:text-6xl">
