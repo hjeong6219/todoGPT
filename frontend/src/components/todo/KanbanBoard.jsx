@@ -12,8 +12,6 @@ import { useAddChatMutation } from "@/app/features/chat/chatApi";
 import { setTodoStatus } from "@/app/features/todo/todoSlice";
 
 function KanbanBoard({ user, todos, handleShowTodo }) {
-  // This function is required to fix the bug within react-beautiful-dnd
-  // where the draggable element is not draggable after clicking and throw an error
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
