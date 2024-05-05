@@ -1,7 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
-import { Editor } from "@tiptap/react";
 import EditorMenu from "./EditorMenu";
 
 function TodoContent({ todo, isMenuOpen }) {
@@ -16,7 +14,6 @@ function TodoContent({ todo, isMenuOpen }) {
           className="w-full h-full px-4 pt-4 overflow-y-auto text-xl rounded-sm resize-none no-scrollbar bg-stone-50 focus:outline-none"
           name="content"
           todo={todo}
-          // setContent={setContent}
         />
       </div>
       {isMenuOpen && <EditorMenu isMenuOpen={isMenuOpen} todo={todo} />}
