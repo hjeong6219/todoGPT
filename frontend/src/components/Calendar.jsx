@@ -14,6 +14,8 @@ import Navbar from "@/components/dashboard/Navbar";
 import Loader from "./Loader";
 import { useGetUserByEmailQuery } from "@/app/features/user/usersApi";
 import { useSession } from "next-auth/react";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 function Calendar() {
   const { data: session, status } = useSession();
@@ -158,28 +160,39 @@ function Calendar() {
                   return todosForSelectedDate.map((todo, i) => {
                     const isExpanded = expandedTodo === todo._id;
 
-                    const contentClasses = `transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-                      isExpanded ? "max-h-[6rem] border-t-2 pt-2  " : "max-h-0"
-                    }`;
-
                     return (
                       <div
                         key={"todo" + i}
-                        className="flex flex-col gap-2 p-4 mb-3 bg-white border-l-4 border-blue-500 rounded shadow cursor-pointer"
+                        className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
+                          todo.priority === "low"
+                            ? "border-blue-500"
+                            : todo.priority === "medium"
+                            ? "border-yellow-500"
+                            : todo.priority === "high"
+                            ? "border-red-500"
+                            : ""
+                        } rounded shadow cursor-pointer`}
                         onClick={() => handleToggleTodo(todo._id)}
                       >
                         <h1
-                          className={`text-lg font-semibold ${
-                            todo.completed === "completed" ? "line-through" : ""
+                          className={`text-lg font-semibold pt-1 ${
+                            todo.status === "completed" ? "line-through" : ""
                           }`}
                         >
                           {todo.title}
                         </h1>
                         {todo.content && (
                           <div
-                            className={contentClasses}
-                            dangerouslySetInnerHTML={{ __html: todo.content }}
-                          />
+                            className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
+                              isExpanded
+                                ? "max-h-32 border-t-2 pt-2 mb-2  "
+                                : "max-h-0"
+                            }`}
+                          >
+                            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                              {todo.content}
+                            </ReactMarkdown>
+                          </div>
                         )}
                       </div>
                     );

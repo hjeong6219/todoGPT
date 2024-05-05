@@ -4,11 +4,14 @@ import Navbar from "@/components/dashboard/Navbar";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useState } from "react";
 import { setUser } from "../features/user/userSlice";
 import Weather from "@/components/dashboard/Weather";
 import { useGetUserByEmailQuery } from "../features/user/usersApi";
 import { useGetTodosByUserIdQuery } from "../features/todo/todosApi";
 import dayjs from "dayjs";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -53,6 +56,8 @@ function Page() {
   let todosDueToday = [];
   let todosDueComingWeek = [];
 
+  const [expandedTodo, setExpandedTodo] = useState(false);
+
   if (todoData) {
     todoCount =
       todoData.filter((column) => column.title === "Todo")[0]?.todos.length ||
@@ -65,7 +70,6 @@ function Page() {
         .length || 0;
 
     todosDueToday = todoData
-      .filter((column) => column.title !== "Completed")
       .flatMap((column) => column.todos)
       .filter((todo) => {
         const dueDate = dayjs(todo.dueDate).startOf("day");
@@ -83,6 +87,14 @@ function Page() {
       });
   }
 
+  const handleToggleTodo = (todoId) => {
+    if (expandedTodo === todoId) {
+      setExpandedTodo(null);
+    } else {
+      setExpandedTodo(todoId);
+    }
+  };
+
   if (status == "loading" || isLoadingUser)
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -92,118 +104,239 @@ function Page() {
 
   return (
     <div className="flex h-screen bg-stone-50">
-      <div className="flex h-screen">
+      <div className="flex w-full h-screen">
         <Navbar />
-      </div>
-      <div className="flex-1 mx-auto overflow-hidden max-w-screen-2xl ">
-        <main className="h-full p-4 overflow-y-auto no-scrollbar">
-          <section className="flex items-center justify-between px-4 py-8">
-            <div className="flex items-center gap-4">
-              <h1 className="text-4xl font-bold text-gray-700">Dashboard</h1>
-            </div>
-          </section>
-          <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-700 ">
-              Welcome back, {userData.fullName.split(" ")[0]}!
-            </h2>
-          </section>
-          <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
-            <h2 className="text-xl font-bold text-gray-700 ">
-              Message of the Day
-            </h2>
-            <p className="text-gray-600">
-              "Keep your spirits high, tackle everything with enthusiasm!"
-            </p>
-          </section>
+        <div className="flex flex-col flex-1 h-screen overflow-hidden ">
+          <main className="right-0 h-full mx-auto overflow-y-auto max-w-screen-2xl no-scrollbar">
+            <section className="flex items-center justify-between px-4 py-8">
+              <div className="flex items-center gap-4">
+                <h3 className="text-3xl font-medium text-gray-700">
+                  Dashboard
+                </h3>
+              </div>
+            </section>
+            <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-700 ">
+                Welcome back, {userData.fullName.split(" ")[0]}!
+              </h2>
+            </section>
+            <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+              <h2 className="text-xl font-bold text-gray-700 ">
+                Message of the Day
+              </h2>
+              <p className="text-gray-600">
+                "Keep your spirits high, tackle everything with enthusiasm!"
+              </p>
+            </section>
 
-          <Weather />
-          {todoData ? (
-            <>
-              <section className="mb-6">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="p-4 bg-white border-2 border-blue-200 rounded shadow-lg">
-                    <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
-                    <p className="text-gray-600">
-                      {todoCount} todo(s) that needs to be addressed.
-                    </p>
-                  </div>
+            <Weather />
+            {todoData ? (
+              <>
+                <section className="mb-6">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <div className="p-4 bg-white border-2 border-blue-200 rounded shadow-lg">
+                      <h3 className="text-lg font-bold text-gray-700">To-Do</h3>
+                      <p className="text-gray-600">
+                        {todoCount > 0
+                          ? `${todoCount} todo(s) that needs to be addressed.
+                          `
+                          : "There are no todos to work on."}
+                      </p>
+                    </div>
 
-                  <div className="p-4 bg-white border-2 border-yellow-200 rounded shadow-lg">
-                    <h3 className="text-lg font-bold text-gray-700">
-                      In Progress
-                    </h3>
-                    <p className="text-gray-600">
-                      {inProgressCount} todo(s) you are currently working on.
-                    </p>
-                  </div>
+                    <div className="p-4 bg-white border-2 border-yellow-200 rounded shadow-lg">
+                      <h3 className="text-lg font-bold text-gray-700">
+                        In Progress
+                      </h3>
+                      <p className="text-gray-600">
+                        {inProgressCount > 0
+                          ? `${inProgressCount} todo(s) you are currently working on.`
+                          : "There are no todos in progress."}
+                      </p>
+                    </div>
 
-                  <div className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
-                    <h3 className="text-lg font-bold text-gray-700">
-                      Completed
-                    </h3>
-                    <p className="text-gray-600">
-                      {completedCount} todo(s) you have completed. Well done!
-                    </p>
+                    <div className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
+                      <h3 className="text-lg font-bold text-gray-700">
+                        Completed
+                      </h3>
+                      <p className="text-gray-600">
+                        {completedCount > 0
+                          ? `${completedCount} todo(s) you have completed. Well done!`
+                          : "There are no completed todos."}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </section>
-              {todosDueToday.length > 0 ? (
-                <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
-                  <h4 className="text-lg font-bold text-gray-700">
-                    Today's To-Dos
-                  </h4>
-                  <p className="text-gray-600">
-                    Tasks scheduled for today. Stay focused!
-                    <ul>
-                      {todosDueToday.map((todo) => {
-                        return <li>{todo.title}</li>;
-                      })}
-                    </ul>
-                  </p>
                 </section>
-              ) : (
-                <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
-                  <h4 className="text-lg font-bold text-gray-700">
-                    <p>No tasks scheduled for today.</p>
-                  </h4>
+                {todosDueToday.length > 0 || todosDueComingWeek.length > 0 ? (
+                  <>
+                    {todosDueToday.length > 0 ? (
+                      <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+                        <h4 className="text-lg font-bold text-gray-700">
+                          Tasks scheduled for today.
+                        </h4>
+                        <p className="text-gray-600">
+                          <ul>
+                            {(() => {
+                              if (todosDueToday.length > 0) {
+                                return todosDueToday.map((todo, i) => {
+                                  const isExpanded = expandedTodo === todo._id;
+
+                                  return (
+                                    <div
+                                      key={"todo" + i}
+                                      className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
+                                        todo.priority === "low"
+                                          ? "border-blue-500"
+                                          : todo.priority === "medium"
+                                          ? "border-yellow-500"
+                                          : todo.priority === "high"
+                                          ? "border-red-500"
+                                          : ""
+                                      } rounded shadow cursor-pointer`}
+                                      onClick={() => handleToggleTodo(todo._id)}
+                                    >
+                                      <h1
+                                        className={`text-lg font-semibold pt-1 ${
+                                          todo.status === "completed"
+                                            ? "line-through"
+                                            : ""
+                                        }`}
+                                      >
+                                        {todo.title}
+                                      </h1>
+                                      {todo.content && (
+                                        <div
+                                          className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
+                                            isExpanded
+                                              ? "max-h-32 border-t-2 pt-2 mb-2  "
+                                              : "max-h-0"
+                                          }`}
+                                        >
+                                          <ReactMarkdown
+                                            rehypePlugins={[rehypeRaw]}
+                                          >
+                                            {todo.content}
+                                          </ReactMarkdown>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                });
+                              } else {
+                                return <p>No tasks scheduled for this day.</p>;
+                              }
+                            })()}
+                          </ul>
+                        </p>
+                      </section>
+                    ) : (
+                      <section className="p-4 mb-6 bg-gray-100 border border-gray-200 rounded shadow-lg">
+                        <h4 className="text-lg font-bold text-gray-700">
+                          <p>No tasks scheduled for today.</p>
+                        </h4>
+                      </section>
+                    )}
+
+                    {todosDueComingWeek.length > 0 ? (
+                      <section className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
+                        <h4 className="text-lg font-bold text-gray-700">
+                          Tasks scheduled for the following week.
+                        </h4>
+                        <p className="text-gray-600">
+                          <ul>
+                            {(() => {
+                              if (todosDueComingWeek.length > 0) {
+                                return todosDueComingWeek.map((todo, i) => {
+                                  const isExpanded = expandedTodo === todo._id;
+
+                                  return (
+                                    <div
+                                      key={"todo" + i}
+                                      className={`flex flex-col gap-2 px-4 py-1 mb-3 bg-white border-l-4 ${
+                                        todo.priority === "low"
+                                          ? "border-blue-500"
+                                          : todo.priority === "medium"
+                                          ? "border-yellow-500"
+                                          : todo.priority === "high"
+                                          ? "border-red-500"
+                                          : ""
+                                      } rounded shadow cursor-pointer`}
+                                      onClick={() => handleToggleTodo(todo._id)}
+                                    >
+                                      <h1
+                                        className={`text-lg pt-1 font-semibold ${
+                                          todo.status === "completed"
+                                            ? "line-through"
+                                            : ""
+                                        }`}
+                                      >
+                                        {todo.title}
+                                      </h1>
+                                      {todo.content && (
+                                        <div
+                                          className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
+                                            isExpanded
+                                              ? "max-h-32 border-t-2 pt-2   mb-2"
+                                              : "max-h-0"
+                                          }`}
+                                        >
+                                          <ReactMarkdown
+                                            rehypePlugins={[rehypeRaw]}
+                                          >
+                                            {todo.content}
+                                          </ReactMarkdown>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                });
+                              } else {
+                                return (
+                                  <p>No tasks scheduled for the coming week.</p>
+                                );
+                              }
+                            })()}
+                          </ul>
+                        </p>
+                      </section>
+                    ) : (
+                      <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
+                        <h4 className="text-lg font-bold text-gray-700">
+                          <p>No tasks scheduled for the coming week.</p>
+                        </h4>
+                      </section>
+                    )}
+                  </>
+                ) : (
+                  <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+                    <h4 className="text-lg font-bold text-gray-700">
+                      No tasks scheduled.
+                    </h4>
+                    <p className="text-gray-600">
+                      <ul>
+                        {todosDueToday.map((todo) => {
+                          return <li>{todo.title}</li>;
+                        })}
+                      </ul>
+                    </p>
+                  </section>
+                )}
+              </>
+            ) : (
+              <>
+                <section className="mb-6">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                    <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                    <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
+                  </div>
                 </section>
-              )}
-              {todosDueComingWeek.length > 0 ? (
-                <section className="p-4 bg-white border-2 border-green-200 rounded shadow-lg">
-                  <h4 className="text-lg font-bold text-gray-700">
-                    Upcoming To-Dos
-                  </h4>
-                  <p className="text-gray-600">
-                    Here's what's lined up for you. Plan ahead!
-                    <ul>
-                      {todosDueComingWeek.map((todo) => {
-                        return <li>{todo.title}</li>;
-                      })}
-                    </ul>
-                  </p>
-                </section>
-              ) : (
-                <section className="p-4 bg-gray-100 border border-gray-200 rounded shadow-lg">
-                  <h4 className="text-lg font-bold text-gray-700">
-                    <p>No tasks scheduled for the coming week.</p>
-                  </h4>
-                </section>
-              )}
-            </>
-          ) : (
-            <>
-              <section className="mb-6">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
-                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
-                  <div className="h-20 rounded shadow-lg animate-pulse bg-slate-300"></div>
-                </div>
-              </section>
-              <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
-              <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
-            </>
-          )}
-        </main>
+                <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
+                <section className="h-20 mb-6 rounded shadow-lg animate-pulse bg-slate-300" />
+              </>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
