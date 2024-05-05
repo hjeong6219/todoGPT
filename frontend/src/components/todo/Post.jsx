@@ -7,7 +7,6 @@ import {
   useGetChatByTodoQuery,
 } from "@/app/features/chat/chatApi";
 import cn from "@/utilities/cn";
-import { forwardRef } from "react";
 import toast from "react-hot-toast";
 
 import { HiX } from "react-icons/hi";
@@ -24,14 +23,11 @@ function Post({ todo, handleShowTodo }) {
     isError,
   } = useGetChatByTodoQuery(todo._id);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    updateTodoMutation({ ...todo, title: title, content: content });
-    toast.success("Todo updated!");
-  };
-
   const handleCompletion = () => {
-    updateTodoMutation({ ...todo, completed: !todo.completed });
+    updateTodoMutation({
+      ...todo,
+      status: todo.status !== "completed" ? "completed" : "notStarted",
+    });
     toast.success("Todo updated!");
   };
 
@@ -51,17 +47,10 @@ function Post({ todo, handleShowTodo }) {
       <div className="flex w-full h-12 px-2 text-xl rounded-xl">
         <input
           type="checkbox"
-          checked={todo.completed === true ? "checked" : ""}
+          checked={todo.status === "completed" ? "checked" : ""}
           onChange={handleCompletion}
           className="my-auto mr-2 checkbox-sm checkbox"
         />
-        {/* <textarea
-          className="w-full col-span-7 py-2 resize-none bg-stone-50 focus:outline-none text-stone-900"
-          type="text"
-          value={todo.title}
-          onChange={handleTitleChange}
-          placeholder="Enter your title here"
-        /> */}
         <div
           className={cn({
             "line-through": todo.completed === "completed" ? true : false,
