@@ -113,8 +113,6 @@ function Dashboard() {
     });
   });
 
-  console.log(todosDueToday, incompleteTodosDueToday, completedTodosDueToday);
-
   return (
     <>
       {isLoadingUser || status === "loading" ? (
