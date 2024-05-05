@@ -48,7 +48,7 @@ function Navbar() {
               Calendar
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               href="#"
               className={`text-gray-700 block py-2.5 px-4 lg:text-lg rounded transition duration-200 hover:bg-blue-50 hover:text-blue-600 ${
@@ -57,7 +57,7 @@ function Navbar() {
             >
               Account
             </Link>
-          </li>
+          </li> */}
         </ul>
         <div className="mt-6">
           <button
