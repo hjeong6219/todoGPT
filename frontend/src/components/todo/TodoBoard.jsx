@@ -1,6 +1,6 @@
 "use client";
 import KanbanBoard from "@/components/todo/KanbanBoard";
-import Navbar from "@/components/todo/Navbar";
+import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/todo/SearchBar";
 import { HiPlus } from "react-icons/hi";
 import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";

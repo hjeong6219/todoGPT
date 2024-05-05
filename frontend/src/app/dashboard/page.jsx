@@ -1,6 +1,6 @@
 "use client";
 import Loader from "@/components/Loader";
-import Navbar from "@/components/todo/Navbar";
+import Navbar from "@/components/Navbar";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
