@@ -10,6 +10,7 @@ import Title from "./Title";
 import TodoContent from "./TodoContent";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentTodo } from "@/app/features/todo/todoSlice";
+import toast from "react-hot-toast";
 
 function TodoWrapper({ setIsShowModal }) {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function TodoWrapper({ setIsShowModal }) {
       await updateTodo({
         ...currentTodo,
       });
+      toast.success("Todo updated!");
     } catch (error) {
       console.error("Failed to update todo");
     }
@@ -50,7 +52,7 @@ function TodoWrapper({ setIsShowModal }) {
           <div className="sticky w-full">
             <div className="flex items-center justify-center pt-2 pr-4 bg-stone-200 rounded-xl">
               <Title todo={currentTodo} />
-              {/* <EditorButton type="submit" onClick={handleUpdate} /> */}
+              <EditorButton type="save" onClick={handleUpdate} />
               <EditorButton
                 type="menu"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
