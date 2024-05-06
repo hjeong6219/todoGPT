@@ -7,7 +7,7 @@ function TodosDueCard({ title, todos, expandedTodo, setExpandedTodo }) {
 
   return (
     <section
-      className={`p-4 mb-6 bg-gray-100 border-2 ${borderColor} rounded shadow-lg`}
+      className={`p-4 mb-6 bg-stone-50 border-2 ${borderColor} rounded shadow-lg`}
     >
       <h4 className="text-lg font-bold text-gray-700">{title}</h4>
       <div className="pt-3 text-gray-600">
