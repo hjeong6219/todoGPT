@@ -1,8 +1,9 @@
 {
+  "buildCommand": "",
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api*"
+      "destination": "/api"
     }
   ]
 }
