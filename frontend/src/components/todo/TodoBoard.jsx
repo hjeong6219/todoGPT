@@ -17,7 +17,7 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import sortTodos from "@/utilities/sortTodos";
 
-function Dashboard() {
+function TodoBoard() {
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
   const {
@@ -195,4 +195,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default TodoBoard;
