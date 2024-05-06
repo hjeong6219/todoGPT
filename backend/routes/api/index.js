@@ -1,10 +1,10 @@
 require("dotenv").config();
-const connectDB = require("./db");
+const connectDB = require("../../db");
 const express = require("express");
 const app = express();
-const todos = require("./routes/api/todos");
-const users = require("./routes/api/users");
-const chats = require("./routes/api/chats");
+const todos = require("./todos");
+const users = require("./users");
+const chats = require("./chats");
 const cors = require("cors");
 
 connectDB();
