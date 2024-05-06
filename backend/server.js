@@ -17,5 +17,9 @@ app.use("/todos", todos);
 app.use("/users", users);
 app.use("/chats", chats);
 
+app.use("/", (req, res) => {
+  res.send("Welcome to the TodoGPT API");
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
