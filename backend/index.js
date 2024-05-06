@@ -1,5 +1,5 @@
 require("dotenv").config();
-const connectDB = require("../../db");
+const connectDB = require("./db");
 const express = require("express");
 const app = express();
 const todos = require("./routes/api/todos");
