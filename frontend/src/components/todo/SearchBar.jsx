@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { useDispatch } from "react-redux";
-import { setTodo, setTodoSearch } from "@/app/features/todo/todoSlice";
+import { setTodoSearch } from "@/app/features/todo/todoSlice";
 
 function SearchBar() {
   const [showSearchBar, setShowSearchBar] = useState(false);

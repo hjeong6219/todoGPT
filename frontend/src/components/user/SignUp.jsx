@@ -1,14 +1,8 @@
 import { useRegisterUserMutation } from "@/app/features/user/usersApi";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-// import { hash } from "bcryptjs";
 import toast from "react-hot-toast";
 
 function SignUp({ setIsSignUp }) {
   const [registerUser, { data, error, isLoading }] = useRegisterUserMutation();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const param = searchParams.get("callbackUrl");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +11,6 @@ function SignUp({ setIsSignUp }) {
       const response = await registerUser({
         fullName: formData.get("fullName"),
         email: formData.get("email"),
-        // password: await hash(formData.get("password"), 10),
         password: formData.get("password"),
         redirect: false,
       });
@@ -26,7 +19,6 @@ function SignUp({ setIsSignUp }) {
         setIsSignUp(false);
         toast.success("Sign up successful");
       } else if (response.error) {
-        // console.log(response.error.data.message);
         toast.error(response.error.data.message);
       }
     } catch (error) {
@@ -50,8 +42,6 @@ function SignUp({ setIsSignUp }) {
             name="fullName"
             className="px-4 py-2 border border-gray-300 rounded-md w-96 focus:ring focus:ring-blue-400 focus:outline-none"
             placeholder="Enter your full name"
-            // value={fullName}
-            // onChange={handleFullNameChange}
             required
           />
         </div>
@@ -68,8 +58,6 @@ function SignUp({ setIsSignUp }) {
             name="email"
             className="px-4 py-2 border border-gray-300 rounded-md w-96 focus:ring focus:ring-blue-400 focus:outline-none"
             placeholder="Enter your email"
-            // value={email}
-            // onChange={handleEmailChange}
             required
           />
         </div>
@@ -86,8 +74,6 @@ function SignUp({ setIsSignUp }) {
             name="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-400 focus:outline-none"
             placeholder="Enter your password"
-            // value={password}
-            // onChange={handlePasswordChange}
             required
           />
         </div>

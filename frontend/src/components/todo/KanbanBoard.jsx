@@ -1,19 +1,17 @@
 import { setTodo } from "@/app/features/todo/todoSlice";
 import React, { useEffect, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import Post from "../todo/Post";
+import { DragDropContext } from "@hello-pangea/dnd";
 import { useDispatch } from "react-redux";
 import {
   useAddTodoMutation,
   useUpdateTodoMutation,
 } from "@/app/features/todo/todosApi";
-import ToggleInput from "./ToggleInput";
 import { useAddChatMutation } from "@/app/features/chat/chatApi";
 import { setTodoStatus } from "@/app/features/todo/todoSlice";
+import StatusFilter from "./StatusFilter";
+import KanbanBoardColumn from "./KanbanBoardColumn";
 
 function KanbanBoard({ user, todos, handleShowTodo }) {
-  // This function is required to fix the bug within react-beautiful-dnd
-  // where the draggable element is not draggable after clicking and throw an error
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
@@ -154,69 +152,14 @@ function KanbanBoard({ user, todos, handleShowTodo }) {
     <DragDropContext onDragEnd={onDragEnd}>
       {isBrowser ? (
         <div className="relative grid grid-cols-1 gap-5 p-4 my-4 bg-white border-2 rounded shadow-lg border-gray-50 md:p-6 max-w-screen-2xl md:grid-cols-3">
-          <div className="relative col-start-1 md:col-start-3 justify-self-end">
-            <label htmlFor="status-filter" className="mr-2">
-              Filter by status:{" "}
-            </label>
-            <select
-              id="status-filter"
-              onChange={(e) => dispatch(setTodoStatus(e.target.value))}
-            >
-              <option value="all">All</option>
-              <option value="notStarted">Not Started</option>
-              <option value="inProgress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
-          </div>
+          <StatusFilter setTodoStatus={setTodoStatus} />
           {todos.map((column) => (
-            <div key={column.id} className="flex flex-col h-full">
-              <h3 className="p-3 font-bold md:text-xl">{column.title}</h3>
-              <Droppable droppableId={column.id}>
-                {(provided, snapshot) => (
-                  <div
-                    className="flex-grow min-h-[50px] select-none mb-3"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    <div
-                      className={`flex-grow min-h-10px no-scrollbar overflow-auto p-2 rounded ${
-                        snapshot.isDraggingOver
-                          ? "bg-blue-200 border-2 border-blue-300"
-                          : "bg-white"
-                      }`}
-                    >
-                      {column.todos.map((todo, index) => (
-                        <Draggable
-                          key={todo._id}
-                          draggableId={todo._id.toString()}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`p-3 mb-2  bg-white rounded shadow border-2 border-gray-100 ${
-                                snapshot.isDragging
-                                  ? "scale-105 ring-2 ring-blue-300"
-                                  : "scale-100"
-                              } hover:shadow-md hover:-translate-y-1`}
-                            >
-                              <Post
-                                todo={todo}
-                                handleShowTodo={handleShowTodo}
-                              />
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  </div>
-                )}
-              </Droppable>
-              <ToggleInput onAddTodo={handleAddNewTodo} columnId={column.id} />
-            </div>
+            <KanbanBoardColumn
+              key={column.id}
+              column={column}
+              handleShowTodo={handleShowTodo}
+              handleAddNewTodo={handleAddNewTodo}
+            />
           ))}
         </div>
       ) : null}

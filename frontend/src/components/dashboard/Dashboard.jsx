@@ -1,21 +1,21 @@
 "use client";
-import KanbanBoard from "@/components/dashboard/KanbanBoard";
-import Navbar from "@/components/dashboard/Navbar";
-import SearchBar from "@/components/dashboard/SearchBar";
-import { HiPlus } from "react-icons/hi";
-import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";
-import { useEffect, useState } from "react";
-import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
-import Modal from "../Modal";
-import TodoWrapper from "../todo/TodoWrapper";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../Loader";
-import TodoSkeleton from "../todo/TodoSkeleton";
-import { setCurrentTodo, setTodo } from "@/app/features/todo/todoSlice";
-import { setUser } from "@/app/features/user/userSlice";
-import { redirect } from "next/navigation";
+import Loader from "@/components/Loader";
+import Navbar from "@/components/Navbar";
 import { useSession } from "next-auth/react";
-import sortTodos from "@/utilities/sortTodos";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
+import { setUser } from "@/app/features/user/userSlice";
+import Weather from "@/components/dashboard/Weather";
+import { useGetUserByEmailQuery } from "@/app/features/user/usersApi";
+import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
+import dayjs from "dayjs";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import WelcomeMessage from "@/components/dashboard/WelcomeMessage";
+import MotivationalMessage from "@/components/dashboard/MotivationalMessage";
+import TodosStatusCard from "@/components/dashboard/TodosStatusCard";
+import TodosDueCard from "@/components/dashboard/TodosDueCard";
+import DashboardSekeleton from "@/components/dashboard/DashboardSekeleton";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -54,144 +54,109 @@ function Dashboard() {
       }
     );
 
-  const todos = useSelector((state) => state.todoSlice.columns);
-  const todoStatus = useSelector((state) => state.todoSlice.todoStatus);
-  const todoSearch = useSelector((state) => state.todoSlice.todoSearch);
-  const [isShowModal, setIsShowModal] = useState(false);
+  let todoCount = 0;
+  let inProgressCount = 0;
+  let completedCount = 0;
+  let todosDueToday = [];
+  let todosDueComingWeek = [];
 
-  const handleShowTodo = (todo) => {
-    dispatch(setCurrentTodo(todo));
-    setIsShowModal(true);
-  };
+  const [expandedTodo, setExpandedTodo] = useState(false);
 
-  useEffect(() => {
-    if (todoData) {
-      const sortedTodos = sortTodos(todoData, todoStatus, todoSearch);
-      dispatch(setTodo(sortedTodos));
-    }
-  }, [todoData, todoStatus, todoSearch]);
+  if (todoData) {
+    todoCount =
+      todoData.filter((column) => column.title === "Todo")[0]?.todos.length ||
+      0;
+    inProgressCount =
+      todoData.filter((column) => column.title === "In Progress")[0]?.todos
+        .length || 0;
+    completedCount =
+      todoData.filter((column) => column.title === "Completed")[0]?.todos
+        .length || 0;
 
-  const generateTodo = async () => {
-    try {
-      const addTodoResponse = await addTodo({
-        userId: userData._id,
-        title: todoTitle,
-        userEmail: userData.email,
+    todosDueToday = todoData
+      .flatMap((column) => column.todos)
+      .filter((todo) => {
+        const dueDate = dayjs(todo.dueDate).startOf("day");
+        return dueDate.isSame(dayjs().startOf("day"));
       });
-      setCurrentTodo(addTodoResponse.data);
-      try {
-        const addChatResponse = await addChat({
-          todoId: addTodoResponse.data._id,
-          sender: "ai",
-          content: "Hi there! How can I help you?",
-        });
-        setShowTodo(true);
-      } catch (error) {
-        console.error("Failed to add chat");
-      }
-    } catch (error) {
-      console.error("Failed to add todo");
-    }
-  };
 
-  let today = new Date();
-  let completedTodosDueToday = 0;
-  let incompleteTodosDueToday = 0;
-  let todosDueToday = 0;
+    todosDueComingWeek = todoData
+      .filter((column) => column.title !== "Completed")
+      .flatMap((column) => column.todos)
+      .filter((todo) => {
+        const dueDate = dayjs(todo.dueDate).startOf("day");
+        const today = dayjs().startOf("day");
+        const oneWeekFromToday = dayjs().add(8, "day").startOf("day");
+        return dueDate.isAfter(today) && dueDate.isBefore(oneWeekFromToday);
+      });
+  }
 
-  todos.forEach((column) => {
-    column.todos.forEach((todo) => {
-      let todoDueDate = new Date(todo.dueDate);
-      if (todoDueDate.getDate() === today.getDate()) {
-        todosDueToday++;
-        if (todo.status === "completed") {
-          completedTodosDueToday++;
-        } else {
-          incompleteTodosDueToday++;
-        }
-      }
-    });
-  });
+  if (status == "loading" || isLoadingUser || isLoadingTodos || !userData)
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <Loader>Loading the dashboard...</Loader>
+      </div>
+    );
 
   return (
-    <>
-      {isLoadingUser || status === "loading" ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <Loader>Loading User Data...</Loader>
-        </div>
-      ) : (
-        <div className="leading-normal text-gray-900 bg-gray-100">
-          {isShowModal && (
-            <Modal>
-              <TodoWrapper setIsShowModal={setIsShowModal} />
-            </Modal>
-          )}
-          <div className={`flex w-full h-screen ${isShowModal && "blur-md"}`}>
-            <Navbar />
-            <div className="flex flex-col flex-1 h-screen overflow-hidden">
-              <main className="flex-1 overflow-x-hidden overflow-y-auto bg-stone-50">
-                <div className="container right-0 px-6 py-8 mx-auto max-w-screen-2xl">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-3xl font-medium text-gray-700">
-                      Planner
-                    </h3>
-                    <SearchBar />
-                  </div>
-                  <div className="mt-6 mb-4">
-                    <div className="p-6 bg-white border-2 rounded-lg shadow-lg md:text-xl border-gray-50">
-                      <h4 className="mb-4 font-bold text-gray-600">
-                        Today's Overview
-                      </h4>
-                      {todosDueToday > 0 &&
-                      todosDueToday === completedTodosDueToday ? (
-                        <p className="text-lg text-gray-700">
-                          All todos completed for today!
-                        </p>
-                      ) : todosDueToday === 0 ? (
-                        <p className="text-lg text-gray-700">
-                          There are no tasks for today.
-                        </p>
-                      ) : (
-                        <p className="text-lg text-gray-700">
-                          You have
-                          <span className="font-bold text-blue-600">
-                            {" " + incompleteTodosDueToday + " "}
-                          </span>
-                          tasks remaining out of
-                          <span className="font-bold text-blue-600">
-                            {" " +
-                              (completedTodosDueToday +
-                                incompleteTodosDueToday) +
-                              " "}
-                          </span>
-                          tasks today.
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  {isLoadingTodos ? (
-                    <TodoSkeleton />
-                  ) : (
-                    <KanbanBoard
-                      user={userData}
-                      todos={todos}
-                      handleShowTodo={handleShowTodo}
+    <div className="flex h-screen bg-stone-50">
+      <div className="flex w-full h-screen">
+        <Navbar />
+        <div className="flex flex-col flex-1 h-screen overflow-hidden ">
+          <main className="right-0 h-full mx-auto overflow-y-auto max-w-screen-2xl no-scrollbar">
+            <DashboardHeader />
+            <WelcomeMessage user={userData} />
+            <MotivationalMessage />
+            <Weather />
+            {todoData ? (
+              <>
+                <section className="mb-6">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <TodosStatusCard title="To-Do" count={todoCount} />
+                    <TodosStatusCard
+                      title="In Progress"
+                      count={inProgressCount}
                     />
-                  )}
-                </div>
-              </main>
-              <div className="relative w-full">
-                <div className="absolute bottom-0 left-0 right-0 w-full mx-auto max-w-screen-2xl items-place-end">
-                  <button className="absolute p-4 text-white transition-transform duration-200 transform bg-blue-600 rounded-full shadow-lg hover:scale-105 right-12 bottom-12 hover:bg-blue-700 focus:outline-none">
-                    <HiPlus onClick={() => setIsShowModal(true)} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+                    <TodosStatusCard title="Completed" count={completedCount} />
+                  </div>
+                </section>
+                {todosDueToday.length > 0 || todosDueComingWeek.length > 0 ? (
+                  <>
+                    {todosDueToday.length > 0 ? (
+                      <TodosDueCard
+                        title="Tasks scheduled for today."
+                        todos={todosDueToday}
+                        setExpandedTodo={setExpandedTodo}
+                        expandedTodo={expandedTodo}
+                      />
+                    ) : null}
+
+                    {todosDueComingWeek.length > 0 ? (
+                      <TodosDueCard
+                        title="Tasks scheduled for the following week."
+                        todos={todosDueComingWeek}
+                        setExpandedTodo={setExpandedTodo}
+                        expandedTodo={expandedTodo}
+                      />
+                    ) : null}
+                  </>
+                ) : (
+                  <section className="p-4 mb-6 bg-white border-2 border-blue-200 rounded shadow-lg">
+                    <h4 className="text-lg font-bold text-gray-700">
+                      No tasks scheduled.
+                    </h4>
+                  </section>
+                )}
+              </>
+            ) : (
+              <>
+                <DashboardSekeleton />
+              </>
+            )}
+          </main>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
 

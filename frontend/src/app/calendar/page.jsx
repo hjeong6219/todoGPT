@@ -1,6 +1,6 @@
 "use client";
 import { redirect } from "next/navigation";
-import Calendar from "@/components/Calendar";
+import Calendar from "@/components/calendar/Calendar";
 import { useSession } from "next-auth/react";
 import Loader from "@/components/Loader";
 

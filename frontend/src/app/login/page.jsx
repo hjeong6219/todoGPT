@@ -4,21 +4,7 @@ import SignIn from "@/components/user/SignIn";
 import { useState } from "react";
 
 const Login = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <div className="flex min-h-screen bg-gray-200">

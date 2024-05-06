@@ -55,8 +55,6 @@ function SignIn({ setIsSignUp }) {
             name="email"
             className="px-4 py-2 border border-gray-300 rounded-md w-96 focus:ring focus:ring-blue-400 focus:outline-none"
             placeholder="Enter your email"
-            // value={email}
-            // onChange={handleEmailChange}
             required
           />
         </div>
@@ -73,8 +71,6 @@ function SignIn({ setIsSignUp }) {
             name="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-400 focus:outline-none"
             placeholder="Enter your password"
-            // value={password}
-            // onChange={handlePasswordChange}
             required
           />
         </div>
