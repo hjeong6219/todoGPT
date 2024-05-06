@@ -9,20 +9,7 @@ const cors = require("cors");
 
 connectDB();
 
-app.use(
-  cors({
-    origin: ["https://todogpt-three.vercel.app"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
-
 app.use(express.json());
-
-app.use("/todos", todos);
-app.use("/users", users);
-app.use("/chats", chats);
-
 app.use("/", (req, res) => {
   res.send("Welcome to the TodoGPT API");
 });
