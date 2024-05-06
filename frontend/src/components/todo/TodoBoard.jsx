@@ -16,6 +16,8 @@ import { setUser } from "@/app/features/user/userSlice";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import sortTodos from "@/utilities/sortTodos";
+import AddTodoButton from "./AddTodoButton";
+import TodaysOverview from "./TodaysOverview";
 
 function TodoBoard() {
   const { data: session, status } = useSession();
@@ -137,38 +139,11 @@ function TodoBoard() {
                     </h3>
                     <SearchBar />
                   </div>
-                  <div className="mt-6 mb-4">
-                    <div className="p-6 bg-white border-2 rounded-lg shadow-lg md:text-xl border-gray-50">
-                      <h4 className="mb-4 font-bold text-gray-600">
-                        Today's Overview
-                      </h4>
-                      {todosDueToday > 0 &&
-                      todosDueToday === completedTodosDueToday ? (
-                        <p className="text-lg text-gray-700">
-                          All todos completed for today!
-                        </p>
-                      ) : todosDueToday === 0 ? (
-                        <p className="text-lg text-gray-700">
-                          There are no tasks for today.
-                        </p>
-                      ) : (
-                        <p className="text-lg text-gray-700">
-                          You have
-                          <span className="font-bold text-blue-600">
-                            {" " + incompleteTodosDueToday + " "}
-                          </span>
-                          tasks remaining out of
-                          <span className="font-bold text-blue-600">
-                            {" " +
-                              (completedTodosDueToday +
-                                incompleteTodosDueToday) +
-                              " "}
-                          </span>
-                          tasks today.
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                  <TodaysOverview
+                    todosDueToday={todosDueToday}
+                    completedTodosDueToday={completedTodosDueToday}
+                    incompleteTodosDueToday={incompleteTodosDueToday}
+                  />
                   {isLoadingTodos ? (
                     <TodoSkeleton />
                   ) : (
@@ -180,13 +155,8 @@ function TodoBoard() {
                   )}
                 </div>
               </main>
-              <div className="relative w-full">
-                <div className="absolute bottom-0 left-0 right-0 w-full mx-auto max-w-screen-2xl items-place-end">
-                  <button className="absolute p-4 text-white transition-transform duration-200 transform bg-blue-600 rounded-full shadow-lg hover:scale-105 right-12 bottom-12 hover:bg-blue-700 focus:outline-none">
-                    <HiPlus onClick={() => setIsShowModal(true)} />
-                  </button>
-                </div>
-              </div>
+
+              <AddTodoButton setIsShowModal={setIsShowModal} />
             </div>
           </div>
         </div>
