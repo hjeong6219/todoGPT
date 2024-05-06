@@ -2,7 +2,6 @@
 import KanbanBoard from "@/components/todo/KanbanBoard";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/todo/SearchBar";
-import { HiPlus } from "react-icons/hi";
 import { useGetUserByEmailQuery } from "../../app/features/user/usersApi";
 import { useEffect, useState } from "react";
 import { useGetTodosByUserIdQuery } from "@/app/features/todo/todosApi";
