@@ -2,9 +2,17 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 
-function TodoTile({ todos, handleToggleTodo, expandedTodo }) {
+function TodoTile({ todos, expandedTodo, setExpandedTodo }) {
+  const handleToggle = (todoId) => {
+    if (expandedTodo === todoId) {
+      setExpandedTodo(null);
+    } else {
+      setExpandedTodo(todoId);
+    }
+  };
+
   return todos.map((todo, i) => {
-    const isExpanded = expandedTodo === todo.id;
+    const isExpanded = expandedTodo === todo._id;
 
     return (
       <div
@@ -18,7 +26,7 @@ function TodoTile({ todos, handleToggleTodo, expandedTodo }) {
             ? "border-red-500"
             : ""
         } rounded shadow cursor-pointer`}
-        onClick={() => handleToggleTodo(todo.id)}
+        onClick={() => handleToggle(todo._id)}
       >
         <h1
           className={`text-lg font-semibold pt-1 ${
@@ -30,7 +38,7 @@ function TodoTile({ todos, handleToggleTodo, expandedTodo }) {
         {todo.content && (
           <div
             className={`transition-all duration-300 ease-in-out text-gray-600 overflow-hidden ${
-              isExpanded ? "max-h-32 border-t-2 pt-2 mb-2  " : "max-h-0"
+              isExpanded ? "max-h-32 border-t-2 pt-2 mb-2" : "max-h-0"
             }`}
           >
             <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
