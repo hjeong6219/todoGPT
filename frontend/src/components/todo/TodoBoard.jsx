@@ -15,7 +15,7 @@ import { setUser } from "@/app/features/user/userSlice";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import sortTodos from "@/utilities/sortTodos";
-import AddTodoButton from "./AddTodoButton";
+// import AddTodoButton from "./AddTodoButton";
 import TodaysOverview from "./TodaysOverview";
 
 function TodoBoard() {
@@ -155,7 +155,7 @@ function TodoBoard() {
                 </div>
               </main>
 
-              <AddTodoButton setIsShowModal={setIsShowModal} />
+              {/* <AddTodoButton setIsShowModal={setIsShowModal} /> */}
             </div>
           </div>
         </div>
