@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 export const usersApi = createApi({
   reducersPath: "usersApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://todogpt-backend.vercel.app/",
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getUserByEmail: builder.query({
       query: (email) => `/users?email=${email}`,

@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://todogpt-backend.vercel.app/",
+    credentials: "include",
+  }),
   tagTypes: ["Chat"],
   endpoints: (builder) => ({
     getChatByTodo: builder.query({

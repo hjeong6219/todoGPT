@@ -27,7 +27,7 @@ export const options = {
       async authorize(credentials) {
         try {
           const { data } = await axios.post(
-            "http://localhost:5000/users/login",
+            "https://todogpt-backend.vercel.app/users/login",
             {
               email: credentials.email,
               password: credentials.password,
