@@ -34,12 +34,12 @@ export const options = {
             }
           );
           if (data.userExists) {
-            return data.userExists;
+            return { id: data.userExists._id, email: data.userExists.email };
           } else {
-            throw new Error(error.response?.data?.message);
+            throw new Error(error);
           }
         } catch (error) {
-          throw new Error(error.response?.data?.message);
+          throw new Error(error);
         }
       },
       callbacks: {
