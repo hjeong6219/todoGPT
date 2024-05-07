@@ -36,10 +36,10 @@ export const options = {
           if (data.userExists) {
             return { id: data.userExists._id, email: data.userExists.email };
           } else {
-            throw new Error(error);
+            throw new Error("User does not exist or password is incorrect");
           }
         } catch (error) {
-          throw new Error(error);
+          throw new Error(error.message);
         }
       },
       callbacks: {
