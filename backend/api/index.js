@@ -12,7 +12,7 @@ connectDB();
 app.use(
   cors({
     origin: ["https://todogpt-three.vercel.app"],
-    methods: ["POST", "GET"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
